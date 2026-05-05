@@ -63,12 +63,12 @@ streaming and the App Router. The spec already named this fallback explicitly.
 | 0 — Setup base | ✅ done | Tokens, i18n, proxy, theme, fonts, env, redirects |
 | 1 — Componentes base | ✅ done | UI primitives + layout + animations + dev gallery |
 | 2 — Bento + media | ✅ done | BentoGrid + cards, mockups, video, marquee, optimize scripts |
-| 3 — Home **[CHECKPOINT]** | ✅ done · awaiting Carlos OK | Hero + bento + stats + marquee + steps + testimonials + industries grid + pricing teaser + final CTA |
-| 4 — Product pages | ☐ | |
-| 5 — Solutions 15 industries | ☐ | |
-| 6 — Pricing + forms | ☐ | |
-| 7 — Blog/Changelog/Careers/Resources/Customers | ☐ | |
-| 8 — About + Security + Legal **[CHECKPOINT]** | ☐ | |
+| 3 — Home **[CHECKPOINT]** | ✅ approved | Hero + bento + stats + marquee + steps + testimonials + industries grid + pricing teaser + final CTA |
+| 4 — Product pages | ✅ done | /product overview + 5 deep-dives (ai-copilot, tasks, docs, inbox, integrations) |
+| 5 — Solutions 15 industries | ✅ done | Index grid + dynamic [industry] route, all 15 with bilingual content |
+| 6 — Pricing + forms | ✅ done | /pricing with FAQ, /request-access form + Resend API, /contact + API, thank-you |
+| 7 — Blog/Changelog/Careers/Resources/Customers | ✅ done | 3 blog posts, 5 changelog, 3 careers, 2 resources, 3 customers, RSS feed |
+| 8 — About + Security + Legal **[CHECKPOINT]** | ✅ done · awaiting Carlos OK | Mission/vision/values, security pillars, 4 legal docs (privacy/terms/dpa/cookies) |
 | 9 — SEO + sitemap + OG | ☐ | |
 | 10 — Advanced animations | ☐ | |
 | 11 — Performance + a11y | ☐ | |
@@ -293,3 +293,92 @@ and approve before I proceed to Phase 4 (Product deep-dives). Run the
 dev server with `npm run dev` and visit `http://localhost:3000` (it
 auto-redirects based on browser language; explicit URLs `/en` and `/es`
 are also fine).
+
+---
+
+## Fases 4–8 — 2026-05-04 · CHECKPOINT 3
+
+Carlos approved Phase 3. Phases 4 through 8 ran in one continuous push.
+
+### Fase 4 — Product pages
+- `<PageHero>` reusable component (eyebrow, TextReveal title, sub, primary +
+  secondary CTAs, optional visual).
+- `<FeatureList>` for side-by-side comparisons (positive checks /
+  negative crossed-out).
+- `/product` overview — bento of 4 pillars + integrations CTA + platforms strip.
+- `/product/ai-copilot` — 5 capabilities bento (voice, RAG, tool use,
+  multi-model, integrations) + comparison block "FlorioIn vs ChatGPT alone".
+- `/product/tasks` — 7 capabilities bento covering boards/lists/timelines,
+  automations, dependencies, custom fields, SLA, recurring, AI assignment.
+- `/product/docs` — 6 capabilities bento covering editor, inline AI,
+  realtime, versions, templates, doc-to-task.
+- `/product/inbox` — 5 capabilities bento covering channels, triage,
+  drafts, snooze, message-to-task.
+- `/product/integrations` — 8-category grid of 50+ apps + custom integration
+  fallback CTA.
+
+### Fase 5 — 15 solutions
+- `src/lib/industries.ts` — single source of truth with bilingual content
+  for all 15 industries: label, tag, headline, description, 3 pain points,
+  3 solutions, quote with author, template description.
+- `/solutions` index — 3-col grid with industry icons + tag.
+- `/solutions/[industry]` — dynamic route with `generateStaticParams` for
+  all 15 in both locales (30 SSG pages). Layout: hero + pain-points grid +
+  solutions grid + quote block + template block + final CTA.
+
+### Fase 6 — Pricing + forms
+- `/pricing` — full pricing page with $3 hero card (8 includes), 3-step
+  "how it works", 8-question FAQ accordion, enterprise CTA strip.
+- `/request-access` — `<AccessRequestForm>` (RHF + Zod) with name, work
+  email (rejects free hosts), company, role, headcount, industry (dropdown
+  populated from INDUSTRIES), source, message, terms checkbox. Submits to
+  `/api/access-request`.
+- `/api/access-request` — Zod-validated POST → Resend dual email (internal
+  notification to carlos@florioin.com + bilingual confirmation to user).
+  Falls through gracefully when `RESEND_API_KEY` is unset (logs + returns
+  `{ ok: true, sent: false }`) so dev/preview doesn't error.
+- React Email templates: internal alert + user confirmation, both
+  locale-aware.
+- `/request-access/thank-you` — `noindex` confirmation page.
+- `/contact` + `<ContactForm>` (simpler: name, email, message) → `/api/contact`.
+
+### Fase 7 — Content
+**Decision**: shipped placeholder content as TS objects (not MDX) to keep
+the bundle small and avoid a Turbopack ↔ next-mdx-remote setup hiccup
+this early. Carlos can convert to MDX when post count grows past 5–10.
+Architecture supports the swap — every post/entry/job is shaped as
+`{ heading, paragraphs }` sections that map cleanly to MDX once it lands.
+
+- `src/lib/blog.ts`: 3 bilingual posts (announcement, guide, case-study)
+  with category filtering, sort by date.
+- `src/lib/changelog.ts`: 5 versioned entries with tagged items
+  (new/improved/fixed/security) and color-coded labels.
+- `src/lib/careers.ts`: 3 openings (Senior FS Eng, Product Designer, CS Lead).
+- `src/lib/customers.ts`: 3 case studies (Atlas Legal, Mercado Norte,
+  Ola Studios) with hero metric + quote + body sections.
+- `src/lib/resources.ts`: 2 lead magnets (eBook + workspace template).
+- All have `/listing` and `/[slug]` (or `/[version]`) detail pages.
+- Blog has additional `/blog/category/[category]` filtered listings.
+- `/rss.xml` route handler that serializes blog posts to RSS 2.0.
+
+### Fase 8 — About + Security + Legal
+- `/about` — mission + vision side-by-side, 3-step story (2024–2026),
+  5 values grid, team placeholder card.
+- `/security` — 6 pillars (multi-tenant RLS, encryption, SSO+SCIM,
+  audit logs, data residency, compliance roadmap), AI privacy block
+  ("your data doesn't train public models"), trust-center contact strip.
+- `<LegalDoc>` reusable doc component with `[PLACEHOLDER LEGAL]` warning
+  badge.
+- `/legal/privacy`, `/legal/terms`, `/legal/dpa`, `/legal/cookies` —
+  bilingual templates with placeholder markers wherever real legal review
+  is needed (logged in BLOCKERS.md).
+
+### Validation across 4-8
+- `tsc --noEmit` clean.
+- ESLint clean.
+- `npm run build` SSGs ~80 routes (most pages × 2 locales). API routes
+  (`/api/access-request`, `/api/contact`) and `/rss.xml` are dynamic.
+- All forms wire to Resend with graceful fallback when env is unset.
+
+**Carlos action required**: review preview, approve before Phase 9 (SEO,
+sitemap, OG images) starts.
