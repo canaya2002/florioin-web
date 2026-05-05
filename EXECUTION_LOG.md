@@ -62,7 +62,7 @@ streaming and the App Router. The spec already named this fallback explicitly.
 | --- | --- | --- |
 | 0 — Setup base | ✅ done | Tokens, i18n, proxy, theme, fonts, env, redirects |
 | 1 — Componentes base | ✅ done | UI primitives + layout + animations + dev gallery |
-| 2 — Bento + media | ☐ | |
+| 2 — Bento + media | ✅ done | BentoGrid + cards, mockups, video, marquee, optimize scripts |
 | 3 — Home **[CHECKPOINT]** | ☐ | |
 | 4 — Product pages | ☐ | |
 | 5 — Solutions 15 industries | ☐ | |
@@ -204,3 +204,42 @@ streaming and the App Router. The spec already named this fallback explicitly.
   not-found). Proxy registered.
 - Smoke test (dev): `/en` (60KB), `/es` (60KB), `/en/dev` (136KB) all 200.
   Nav, Footer, Logo, skip-link, ES translations all rendering.
+
+---
+
+## Fase 2 — Sistema bento + media — 2026-05-04
+
+**Done**:
+- `<BentoGrid>` (12-col desktop, 4-col tablet, 1-col mobile) and
+  `<BentoCard>` with size variants `small | wide | tall | large | full | xl`,
+  `visualPosition` of `background | below | above | side`, optional `gradient`
+  backdrop, `eyebrow / title / description / visual / ctaLabel / href`, hover
+  lift + brand-tinted border. When `href` is set the whole card becomes a
+  Link (single focusable target — better a11y).
+  Used `Omit<HTMLAttributes, "title">` because the native title attr is
+  `string` and would collide with the ReactNode title we pass in.
+- **Media primitives**:
+  - `<GradientPlaceholder>` — dev/CI placeholder with brand gradient + subtle
+    grid + caption strip. Used everywhere there's no real image yet.
+  - `<LazyImage>` — wraps `next/image` with default base64 SVG blur seed and
+    onError fallback to GradientPlaceholder. `fallback` prop forces dev mode.
+  - `<AutoplayVideo>` — IntersectionObserver play/pause at 25% threshold,
+    muted/loop/playsInline always, MP4 + optional WebM source. Falls back to
+    poster (and to GradientPlaceholder if no src). Respects reduced-motion
+    (no autoplay).
+  - `<BrowserMockup>` — pure-CSS browser chrome with traffic lights and URL.
+  - `<DeviceMockup>` — CSS frames for `iphone | ipad | macbook`.
+  - `<Marquee>` — CSS infinite scroll, soft-fade edges via mask, optional
+    pause-on-hover, reverse direction.
+  - `<CodeBlock>` — minimal dark code block (Shiki integration deferred to
+    Phase 7 when MDX lands).
+- **Asset pipeline scripts**:
+  - `scripts/optimize-images.mjs`: walks `public/images/_raw/`, emits AVIF +
+    WebP variants into the mirrored output dir, plus a copy of the original
+    as fallback. Sharp-based; skips up-to-date outputs unless `--force`.
+  - `scripts/gif-to-mp4.mjs`: shells out to ffmpeg to emit MP4 (H.264) +
+    WebM (VP9) + first-frame poster.jpg per input GIF.
+- Dev gallery extended with bento section (mixed sizes), browser/device
+  mockups, marquee, autoplay video (in fallback mode), code block.
+
+**Validation**: tsc + eslint clean, build SSGs 7 routes.

@@ -8,7 +8,15 @@ import { RotatingText } from "@/components/animations/rotating-text";
 import { SlideUp } from "@/components/animations/slide-up";
 import { Stagger, StaggerItem } from "@/components/animations/stagger";
 import { TextReveal } from "@/components/animations/text-reveal";
+import { BentoCard } from "@/components/bento/bento-card";
+import { BentoGrid } from "@/components/bento/bento-grid";
 import { Logo } from "@/components/brand/logo";
+import { AutoplayVideo } from "@/components/media/autoplay-video";
+import { BrowserMockup } from "@/components/media/browser-mockup";
+import { CodeBlock } from "@/components/media/code-block";
+import { DeviceMockup } from "@/components/media/device-mockup";
+import { GradientPlaceholder } from "@/components/media/gradient-placeholder";
+import { Marquee } from "@/components/media/marquee";
 import {
   Accordion,
   AccordionContent,
@@ -222,6 +230,109 @@ export default async function DevGallery({ params }: PageParams) {
           <div className="text-[var(--fs-h1)] font-display">
             <CountUp to={10} suffix="×" /> faster
           </div>
+        </div>
+      </Section>
+
+      <Section title="Bento grid">
+        <BentoGrid>
+          <BentoCard
+            size="large"
+            eyebrow="AI Co-Pilot"
+            title="Speak. Decide. Done."
+            description="Co-Pilot understands your workspace context across tasks, docs, and inbox — and proposes the next move."
+            visual={<GradientPlaceholder caption="Hero video · 16:10" />}
+            visualPosition="below"
+            href="/en/product/ai-copilot"
+            ctaLabel="See how it works"
+          />
+          <BentoCard
+            size="small"
+            eyebrow="Speed"
+            title={
+              <span className="font-display text-[var(--fs-h2)]">10×</span>
+            }
+            description="faster organizing work for typical teams in our beta"
+          />
+          <BentoCard
+            size="tall"
+            eyebrow="Mobile"
+            title="Anywhere you work"
+            description="Native iOS, iPad, Android, macOS, Windows, Linux."
+            visual={<GradientPlaceholder caption="iPhone mockup" />}
+            visualPosition="above"
+          />
+          <BentoCard
+            size="wide"
+            eyebrow="Smart Inbox"
+            title="One inbox for every channel"
+            description="Email, Slack, Teams, WhatsApp — classified by AI."
+            visual={<GradientPlaceholder caption="Inbox screenshot" />}
+            visualPosition="side"
+          />
+          <BentoCard
+            size="small"
+            eyebrow="Pricing"
+            title="$3 / seat"
+            description="No tiers. No tricks."
+            href="/en/pricing"
+            ctaLabel="See full pricing"
+          />
+          <BentoCard
+            size="full"
+            eyebrow="Built for"
+            title="Companies that value their time"
+            description="Legal, marketing, healthcare, real estate, finance — and 10 more industries."
+          />
+        </BentoGrid>
+      </Section>
+
+      <Section title="Marquee + Mockups">
+        <div className="flex flex-col gap-10">
+          <Marquee className="py-4">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <span
+                key={i}
+                className="text-2xl font-display tracking-tight text-[var(--fg-muted)]"
+              >
+                Customer {i + 1}
+              </span>
+            ))}
+          </Marquee>
+          <div className="grid gap-8 md:grid-cols-2">
+            <BrowserMockup url="florioin.app/inbox">
+              <GradientPlaceholder
+                className="aspect-[4/3]"
+                caption="Inbox demo"
+              />
+            </BrowserMockup>
+            <div className="grid grid-cols-2 gap-4">
+              <DeviceMockup variant="iphone">
+                <GradientPlaceholder caption="iPhone" />
+              </DeviceMockup>
+              <DeviceMockup variant="ipad">
+                <GradientPlaceholder caption="iPad" />
+              </DeviceMockup>
+            </div>
+          </div>
+          <DeviceMockup variant="macbook" className="max-w-2xl">
+            <GradientPlaceholder caption="macOS native app" />
+          </DeviceMockup>
+        </div>
+      </Section>
+
+      <Section title="Video + Code">
+        <div className="grid gap-6 md:grid-cols-2">
+          <AutoplayVideo fallback caption="Hero demo · placeholder" />
+          <CodeBlock
+            filename="task.ts"
+            language="ts"
+            code={`// Co-Pilot understands what to do
+const task = await florioin.tasks.create({
+  title: "Send proposal to ACME",
+  due: "tomorrow at 4pm",
+  assignee: "@maria",
+});`}
+          />
         </div>
       </Section>
 
