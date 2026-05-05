@@ -29,13 +29,29 @@ function detectLocale(request: NextRequest): Locale {
   }
 }
 
+// Next.js root file-convention routes that must NOT be redirected by the proxy.
+// Adding `/en/icon` etc. is wrong — these live at the app root, not under [locale].
+const ROOT_SPECIAL_ROUTES = new Set([
+  "/icon",
+  "/apple-icon",
+  "/opengraph-image",
+  "/twitter-image",
+  "/favicon.ico",
+  "/robots.txt",
+  "/sitemap.xml",
+  "/manifest.webmanifest",
+  "/rss.xml",
+]);
+
 export function proxy(request: NextRequest): NextResponse | undefined {
   const { pathname } = request.nextUrl;
 
-  // Skip Next internals, static assets, and API routes — handled by their own logic
+  // Skip Next internals, static assets, root special routes, and API routes —
+  // each is served by its own handler at the app root, not under [locale].
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/api") ||
+    ROOT_SPECIAL_ROUTES.has(pathname) ||
     /\.[a-zA-Z0-9]+$/.test(pathname)
   ) {
     return;
@@ -61,7 +77,9 @@ export function proxy(request: NextRequest): NextResponse | undefined {
 
 export const config = {
   matcher: [
-    // Skip Next internals, static files, and API routes
-    "/((?!_next|api|.*\\..*).*)",
+    // Skip Next internals, API routes, anything with a file extension, and the
+    // root file-convention routes (icon, apple-icon, opengraph-image, etc.)
+    // that Next serves directly from app/.
+    "/((?!_next|api|icon|apple-icon|opengraph-image|twitter-image|favicon\\.ico|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest|rss\\.xml|.*\\..*).*)",
   ],
 };
