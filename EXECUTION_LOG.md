@@ -61,7 +61,7 @@ streaming and the App Router. The spec already named this fallback explicitly.
 | Phase | Status | Notes |
 | --- | --- | --- |
 | 0 — Setup base | ✅ done | Tokens, i18n, proxy, theme, fonts, env, redirects |
-| 1 — Componentes base | ⏳ next | UI primitives + layout + animations |
+| 1 — Componentes base | ✅ done | UI primitives + layout + animations + dev gallery |
 | 2 — Bento + media | ☐ | |
 | 3 — Home **[CHECKPOINT]** | ☐ | |
 | 4 — Product pages | ☐ | |
@@ -154,3 +154,53 @@ streaming and the App Router. The spec already named this fallback explicitly.
   `https://florioin.app/login`.
 - Production build: SSG for both locales, Proxy registered.
 - ESLint and `tsc --noEmit` both clean.
+
+---
+
+## Fase 1 — Componentes base — 2026-05-04
+
+**Done**:
+- **Brand**: `<Logo>` SVG component with hero-gradient F mark + wordmark.
+  Variants: `full | mark`, sizes: `sm | md | lg | xl`.
+- **UI primitives** (Radix-wrapped or custom):
+  - `Button` (cva variants: primary/secondary/ghost/link/outline/icon, sizes
+    sm/md/lg/xl + icon, `asChild` via Radix Slot).
+  - `Badge` (default/primary/success/warning/outline).
+  - `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`,
+    `CardFooter`.
+  - `Input`, `Textarea`, `Label` (Radix Label).
+  - `Skeleton` with shimmer keyframe.
+  - `Separator`, `Dialog`, `Tooltip`, `Tabs`, `Accordion`, `DropdownMenu`
+    (all Radix-wrapped with our token system).
+- **Animation primitives** (framer-motion-based, all reduced-motion safe):
+  `<FadeIn>`, `<SlideUp>`, `<Stagger>` + `<StaggerItem>`, `<TextReveal>`
+  (per-word stagger), `<CountUp>`, `<Magnetic>`, `<RotatingText>`,
+  `<RevealOnScroll>` (directional), `<ScrollProgress>` (sticky top bar).
+- **Theme**: `<ThemeToggle>` (Sun/Moon icon swap; relies on Tailwind v4
+  `@custom-variant dark` mapping to `[data-theme="dark"]`).
+- **i18n**: `<LanguageSwitcher>` dropdown that swaps the locale prefix on
+  the current pathname using `usePathname`.
+- **Layout**: `<AnnouncementBar>`, `<Nav>` (sticky-on-scroll, blurred bg,
+  dropdown mega-menu items, theme + lang toggles, mobile menu trigger),
+  `<NavMobile>` (Radix Dialog drawer with Accordion sections), `<Footer>`
+  (logo + tagline + social icons + 3 link columns + bottom theme/lang +
+  copyright with year interpolation; uses `SITE.statusUrl` for the status
+  link).
+- **Marketing route group**: created `app/[locale]/(marketing)/layout.tsx`
+  that wraps Nav + main + Footer + ScrollProgress. Moved home into
+  `(marketing)/page.tsx`. Locale shell `[locale]/layout.tsx` keeps the
+  html/body/fonts/theme provider — pages outside the marketing group stay
+  free of marketing chrome (e.g. legal/security can opt in or out).
+- **Dev gallery** at `/[locale]/dev` rendering every primitive — Phase 1
+  validation per spec.
+- **Tailwind v4 `@custom-variant dark`** wired to `[data-theme="dark"]`
+  selector so the existing theme provider drives `dark:` utility classes.
+- **Animation keyframes** for accordion open/close added to
+  `src/styles/animations.css`.
+
+**Validation**:
+- `tsc --noEmit` and ESLint both clean.
+- `npm run build` SSGs 7 routes (home + dev gallery in each locale +
+  not-found). Proxy registered.
+- Smoke test (dev): `/en` (60KB), `/es` (60KB), `/en/dev` (136KB) all 200.
+  Nav, Footer, Logo, skip-link, ES translations all rendering.

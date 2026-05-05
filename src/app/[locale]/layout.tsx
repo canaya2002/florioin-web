@@ -114,7 +114,7 @@ export default async function RootLayout({
       <head>
         <ThemeScript />
       </head>
-      <body className="min-h-full font-sans antialiased">
+      <body className="flex min-h-full flex-col font-sans antialiased">
         <a href="#main" className="skip-link">
           {locale === "es" ? "Saltar al contenido" : "Skip to content"}
         </a>
