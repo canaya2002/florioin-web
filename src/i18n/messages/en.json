@@ -1,0 +1,144 @@
+{
+  "common": {
+    "brand": "FlorioIn",
+    "tagline": "The operating system of your business, with AI",
+    "ctaPrimary": "Request access",
+    "ctaSecondary": "Watch demo · 2 min",
+    "ctaSignIn": "Sign in",
+    "ctaContactSales": "Talk to sales",
+    "learnMore": "Learn more",
+    "backHome": "Back home",
+    "loading": "Loading…",
+    "comingSoon": "Coming soon",
+    "and": "and",
+    "or": "or"
+  },
+  "nav": {
+    "product": "Product",
+    "productOverview": "Overview",
+    "productAi": "AI Co-Pilot",
+    "productTasks": "Tasks",
+    "productDocs": "Docs",
+    "productInbox": "Smart Inbox",
+    "productIntegrations": "Integrations",
+    "solutions": "Solutions",
+    "customers": "Customers",
+    "pricing": "Pricing",
+    "resources": "Resources",
+    "blog": "Blog",
+    "changelog": "Changelog",
+    "company": "Company",
+    "about": "About",
+    "careers": "Careers",
+    "contact": "Contact",
+    "security": "Security"
+  },
+  "footer": {
+    "tagline": "The OS of your business, with AI.",
+    "copyright": "© {year} FlorioIn. All rights reserved.",
+    "product": "Product",
+    "company": "Company",
+    "legal": "Legal",
+    "social": "Social",
+    "language": "Language",
+    "theme": "Theme",
+    "status": "Status",
+    "newsletter": "Stay in the loop",
+    "newsletterPlaceholder": "you@company.com",
+    "newsletterSubmit": "Subscribe"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Built for ambitious teams",
+      "headline": "The operating system of your business, with AI",
+      "sub": "FlorioIn brings tasks, documents, inbox, and an AI Co-Pilot into a single platform. You speak. You write. You decide. And it becomes finished work.",
+      "watchDemo": "Watch demo · 2 min"
+    },
+    "what": {
+      "eyebrow": "What FlorioIn does",
+      "title": "Four products. One workspace. Zero context switching."
+    },
+    "stats": {
+      "title": "Built for teams that ship",
+      "items": {
+        "speed": "10× faster organizing work",
+        "integrations": "200+ integrations available",
+        "price": "$3 / user / month",
+        "uptime": "99.99% uptime SLA"
+      }
+    },
+    "logos": {
+      "title": "Trusted by teams across industries"
+    },
+    "how": {
+      "eyebrow": "How it works",
+      "title": "From thought to done in three moves",
+      "steps": {
+        "speak": {
+          "title": "Speak, write or decide",
+          "description": "Tell FlorioIn what needs to happen — in plain Spanish or English."
+        },
+        "infer": {
+          "title": "FlorioIn understands and infers",
+          "description": "Co-Pilot reads context across tasks, docs, and inbox to propose the next move."
+        },
+        "ship": {
+          "title": "Work gets done",
+          "description": "Tasks created, drafts written, replies queued. You stay in control."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "What teams are saying"
+    },
+    "industries": {
+      "eyebrow": "Built for every team",
+      "title": "Tailored for 15 industries"
+    },
+    "pricing": {
+      "eyebrow": "Pricing",
+      "title": "$3 USD / user / month. No tiers. No tricks.",
+      "sub": "Pay only for active seats. Prorated as you grow.",
+      "cta": "See full pricing"
+    },
+    "finalCta": {
+      "title": "Ready to accelerate your business?",
+      "sub": "Request access today. We'll set you up within 24 hours."
+    }
+  },
+  "forms": {
+    "name": "Full name",
+    "email": "Work email",
+    "company": "Company",
+    "role": "Job title",
+    "headcount": "Team size",
+    "industry": "Industry",
+    "source": "How did you hear about us?",
+    "message": "Message",
+    "messageOptional": "Message (optional)",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "agreeTerms": "I agree to the {terms} and {privacy}",
+    "termsLink": "Terms",
+    "privacyLink": "Privacy Policy",
+    "errors": {
+      "required": "This field is required",
+      "email": "Please enter a valid email",
+      "workEmail": "Please use your work email",
+      "minLength": "Too short",
+      "maxLength": "Too long"
+    }
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "description": "This page doesn't exist. Maybe it never did.",
+      "cta": "Go home"
+    },
+    "generic": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred. Please try again.",
+      "cta": "Try again"
+    }
+  }
+}

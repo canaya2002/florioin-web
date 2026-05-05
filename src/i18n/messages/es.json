@@ -1,0 +1,144 @@
+{
+  "common": {
+    "brand": "FlorioIn",
+    "tagline": "El sistema operativo de tu empresa, con IA",
+    "ctaPrimary": "Solicitar acceso",
+    "ctaSecondary": "Ver demo · 2 min",
+    "ctaSignIn": "Iniciar sesión",
+    "ctaContactSales": "Hablar con ventas",
+    "learnMore": "Saber más",
+    "backHome": "Volver al inicio",
+    "loading": "Cargando…",
+    "comingSoon": "Pronto",
+    "and": "y",
+    "or": "o"
+  },
+  "nav": {
+    "product": "Producto",
+    "productOverview": "Resumen",
+    "productAi": "Co-Piloto IA",
+    "productTasks": "Tareas",
+    "productDocs": "Documentos",
+    "productInbox": "Bandeja",
+    "productIntegrations": "Integraciones",
+    "solutions": "Soluciones",
+    "customers": "Clientes",
+    "pricing": "Precios",
+    "resources": "Recursos",
+    "blog": "Blog",
+    "changelog": "Cambios",
+    "company": "Empresa",
+    "about": "Nosotros",
+    "careers": "Trabaja con nosotros",
+    "contact": "Contacto",
+    "security": "Seguridad"
+  },
+  "footer": {
+    "tagline": "El SO de tu empresa, con IA.",
+    "copyright": "© {year} FlorioIn. Todos los derechos reservados.",
+    "product": "Producto",
+    "company": "Empresa",
+    "legal": "Legal",
+    "social": "Redes",
+    "language": "Idioma",
+    "theme": "Tema",
+    "status": "Estado",
+    "newsletter": "Mantente al tanto",
+    "newsletterPlaceholder": "tu@empresa.com",
+    "newsletterSubmit": "Suscribirme"
+  },
+  "home": {
+    "hero": {
+      "eyebrow": "Hecho para empresas ambiciosas",
+      "headline": "El sistema operativo de tu empresa, con IA",
+      "sub": "FlorioIn une tareas, documentos, bandeja y un Co-Piloto de IA en una sola plataforma. Hablas. Escribes. Decides. Y se convierte en trabajo terminado.",
+      "watchDemo": "Ver demo · 2 min"
+    },
+    "what": {
+      "eyebrow": "Lo que hace FlorioIn",
+      "title": "Cuatro productos. Un workspace. Cero context switching."
+    },
+    "stats": {
+      "title": "Construido para equipos que entregan",
+      "items": {
+        "speed": "10× más rápido organizando trabajo",
+        "integrations": "200+ integraciones disponibles",
+        "price": "$3 / usuario / mes",
+        "uptime": "99.99% de uptime"
+      }
+    },
+    "logos": {
+      "title": "Confiado por equipos de toda industria"
+    },
+    "how": {
+      "eyebrow": "Cómo funciona",
+      "title": "De la idea al hecho en tres movimientos",
+      "steps": {
+        "speak": {
+          "title": "Habla, escribe o decide",
+          "description": "Dile a FlorioIn lo que tiene que pasar — en español o inglés natural."
+        },
+        "infer": {
+          "title": "FlorioIn entiende e infiere",
+          "description": "El Co-Piloto lee contexto de tareas, docs y bandeja para proponer el siguiente paso."
+        },
+        "ship": {
+          "title": "Y el trabajo se termina",
+          "description": "Tareas creadas, borradores listos, respuestas en cola. Tú mantienes el control."
+        }
+      }
+    },
+    "testimonials": {
+      "title": "Esto dicen los equipos"
+    },
+    "industries": {
+      "eyebrow": "Hecho para cada equipo",
+      "title": "Personalizado para 15 industrias"
+    },
+    "pricing": {
+      "eyebrow": "Precios",
+      "title": "$3 USD por usuario al mes. Sin tiers. Sin trucos.",
+      "sub": "Paga solo por los seats activos. Prorrateo automático cuando creces.",
+      "cta": "Ver precios completos"
+    },
+    "finalCta": {
+      "title": "¿Listo para acelerar tu empresa?",
+      "sub": "Solicita acceso hoy. Te activamos en menos de 24 horas."
+    }
+  },
+  "forms": {
+    "name": "Nombre completo",
+    "email": "Email empresarial",
+    "company": "Empresa",
+    "role": "Cargo",
+    "headcount": "Tamaño del equipo",
+    "industry": "Industria",
+    "source": "¿Cómo nos encontraste?",
+    "message": "Mensaje",
+    "messageOptional": "Mensaje (opcional)",
+    "submit": "Enviar",
+    "submitting": "Enviando…",
+    "agreeTerms": "Acepto los {terms} y la {privacy}",
+    "termsLink": "Términos",
+    "privacyLink": "Política de Privacidad",
+    "errors": {
+      "required": "Este campo es obligatorio",
+      "email": "Ingresa un email válido",
+      "workEmail": "Usa tu email empresarial",
+      "minLength": "Muy corto",
+      "maxLength": "Muy largo"
+    }
+  },
+  "errors": {
+    "notFound": {
+      "title": "Página no encontrada",
+      "description": "Esta página no existe. Quizás nunca existió.",
+      "cta": "Ir al inicio"
+    },
+    "generic": {
+      "title": "Algo salió mal",
+      "description": "Ocurrió un error inesperado. Inténtalo de nuevo.",
+      "cta": "Reintentar"
+    }
+  }
+}
