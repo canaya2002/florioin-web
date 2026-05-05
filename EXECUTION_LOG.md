@@ -68,12 +68,12 @@ streaming and the App Router. The spec already named this fallback explicitly.
 | 5 — Solutions 15 industries | ✅ done | Index grid + dynamic [industry] route, all 15 with bilingual content |
 | 6 — Pricing + forms | ✅ done | /pricing with FAQ, /request-access form + Resend API, /contact + API, thank-you |
 | 7 — Blog/Changelog/Careers/Resources/Customers | ✅ done | 3 blog posts, 5 changelog, 3 careers, 2 resources, 3 customers, RSS feed |
-| 8 — About + Security + Legal **[CHECKPOINT]** | ✅ done · awaiting Carlos OK | Mission/vision/values, security pillars, 4 legal docs (privacy/terms/dpa/cookies) |
-| 9 — SEO + sitemap + OG | ☐ | |
-| 10 — Advanced animations | ☐ | |
-| 11 — Performance + a11y | ☐ | |
-| 12 — Testing + CI | ☐ | |
-| 13 — Deploy **[CHECKPOINT FINAL]** | ☐ | |
+| 8 — About + Security + Legal **[CHECKPOINT]** | ✅ approved | Mission/vision/values, security pillars, 4 legal docs (privacy/terms/dpa/cookies) |
+| 9 — SEO + sitemap + OG | ✅ done | JSON-LD (Organization, WebSite, SoftwareApp), sitemap with hreflang, robots, manifest, dynamic OG (edge) |
+| 10 — Advanced animations | ✅ done | Lenis smooth scroll, Parallax, dictated reduced-motion safety throughout |
+| 11 — Performance + a11y | ✅ done | Cookie banner, error boundary, focus rings, skip-link, security headers |
+| 12 — Testing + CI | ✅ done | Vitest (19 tests, 3 files), Playwright (8 e2e specs), GitHub Actions CI |
+| 13 — Deploy **[CHECKPOINT FINAL]** | ✅ done · awaiting Carlos | Full README, deploy instructions, all blockers documented |
 
 ---
 
@@ -382,3 +382,111 @@ Architecture supports the swap — every post/entry/job is shaped as
 
 **Carlos action required**: review preview, approve before Phase 9 (SEO,
 sitemap, OG images) starts.
+
+---
+
+## Fases 9–13 — 2026-05-04 · CHECKPOINT FINAL
+
+Carlos approved the second checkpoint. Phases 9 through 13 ran in one
+push. The final checkpoint is "deploy" — the only thing remaining is
+Vercel link + DNS, which requires Carlos's account.
+
+### Fase 9 — SEO + Sitemap + OG
+- `<JsonLd>` server component + 6 schema helpers (Organization,
+  WebSite, SoftwareApplication, BreadcrumbList, Article, FAQPage,
+  JobPosting) in `src/components/seo/json-ld.tsx`. Organization +
+  WebSite + SoftwareApplication injected at root for every page.
+- `src/app/sitemap.ts` enumerates every static route × 2 locales + all
+  dynamic routes (industries, blog posts, changelog versions, careers,
+  customers, resources). Each entry carries hreflang `alternates.languages`
+  for both locales + `x-default`. Sitemap counts in the hundreds of
+  entries.
+- `src/app/robots.ts` allows everything except `/api/`, `/_next/`, and
+  `/[locale]/request-access/thank-you`. Advertises the sitemap.
+- `src/app/manifest.ts` (PWA-style web manifest).
+- `src/app/icon.tsx` — generated SVG-based favicon via Next's
+  `ImageResponse` (gradient F mark).
+- `src/app/api/og/route.tsx` — edge-runtime dynamic OG image. Accepts
+  `title`, `description`, `eyebrow`, `type` (default | blog | product |
+  solution | customer) for color-coded accent. 1200×630, immutable cache.
+- Root `[locale]/layout.tsx` `generateMetadata` now points OG and Twitter
+  card images at `/api/og?…`.
+
+### Fase 10 — Advanced animations
+- `<SmoothScroll>` mounts a global Lenis instance on desktop only,
+  skipping when `prefers-reduced-motion` or viewport is mobile-sized
+  (where native momentum scroll is preferable).
+- `<Parallax>` Framer-Motion-based scroll-locked translation, with
+  reduced-motion pass-through.
+- All Phase 1 animation primitives (TextReveal, Stagger, CountUp,
+  ScrollProgress, RotatingText, Magnetic, RevealOnScroll) already
+  reduced-motion safe.
+- GSAP is in deps but not yet wired up — pin sections / image sequences
+  are easy to add later when there's a specific motion use case beyond
+  what framer-motion already covers cleanly.
+
+### Fase 11 — Performance + a11y
+- `<CookieBanner>` mounted in marketing layout: persists decision to
+  `localStorage`, dismisses for that browser, links to `/legal/cookies`.
+  Bilingual.
+- `[locale]/error.tsx` global error boundary with reset, digest display,
+  and back-home CTA.
+- `next.config.ts` already ships strict security headers
+  (X-Content-Type-Options, Referrer-Policy, Permissions-Policy).
+- A11y baseline: skip-to-content link in root layout (visible on focus),
+  focus rings on every interactive element via globals.css, ARIA labels
+  on icon-only buttons, semantic landmarks, dynamic `<html lang>`,
+  hreflang in metadata, all forms have explicit `<Label>`s.
+- Bundle: Next 16 removed the per-route size column from build output
+  (deemed inaccurate for RSC apps). Concrete sizing belongs to Vercel
+  Analytics / Lighthouse runs against the deployed preview.
+
+### Fase 12 — Testing + CI
+- **Vitest config** (`vitest.config.ts`) with jsdom env, alias `@/*`,
+  setup that loads `@testing-library/jest-dom/vitest`.
+- **Unit tests** (3 files, 19 cases):
+  - `tests/unit/utils.test.ts` — `cn()`, `slugify`, `absoluteUrl`
+  - `tests/unit/locales.test.ts` — locale list + `isLocale` + EN/ES
+    dictionary parity
+  - `tests/unit/industries.test.ts` — every INDUSTRIES slug has full
+    bilingual content (3 pains + 3 solutions + quote + template)
+- **Playwright** (`playwright.config.ts` + `tests/e2e/smoke.spec.ts`):
+  webServer boots `npm run build && npm run start`, ignored when
+  `PLAYWRIGHT_BASE_URL` is set so CI can target a Vercel preview.
+  8 specs covering: locale redirect, home render, ES content, login
+  redirect, pricing FAQ, form validation, 15 industries on /solutions,
+  sitemap.xml, robots.txt.
+- **GitHub Actions** (`.github/workflows/ci.yml`) — three stages:
+  lint+typecheck+unit, build, e2e. Each runs on push and PR. e2e uploads
+  playwright-report on failure.
+
+### Fase 13 — Deploy & handoff
+- Full README rewrite covering: stack, env vars, scripts, layout, i18n,
+  theming, forms, performance, testing, deploy, pre-launch checklist.
+- BLOCKERS.md and ASSET-INSTRUCTIONS.md kept up to date.
+- Vercel deploy is one `npx vercel link && npx vercel` away. Carlos owns
+  the actual link/deploy because his Vercel account hosts the project.
+
+### Final state
+- `tsc --noEmit` ✅ clean
+- ESLint ✅ clean
+- Vitest ✅ 19/19 passing
+- Build ✅ ~80 SSG routes + dynamic API + edge OG + Proxy + sitemap +
+  robots + manifest + icon
+- All forms wire to Resend with graceful fallback
+- All animations honor `prefers-reduced-motion`
+- All pages bilingual EN/ES
+- All 15 industry sub-pages have unique pain points, solutions, quote,
+  and template description
+
+### What Carlos does next
+1. `npx vercel link` and configure env vars in Vercel dashboard
+2. Get Resend account + verify the `florioin.com` sending domain
+3. Point DNS for `florioin.com` and `www.florioin.com` to Vercel
+4. Drop real assets per `ASSET-INSTRUCTIONS.md`
+5. Commission legal review of `/legal/*` (search for `[PLACEHOLDER LEGAL]`)
+6. Strip `/dev` gallery for production (or leave for staging only)
+7. Trigger a Lighthouse audit on the Vercel preview to validate 95+ targets
+
+Estimated time-to-launch from here: 1-2 weeks (most of it is asset
+production and legal review, not engineering).

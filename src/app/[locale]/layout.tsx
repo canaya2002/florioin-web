@@ -3,6 +3,12 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 
+import {
+  JsonLd,
+  organizationSchema,
+  softwareApplicationSchema,
+  websiteSchema,
+} from "@/components/seo/json-ld";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeScript } from "@/components/theme/theme-script";
 import { isLocale, locales } from "@/i18n/locales";
@@ -77,6 +83,18 @@ export async function generateMetadata({
       siteName: SITE.name,
       title: `${SITE.name} — ${lang === "es" ? "El SO de tu empresa, con IA" : "The OS of your business, with AI"}`,
       description,
+      images: [
+        {
+          url: `/api/og?title=${encodeURIComponent(
+            lang === "es"
+              ? "El SO de tu empresa, con IA"
+              : "The OS of your business, with AI",
+          )}&description=${encodeURIComponent(description)}&eyebrow=${encodeURIComponent(SITE.name)}`,
+          width: 1200,
+          height: 630,
+          alt: SITE.name,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -84,6 +102,13 @@ export async function generateMetadata({
       creator: SITE.twitter,
       title: SITE.name,
       description,
+      images: [
+        `/api/og?title=${encodeURIComponent(
+          lang === "es"
+            ? "El SO de tu empresa, con IA"
+            : "The OS of your business, with AI",
+        )}&eyebrow=${encodeURIComponent(SITE.name)}`,
+      ],
     },
     robots: {
       index: true,
@@ -113,6 +138,9 @@ export default async function RootLayout({
     >
       <head>
         <ThemeScript />
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
+        <JsonLd data={softwareApplicationSchema()} />
       </head>
       <body className="flex min-h-full flex-col font-sans antialiased">
         <a href="#main" className="skip-link">

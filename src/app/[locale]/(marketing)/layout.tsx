@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 
 import { ScrollProgress } from "@/components/animations/scroll-progress";
+import { SmoothScroll } from "@/components/animations/smooth-scroll";
+import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Footer } from "@/components/layout/footer";
 import { Nav } from "@/components/layout/nav";
 import { getDictionary } from "@/i18n/get-dictionary";
@@ -21,12 +23,14 @@ export default async function MarketingLayout({
 
   return (
     <>
+      <SmoothScroll />
       <ScrollProgress />
       <Nav locale={locale} dict={dict} />
       <main id="main" className="flex-1">
         {children}
       </main>
       <Footer locale={locale} dict={dict} />
+      <CookieBanner locale={locale} />
     </>
   );
 }
