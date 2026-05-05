@@ -1,37 +1,36 @@
-import { isLocale, type Locale } from "@/i18n/locales";
-import { getDictionary } from "@/i18n/get-dictionary";
 import { notFound } from "next/navigation";
+
+import { CtaSection } from "@/components/sections/cta-section";
+import { FeaturesBento } from "@/components/sections/features-bento";
+import { Hero } from "@/components/sections/hero";
+import { HowItWorks } from "@/components/sections/how-it-works";
+import { IndustriesTeaser } from "@/components/sections/industries-teaser";
+import { LogosMarquee } from "@/components/sections/logos-marquee";
+import { PricingTeaser } from "@/components/sections/pricing-teaser";
+import { StatsSection } from "@/components/sections/stats-section";
+import { Testimonials } from "@/components/sections/testimonials";
+import { getDictionary } from "@/i18n/get-dictionary";
+import { isLocale, type Locale } from "@/i18n/locales";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export default async function HomePage({ params }: PageParams) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
-  const dict = await getDictionary(locale as Locale);
+  const lang = locale as Locale;
+  const dict = await getDictionary(lang);
 
   return (
-    <main id="main" className="container-default section flex flex-col gap-10">
-      <div className="eyebrow">FlorioIn · setup phase 0 ready</div>
-      <h1 className="font-display text-[var(--fs-display)]">
-        <span className="text-gradient">{dict.common.tagline}</span>
-      </h1>
-      <p className="max-w-2xl text-[var(--fs-body-lg)] text-[var(--fg-muted)]">
-        {dict.home.hero.sub}
-      </p>
-      <div className="flex flex-wrap items-center gap-4">
-        <span
-          className="inline-flex h-12 items-center justify-center rounded-full px-6 font-medium text-[var(--primary-fg)] shadow-[var(--shadow-glow)]"
-          style={{ background: "var(--gradient-hero)" }}
-        >
-          {dict.common.ctaPrimary}
-        </span>
-        <span className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--border-strong)] px-6 font-medium">
-          {dict.common.ctaSecondary}
-        </span>
-      </div>
-      <div className="text-sm text-[var(--fg-subtle)]">
-        Locale: <code>{locale}</code> · Theme tokens active · Cal Sans loaded
-      </div>
-    </main>
+    <>
+      <Hero locale={lang} dict={dict} />
+      <FeaturesBento locale={lang} dict={dict} />
+      <StatsSection locale={lang} dict={dict} />
+      <LogosMarquee dict={dict} />
+      <HowItWorks dict={dict} />
+      <Testimonials locale={lang} dict={dict} />
+      <IndustriesTeaser locale={lang} dict={dict} />
+      <PricingTeaser locale={lang} dict={dict} />
+      <CtaSection locale={lang} dict={dict} />
+    </>
   );
 }

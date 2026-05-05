@@ -63,7 +63,7 @@ streaming and the App Router. The spec already named this fallback explicitly.
 | 0 — Setup base | ✅ done | Tokens, i18n, proxy, theme, fonts, env, redirects |
 | 1 — Componentes base | ✅ done | UI primitives + layout + animations + dev gallery |
 | 2 — Bento + media | ✅ done | BentoGrid + cards, mockups, video, marquee, optimize scripts |
-| 3 — Home **[CHECKPOINT]** | ☐ | |
+| 3 — Home **[CHECKPOINT]** | ✅ done · awaiting Carlos OK | Hero + bento + stats + marquee + steps + testimonials + industries grid + pricing teaser + final CTA |
 | 4 — Product pages | ☐ | |
 | 5 — Solutions 15 industries | ☐ | |
 | 6 — Pricing + forms | ☐ | |
@@ -243,3 +243,53 @@ streaming and the App Router. The spec already named this fallback explicitly.
   mockups, marquee, autoplay video (in fallback mode), code block.
 
 **Validation**: tsc + eslint clean, build SSGs 7 routes.
+
+---
+
+## Fase 3 — Home — 2026-05-04 · CHECKPOINT
+
+**Sections built** (all in `src/components/sections/`, all bilingual via the
+shared dictionary, all reduced-motion safe):
+
+1. **`<Hero>`**: animated gradient glow background, badge w/ pulse dot,
+   `<TextReveal>` headline (per-word stagger), description, primary CTA
+   (`/request-access`) + secondary CTA (anchors to `#demo`) + sign-in
+   link (→ florioin.app/login). Hero visual is a placeholder rendered as
+   `<GradientPlaceholder>` with caption directing Carlos to drop the real
+   video into `public/videos/hero/`.
+2. **`<FeaturesBento>`**: 7 bento cards mixing every size variant —
+   `large` AI Co-Pilot (with caption-strip placeholder for the demo
+   video), `small` speed quote with gradient backdrop, `wide` Tasks board
+   (`side` visual position), `tall` mobile platforms strip, `wide` Smart
+   Inbox (channel icons), `small` $3 pricing pill (linked), `full`
+   manifesto card. Three of these link to `/product/*` deep-dives that
+   ship in Phase 4.
+3. **`<StatsSection>`**: 10× / 200+ / $3 / 99.99% with
+   `<CountUp>` animated on scroll-into-view.
+4. **`<LogosMarquee>`**: 10 placeholder customer names in a paused-on-hover
+   marquee (real logos drop into `public/images/customers/` later).
+5. **`<HowItWorks>`**: 3 numbered steps (Mic / Sparkles / CircleCheck
+   icons in gradient circles), staggered reveal-on-scroll.
+6. **`<Testimonials>`**: 3 placeholder quotes with gradient initials avatars.
+7. **`<IndustriesTeaser>`**: 5×3 grid of all 15 industries with bilingual
+   labels and lucide icons; each links to `/solutions/<slug>` (Phase 5).
+8. **`<PricingTeaser>`**: $3/seat headline with 6 included items
+   (bilingual list), primary + outline CTAs.
+9. **`<CtaSection>`**: full-bleed gradient block with white CTA → request access.
+
+**Validation**:
+- `tsc --noEmit` and ESLint clean.
+- `npm run build` SSGs 7 routes (home + dev gallery in EN+ES + 404).
+- Smoke test: `/en` (184KB), `/es` (185KB) both 200; bilingual content
+  verified (eyebrow strings differ, 15 industry links present, logo
+  appears 3× — nav, footer, mobile drawer — testimonials render with
+  initials avatars, final CTA renders bilingual).
+- No hydration errors in dev server log.
+- Bundle weight is dominated by framer-motion + page HTML; production
+  bundle analysis lives in Phase 11.
+
+**Carlos action required**: review the home preview at `/en` and `/es`
+and approve before I proceed to Phase 4 (Product deep-dives). Run the
+dev server with `npm run dev` and visit `http://localhost:3000` (it
+auto-redirects based on browser language; explicit URLs `/en` and `/es`
+are also fine).
