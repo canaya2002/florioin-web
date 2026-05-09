@@ -3,8 +3,9 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * 12-column bento grid that collapses to 4 columns on tablet and 1 on mobile.
- * Compose with `<BentoCard>` whose `size` prop controls col/row span.
+ * 12-column bento grid. Rows are tall enough to host a meaningful card
+ * even at the smallest size, and the grid collapses cleanly to a single
+ * column on mobile so cards never look "half-empty".
  */
 export const BentoGrid = forwardRef<
   HTMLDivElement,
@@ -13,8 +14,12 @@ export const BentoGrid = forwardRef<
   <div
     ref={ref}
     className={cn(
-      "grid auto-rows-[minmax(220px,auto)] gap-6",
-      "grid-cols-1 sm:grid-cols-4 lg:grid-cols-12 lg:gap-10",
+      // gap matches --space-6 (24) on mobile and --space-8 (32) on desktop
+      "grid gap-[var(--space-6)] lg:gap-[var(--space-8)]",
+      // 1 col on mobile, 4 col on tablet, 12 col on desktop
+      "grid-cols-1 sm:grid-cols-4 lg:grid-cols-12",
+      // Row baseline matches small-card aspect-[4/3] minimum.
+      "auto-rows-[minmax(240px,auto)] lg:auto-rows-[minmax(260px,auto)]",
       className,
     )}
     {...props}

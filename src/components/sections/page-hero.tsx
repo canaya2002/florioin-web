@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { FadeIn } from "@/components/animations/fade-in";
 import { SlideUp } from "@/components/animations/slide-up";
 import { TextReveal } from "@/components/animations/text-reveal";
+import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { FloatingBlobs } from "@/components/ui/floating-blobs";
 import { cn } from "@/lib/utils";
@@ -34,7 +35,8 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden pb-16 pt-24 md:pt-32",
+        "relative isolate overflow-hidden",
+        "pb-[var(--space-12)] pt-[var(--space-20)] lg:pt-[var(--space-24)]",
         className,
       )}
     >
@@ -44,41 +46,48 @@ export function PageHero({
         style={{ background: "var(--gradient-glow)" }}
       />
       <FloatingBlobs variant="subtle" />
-      <div
+      <Container
         className={cn(
-          "container-default relative flex flex-col gap-8",
+          "relative flex flex-col gap-[var(--space-6)]",
           isCenter && "items-center text-center",
         )}
       >
         {eyebrow && (
-          <FadeIn>
+          <FadeIn delay={0.1} duration={0.4}>
             <span className="eyebrow">{eyebrow}</span>
           </FadeIn>
         )}
-        <h1 className="max-w-4xl font-display text-[clamp(48px,7vw,96px)] leading-[1.05] tracking-[-0.04em]">
+        <h1 className="max-w-4xl font-display text-[var(--fs-h1)] leading-[1.05] tracking-[-0.04em]">
           <TextReveal>{title}</TextReveal>
         </h1>
-        <SlideUp delay={0.3} className={isCenter ? "max-w-2xl" : "max-w-3xl"}>
-          <div className="text-[var(--fs-body-lg)] text-[var(--fg-muted)]">
+        <SlideUp
+          delay={0.3}
+          duration={0.5}
+          distance={12}
+          className={isCenter ? "max-w-2xl" : "max-w-3xl"}
+        >
+          <div className="text-[var(--fs-body-lg)] leading-relaxed text-[var(--fg-muted)]">
             {description}
           </div>
         </SlideUp>
         {(primaryCta || secondaryCta) && (
           <SlideUp
-            delay={0.5}
-            className={cn("flex flex-wrap items-center gap-3")}
+            delay={0.45}
+            duration={0.4}
+            distance={8}
+            className="flex w-full flex-wrap items-center gap-[var(--space-3)] sm:w-auto"
           >
             {primaryCta && (
-              <Link href={primaryCta.href}>
-                <Button size="lg" variant="primary">
+              <Link href={primaryCta.href} className="w-full sm:w-auto">
+                <Button size="lg" variant="primary" className="w-full sm:w-auto">
                   {primaryCta.label}
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </Link>
             )}
             {secondaryCta && (
-              <Link href={secondaryCta.href}>
-                <Button size="lg" variant="outline">
+              <Link href={secondaryCta.href} className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto">
                   {secondaryCta.label}
                 </Button>
               </Link>
@@ -86,11 +95,16 @@ export function PageHero({
           </SlideUp>
         )}
         {visual && (
-          <SlideUp delay={0.7} className="mt-6 w-full">
+          <SlideUp
+            delay={0.6}
+            duration={0.7}
+            distance={20}
+            className="mt-[var(--space-6)] w-full"
+          >
             {visual}
           </SlideUp>
         )}
-      </div>
+      </Container>
     </section>
   );
 }

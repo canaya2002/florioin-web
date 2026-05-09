@@ -23,7 +23,7 @@ export function organizationSchema() {
     "@type": "Organization",
     name: SITE.name,
     url: SITE.url,
-    logo: `${SITE.url}/icon.svg`,
+    logo: `${SITE.url}/icon`,
     sameAs: [
       "https://twitter.com/florioin",
       "https://www.linkedin.com/company/florioin",
@@ -109,7 +109,7 @@ export function articleSchema(input: {
     publisher: {
       "@type": "Organization",
       name: SITE.name,
-      logo: { "@type": "ImageObject", url: `${SITE.url}/icon.svg` },
+      logo: { "@type": "ImageObject", url: `${SITE.url}/icon` },
     },
     mainEntityOfPage: `${SITE.url}/${input.locale}/blog/${input.slug}`,
   };

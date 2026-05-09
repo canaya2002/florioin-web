@@ -53,15 +53,22 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
     },
     ref,
   ) => {
+    const isInteractive = Boolean(href);
+
     const wrapperClass = cn(
-      "group relative isolate flex h-full flex-col overflow-hidden",
-      "rounded-[var(--radius-2xl)] border border-[var(--border-glass)]",
+      "group relative isolate flex h-full min-h-[240px] flex-col overflow-hidden",
+      "rounded-[var(--radius-xl)] border border-[var(--border-glass)]",
       "bg-[var(--glass)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%]",
       "shadow-[var(--shadow-md)]",
-      "transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)]",
-      "hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]",
-      "hover:border-[var(--primary)]/40",
-      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2",
+      "transition-[transform,box-shadow,border-color] duration-[var(--duration-base)] ease-[var(--ease-in-out)]",
+      // Interactive cards lift; informational cards only get a soft shadow boost.
+      isInteractive
+        ? [
+            "cursor-pointer hover:-translate-y-1 active:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]",
+            "hover:border-[var(--primary)]/40",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2",
+          ]
+        : "hover:shadow-[var(--shadow-lg)]",
       sizeClasses[size],
       className,
     );
@@ -72,7 +79,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         {gradient && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-100"
+            className="pointer-events-none absolute inset-0"
             style={{ background: "var(--gradient-card)" }}
           />
         )}
@@ -81,16 +88,18 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
         />
-        {/* Hover sheen — appears as a slow diagonal highlight on hover */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--dur-slow)] ease-[var(--ease-glass)] group-hover:opacity-100"
-          style={{
-            background:
-              "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.6) 50%, transparent 65%)",
-            mixBlendMode: "soft-light",
-          }}
-        />
+        {/* Hover sheen — only on interactive cards, only on devices with hover. */}
+        {isInteractive && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--duration-base)] ease-[var(--ease-in-out)] group-hover:opacity-100 motion-reduce:hidden"
+            style={{
+              background:
+                "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%)",
+              mixBlendMode: "soft-light",
+            }}
+          />
+        )}
         {visual && visualPosition === "background" && (
           <div
             aria-hidden
@@ -101,8 +110,11 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         )}
         <div
           className={cn(
-            "relative z-10 flex h-full flex-col p-7 lg:p-9",
-            visualPosition === "side" && "sm:flex-row sm:items-center sm:gap-8",
+            "relative z-10 flex h-full flex-col",
+            // Consistent padding tokens (24 mobile / 32 desktop).
+            "p-[var(--space-6)] lg:p-[var(--space-8)]",
+            visualPosition === "side" &&
+              "sm:flex-row sm:items-center sm:gap-[var(--space-8)]",
             visualPosition === "above" && "justify-end",
           )}
         >
@@ -111,13 +123,13 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           )}
           <div
             className={cn(
-              "flex flex-col gap-2.5",
+              "flex flex-col gap-[var(--space-3)]",
               visualPosition === "side" && "sm:flex-1",
             )}
           >
             {eyebrow && <span className="eyebrow">{eyebrow}</span>}
             {title && (
-              <h3 className="font-display text-[clamp(22px,2.4vw,32px)] leading-tight tracking-tight text-[var(--fg)]">
+              <h3 className="font-display text-[clamp(20px,2.2vw,28px)] leading-tight tracking-tight text-[var(--fg)]">
                 {title}
               </h3>
             )}
@@ -132,8 +144,8 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
             (visualPosition === "below" || visualPosition === "side") && (
               <div
                 className={cn(
-                  "mt-6 flex-1",
-                  visualPosition === "side" && "sm:mt-0 sm:flex-1",
+                  "mt-[var(--space-6)] flex-1",
+                  visualPosition === "side" && "sm:mt-0",
                 )}
               >
                 {visual}
@@ -143,10 +155,10 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           {children}
 
           {ctaLabel && (
-            <div className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--primary)]">
+            <div className="mt-[var(--space-6)] inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--primary)]">
               {ctaLabel}
               <ArrowUpRight
-                className="h-4 w-4 transition-transform duration-[var(--dur-base)] ease-[var(--ease-glass)] group-hover:translate-x-1 group-hover:-translate-y-1"
+                className="h-4 w-4 transition-transform duration-[var(--duration-fast)] ease-[var(--ease-in-out)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                 aria-hidden
               />
             </div>

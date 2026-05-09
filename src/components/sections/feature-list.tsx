@@ -20,8 +20,8 @@ export function FeatureList({
   return (
     <div
       className={cn(
-        "relative flex flex-col gap-5 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass)] p-8 backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)]",
-        "transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]",
+        "relative flex h-full flex-col gap-[var(--space-5,20px)] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)] bg-[var(--glass)] p-[var(--space-8)] backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)]",
+        "transition-[box-shadow] duration-[var(--duration-base)] ease-[var(--ease-in-out)] hover:shadow-[var(--shadow-lg)]",
         className,
       )}
     >

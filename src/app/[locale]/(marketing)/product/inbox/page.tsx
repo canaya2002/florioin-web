@@ -71,7 +71,7 @@ export default async function InboxPage({ params }: PageParams) {
                 : "Gmail · Outlook · Slack · Microsoft Teams · WhatsApp Business · SMS · Webhooks. Native OAuth, no manual setup."
             }
             visual={
-              <div className="flex flex-wrap items-center justify-center gap-6 opacity-90">
+              <div className="flex min-h-[80px] flex-wrap items-center justify-center gap-6 opacity-90">
                 <Mail className="h-10 w-10 text-[var(--primary)]" />
                 <MessageSquare className="h-10 w-10 text-[var(--accent)]" />
                 <AtSign className="h-10 w-10 text-[var(--success)]" />
@@ -91,10 +91,12 @@ export default async function InboxPage({ params }: PageParams) {
                 : "Every message lands classified: urgent, awaiting reply, FYI, spam. It learns from your patterns — not a tutorial."
             }
             visual={
-              <Filter
-                aria-hidden
-                className="mx-auto h-20 w-20 text-[var(--primary)] opacity-60"
-              />
+              <div className="flex min-h-[80px] items-center justify-center">
+                <Filter
+                  aria-hidden
+                  className="h-20 w-20 text-[var(--primary)] opacity-60"
+                />
+              </div>
             }
             visualPosition="side"
           />

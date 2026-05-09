@@ -142,10 +142,12 @@ export default async function TasksPage({ params }: PageParams) {
                 : "Text, number, date, checkbox, dropdown, person, formula, rollup. Same as a spreadsheet, but with permissions and workflow."
             }
             visual={
-              <Filter
-                aria-hidden
-                className="mx-auto h-20 w-20 text-[var(--primary)] opacity-60"
-              />
+              <div className="flex min-h-[80px] items-center justify-center">
+                <Filter
+                  aria-hidden
+                  className="h-20 w-20 text-[var(--primary)] opacity-60"
+                />
+              </div>
             }
             visualPosition="side"
           />
@@ -183,15 +185,16 @@ export default async function TasksPage({ params }: PageParams) {
             size="full"
             eyebrow="AI"
             title={
-              <span>
+              <span className="flex flex-col gap-2">
                 <ListChecks
                   aria-hidden
-                  className="mb-2 inline-block h-8 w-8 text-[var(--primary)]"
+                  className="h-8 w-8 text-[var(--primary)]"
                 />
-                <br />
-                {isEs
-                  ? "El Co-Piloto sabe quién tiene capacidad"
-                  : "Co-Pilot knows who has capacity"}
+                <span>
+                  {isEs
+                    ? "El Co-Piloto sabe quién tiene capacidad"
+                    : "Co-Pilot knows who has capacity"}
+                </span>
               </span>
             }
             description={

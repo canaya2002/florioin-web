@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { cloneElement, isValidElement, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -167,15 +167,29 @@ function Field({
   className,
 }: {
   label: string;
-  input: React.ReactNode;
+  input: React.ReactElement<{ id?: string; "aria-describedby"?: string }>;
   error?: string;
   className?: string;
 }) {
+  const id = useId();
+  const errorId = `${id}-err`;
+  // Inject id + aria-describedby into the wrapped input so the label binds
+  // properly and screen readers announce the validation message.
+  const enhanced = isValidElement(input)
+    ? cloneElement(input, {
+        id,
+        "aria-describedby": error ? errorId : undefined,
+      })
+    : input;
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      <Label>{label}</Label>
-      {input}
-      {error && <p className="text-xs text-[var(--danger)]">{error}</p>}
+      <Label htmlFor={id}>{label}</Label>
+      {enhanced}
+      {error && (
+        <p id={errorId} className="text-xs text-[var(--danger)]">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

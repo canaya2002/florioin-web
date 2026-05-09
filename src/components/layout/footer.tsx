@@ -53,15 +53,15 @@ export function Footer({ locale, dict }: FooterProps) {
   ];
 
   return (
-    <footer className="relative isolate overflow-hidden border-t border-[var(--border-glass)] bg-[var(--bg-subtle)] py-16">
+    <footer className="relative isolate overflow-hidden border-t border-[var(--border-glass)] bg-[var(--bg-subtle)] py-[var(--space-16)]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-50"
         style={{ background: "var(--gradient-mesh)" }}
       />
-      <div className="container-wide relative flex flex-col gap-12">
-        <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-          <div className="flex flex-col gap-4">
+      <div className="container-wide relative flex flex-col gap-[var(--space-12)]">
+        <div className="grid gap-[var(--space-12)] md:grid-cols-[1.4fr_repeat(3,1fr)]">
+          <div className="flex flex-col gap-[var(--space-4)]">
             <Logo size="md" />
             <p className="max-w-xs text-[15px] text-[var(--fg-muted)]">
               {dict.footer.tagline}

@@ -5,56 +5,52 @@
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translate3d(0, -4px, 0);
   }
 }
 
 @keyframes float-slow {
   0%,
   100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, -4px, 0);
   }
   50% {
-    transform: translate3d(0, -16px, 0);
+    transform: translate3d(0, 4px, 0);
   }
 }
 
+/* Ambient drifts. Each blob takes a different path so they never
+   visibly sync; combined with distinct durations this feels organic. */
 @keyframes drift-1 {
-  0% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(40px, -30px, 0) scale(1.05);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(60px, -40px, 0) scale(1.04);
   }
 }
 
 @keyframes drift-2 {
-  0% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(-50px, 30px, 0) scale(1.08);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(-50px, 40px, 0) scale(1.06);
   }
 }
 
 @keyframes drift-3 {
-  0% {
+  0%,
+  100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
   50% {
-    transform: translate3d(30px, 40px, 0) scale(0.95);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: translate3d(40px, 50px, 0) scale(0.96);
   }
 }
 
@@ -69,31 +65,21 @@
 
 @keyframes marquee {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes glow-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 40px rgba(168, 140, 255, 0.22);
-  }
-  50% {
-    box-shadow: 0 0 80px rgba(168, 140, 255, 0.42);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translate3d(0, 16px, 0);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
@@ -106,6 +92,7 @@
   }
 }
 
+/* Slow gradient pan on H1 keywords. 8s linear infinite per spec. */
 @keyframes gradient-shift {
   0%,
   100% {
@@ -113,6 +100,21 @@
   }
   50% {
     background-position: 100% 50%;
+  }
+}
+
+/* One-shot button sheen — runs only on hover, never infinite. */
+@keyframes button-sheen {
+  0% {
+    transform: translate3d(-110%, 0, 0) skewX(-12deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translate3d(220%, 0, 0) skewX(-12deg);
+    opacity: 0;
   }
 }
 
@@ -135,25 +137,26 @@
 }
 
 .animate-float {
-  animation: float 6s var(--ease-smooth) infinite;
+  animation: float 6s var(--ease-in-out) infinite;
   will-change: transform;
 }
 
 .animate-float-slow {
-  animation: float-slow 9s var(--ease-smooth) infinite;
+  animation: float-slow 9s var(--ease-in-out) infinite;
   will-change: transform;
 }
 
+/* Different durations per blob so they desync naturally. */
 .animate-drift-1 {
-  animation: drift-1 var(--dur-blob) var(--ease-smooth) infinite;
+  animation: drift-1 var(--dur-blob-1) var(--ease-in-out) infinite alternate;
   will-change: transform;
 }
 .animate-drift-2 {
-  animation: drift-2 calc(var(--dur-blob) + 4s) var(--ease-smooth) infinite;
+  animation: drift-2 var(--dur-blob-2) var(--ease-in-out) infinite alternate;
   will-change: transform;
 }
 .animate-drift-3 {
-  animation: drift-3 calc(var(--dur-blob) + 7s) var(--ease-smooth) infinite;
+  animation: drift-3 var(--dur-blob-3) var(--ease-in-out) infinite alternate;
   will-change: transform;
 }
 
@@ -161,21 +164,31 @@
   animation: marquee 40s linear infinite;
 }
 
-.animate-glow {
-  animation: glow-pulse 4s ease-in-out infinite;
-}
-
 .animate-fade-in-up {
-  animation: fade-in-up var(--dur-slow) var(--ease-out-expo) both;
+  animation: fade-in-up var(--duration-slow) var(--ease-out-expo) both;
 }
 
 .animate-fade-in {
-  animation: fade-in var(--dur-slow) var(--ease-out-expo) both;
+  animation: fade-in var(--duration-slow) var(--ease-out-expo) both;
 }
 
 .animate-gradient {
   background-size: 200% 200%;
-  animation: gradient-shift var(--dur-mesh) var(--ease-smooth) infinite;
+  animation: gradient-shift 8s linear infinite;
+}
+
+/* Pause continuous ambient motion + marquee on small screens —
+   battery friendly and honors the spec ("mobile: pause"). */
+@media (max-width: 768px) {
+  .animate-drift-1,
+  .animate-drift-2,
+  .animate-drift-3,
+  .animate-float,
+  .animate-float-slow,
+  .animate-gradient,
+  .animate-marquee {
+    animation: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -185,7 +198,6 @@
   .animate-drift-2,
   .animate-drift-3,
   .animate-marquee,
-  .animate-glow,
   .animate-fade-in-up,
   .animate-fade-in,
   .animate-gradient {

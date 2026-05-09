@@ -1,6 +1,7 @@
 import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
 
+import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { FloatingBlobs } from "@/components/ui/floating-blobs";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -35,10 +36,10 @@ export function PricingTeaser({ locale, dict }: PricingTeaserProps) {
       ];
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden section">
       <FloatingBlobs variant="violet" />
-      <div className="container-default section relative">
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[var(--radius-3xl)] border border-[var(--border-glass)] bg-[var(--glass-strong)] p-10 backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[160%] shadow-[var(--shadow-xl)] md:p-14">
+      <Container className="relative">
+        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass-strong)] p-[var(--space-8)] backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[160%] shadow-[var(--shadow-xl)] md:p-[var(--space-12)]">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
@@ -48,8 +49,8 @@ export function PricingTeaser({ locale, dict }: PricingTeaserProps) {
             className="pointer-events-none absolute inset-0 opacity-100"
             style={{ background: "var(--gradient-card)" }}
           />
-          <div className="relative grid gap-10 md:grid-cols-2">
-            <div className="flex flex-col gap-6">
+          <div className="relative grid gap-[var(--space-8)] md:grid-cols-2 md:gap-[var(--space-12)]">
+            <div className="flex flex-col gap-[var(--space-6)]">
               <span className="eyebrow">{dict.home.pricing.eyebrow}</span>
               <h2 className="font-display text-[var(--fs-h2)] leading-tight tracking-tight">
                 {dict.home.pricing.title}
@@ -65,22 +66,28 @@ export function PricingTeaser({ locale, dict }: PricingTeaserProps) {
                   {isEs ? "/ usuario / mes" : "/ user / month"}
                 </span>
               </div>
-              <div className="mt-2 flex flex-wrap items-center gap-3">
-                <Link href={`${lp}/pricing`}>
-                  <Button size="lg" variant="primary">
+              <div className="mt-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-3)]">
+                <Link
+                  href={`${lp}/pricing`}
+                  className="w-full sm:w-auto"
+                >
+                  <Button size="lg" variant="primary" className="w-full sm:w-auto">
                     {dict.home.pricing.cta}
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href={`${lp}/request-access`}>
-                  <Button size="lg" variant="outline">
+                <Link
+                  href={`${lp}/request-access`}
+                  className="w-full sm:w-auto"
+                >
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
                     {dict.common.ctaPrimary}
                   </Button>
                 </Link>
               </div>
             </div>
 
-            <ul className="flex flex-col gap-3.5">
+            <ul className="flex flex-col gap-[var(--space-3)]">
               {includes.map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <span
@@ -98,7 +105,7 @@ export function PricingTeaser({ locale, dict }: PricingTeaserProps) {
             </ul>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

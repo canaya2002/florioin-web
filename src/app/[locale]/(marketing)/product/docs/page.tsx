@@ -99,7 +99,9 @@ export default async function DocsPage({ params }: PageParams) {
                 : "Up to 100 people editing the same doc. Live cursors. Zero merge conflicts."
             }
             visual={
-              <Users className="mx-auto h-20 w-20 text-[var(--primary)] opacity-60" />
+              <div className="flex min-h-[120px] flex-1 items-center justify-center">
+                <Users className="h-20 w-20 text-[var(--primary)] opacity-60" />
+              </div>
             }
             visualPosition="above"
           />
@@ -113,10 +115,12 @@ export default async function DocsPage({ params }: PageParams) {
                 : "Every change saved. Compare, revert, or restore a specific version. No visual clutter."
             }
             visual={
-              <GitMerge
-                aria-hidden
-                className="mx-auto h-16 w-16 text-[var(--accent)] opacity-60"
-              />
+              <div className="flex min-h-[80px] items-center justify-center">
+                <GitMerge
+                  aria-hidden
+                  className="h-16 w-16 text-[var(--accent)] opacity-60"
+                />
+              </div>
             }
             visualPosition="side"
           />

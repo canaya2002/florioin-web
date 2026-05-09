@@ -47,7 +47,7 @@ export default async function AiCopilotPage({ params }: PageParams) {
         }
         primaryCta={{ href: `${lp}/request-access`, label: dict.common.ctaPrimary }}
         visual={
-          <div className="mx-auto max-w-5xl rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg)] shadow-[var(--shadow-xl)]">
+          <div className="mx-auto max-w-5xl">
             <GradientPlaceholder
               className="aspect-[16/9]"
               caption={
@@ -87,6 +87,7 @@ export default async function AiCopilotPage({ params }: PageParams) {
             }
             visual={
               <GradientPlaceholder
+                className="aspect-[16/10]"
                 caption={isEs ? "Captura de voz" : "Voice capture"}
               />
             }
@@ -121,7 +122,7 @@ export default async function AiCopilotPage({ params }: PageParams) {
                 : "Creates tasks, assigns, sends emails, schedules meetings, edits docs. You approve — Co-Pilot acts."
             }
             visual={
-              <div className="flex justify-center">
+              <div className="flex min-h-[120px] flex-1 items-center justify-center">
                 <Zap className="h-20 w-20 text-[var(--primary)] opacity-60" />
               </div>
             }
@@ -141,7 +142,7 @@ export default async function AiCopilotPage({ params }: PageParams) {
                 : "GPT-5, Claude 4.7, Gemini 2.5 — Co-Pilot routes automatically. You get the best answer without thinking about it."
             }
             visual={
-              <div className="flex justify-center gap-3">
+              <div className="flex min-h-[80px] items-center justify-center gap-3">
                 <Network className="h-12 w-12 text-[var(--primary)]" />
                 <Sparkles className="h-12 w-12 text-[var(--accent)]" />
                 <Plug className="h-12 w-12 text-[var(--success)]" />

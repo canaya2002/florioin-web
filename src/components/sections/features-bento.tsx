@@ -9,6 +9,7 @@ import {
 
 import { BentoCard } from "@/components/bento/bento-card";
 import { BentoGrid } from "@/components/bento/bento-grid";
+import { Container } from "@/components/layout/container";
 import { GradientPlaceholder } from "@/components/media/gradient-placeholder";
 import { FloatingBlobs } from "@/components/ui/floating-blobs";
 import type { Dictionary } from "@/i18n/get-dictionary";
@@ -24,10 +25,10 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
   const isEs = locale === "es";
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section className="relative isolate overflow-hidden section">
       <FloatingBlobs variant="subtle" />
-      <div className="container-wide section relative">
-        <div className="mb-14 flex flex-col items-start gap-3 lg:items-center lg:text-center">
+      <Container size="wide" className="relative">
+        <div className="mb-[var(--space-12)] flex flex-col items-start gap-[var(--space-3)] lg:items-center lg:text-center">
           <span className="eyebrow">{dict.home.what.eyebrow}</span>
           <h2 className="max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
             {dict.home.what.title}
@@ -67,10 +68,17 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
             size="small"
             eyebrow={isEs ? "Velocidad" : "Speed"}
             title={
-              <span className="font-display text-[clamp(40px,5vw,72px)] leading-tight">
-                <Sparkles className="mb-2 inline-block h-9 w-9 text-[var(--primary)]" />
-                <br />
-                {isEs ? "Habla. Y se hace." : "Speak. Done."}
+              <span className="block font-display leading-[1.1]">
+                <Sparkles
+                  aria-hidden
+                  className="mb-3 inline-block h-9 w-9 text-[var(--primary)]"
+                />
+                <span className="block">
+                  {isEs ? "Habla." : "Speak."}{" "}
+                  <span className="text-gradient">
+                    {isEs ? "Y se hace." : "Done."}
+                  </span>
+                </span>
               </span>
             }
             gradient
@@ -152,14 +160,21 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
             size="small"
             eyebrow={isEs ? "Precio" : "Pricing"}
             title={
-              <span className="text-gradient font-display text-[clamp(72px,9vw,128px)] leading-none">
-                $3
+              <span className="block font-display leading-[0.95]">
+                <span className="text-gradient text-[clamp(64px,8vw,108px)]">
+                  $3
+                </span>
+                <span className="mt-2 block text-[clamp(16px,1.4vw,20px)] font-medium tracking-normal text-[var(--fg-muted)]">
+                  {isEs
+                    ? "USD por usuario / mes"
+                    : "USD per seat / month"}
+                </span>
               </span>
             }
             description={
               isEs
-                ? "USD por usuario al mes. Sin tiers."
-                : "USD per seat per month. No tiers."
+                ? "Sin tiers. Sin features bloqueadas. Sin sorpresas."
+                : "No tiers. No locked features. No surprises."
             }
             gradient
             href={`${lp}/pricing`}
@@ -170,11 +185,17 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
             size="full"
             eyebrow={isEs ? "Manifiesto" : "Manifesto"}
             title={
-              <span className="text-gradient">
-                {isEs
-                  ? "Construido para empresas que valoran su tiempo"
-                  : "Built for companies that value their time"}
-              </span>
+              isEs ? (
+                <span>
+                  Construido para empresas que valoran su{" "}
+                  <span className="text-gradient">tiempo</span>
+                </span>
+              ) : (
+                <span>
+                  Built for companies that value their{" "}
+                  <span className="text-gradient">time</span>
+                </span>
+              )
             }
             description={
               isEs
@@ -184,7 +205,7 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
             gradient
           />
         </BentoGrid>
-      </div>
+      </Container>
     </section>
   );
 }

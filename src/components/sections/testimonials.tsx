@@ -1,6 +1,7 @@
 import { Quote } from "lucide-react";
 
 import { Stagger, StaggerItem } from "@/components/animations/stagger";
+import { Container } from "@/components/layout/container";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
 
@@ -41,15 +42,18 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
   ];
 
   return (
-    <section className="container-default section">
-      <h2 className="mb-12 max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
+    <Container as="section" bleed>
+      <h2 className="mb-[var(--space-12)] max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
         {dict.home.testimonials.title}
       </h2>
-      <Stagger className="grid gap-6 md:grid-cols-3" staggerChildren={0.12}>
+      <Stagger
+        className="grid gap-[var(--space-6)] md:grid-cols-3"
+        staggerChildren={0.08}
+      >
         {items.map((item) => (
           <StaggerItem
             key={item.author}
-            className="group relative flex flex-col gap-6 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass)] p-8 backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)] transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
+            className="group relative flex h-full flex-col gap-[var(--space-6)] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)] bg-[var(--glass)] p-[var(--space-8)] backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)] transition-[box-shadow] duration-[var(--duration-base)] ease-[var(--ease-in-out)] hover:shadow-[var(--shadow-lg)]"
           >
             <span
               aria-hidden
@@ -62,7 +66,7 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
             <p className="text-[17px] leading-relaxed text-[var(--fg-secondary)]">
               {item.quote}
             </p>
-            <div className="mt-auto flex items-center gap-3 border-t border-[var(--border-glass)] pt-4">
+            <div className="mt-auto flex items-center gap-[var(--space-3)] border-t border-[var(--border-glass)] pt-[var(--space-4)]">
               <div
                 aria-hidden
                 className="flex h-10 w-10 items-center justify-center rounded-full font-semibold text-white shadow-[var(--shadow-button)]"
@@ -86,6 +90,6 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
           </StaggerItem>
         ))}
       </Stagger>
-    </section>
+    </Container>
   );
 }

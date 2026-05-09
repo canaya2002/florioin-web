@@ -9,6 +9,7 @@ import {
   softwareApplicationSchema,
   websiteSchema,
 } from "@/components/seo/json-ld";
+import { SWCleanup } from "@/components/seo/sw-cleanup";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ThemeScript } from "@/components/theme/theme-script";
 import { isLocale, locales } from "@/i18n/locales";
@@ -138,6 +139,7 @@ export default async function RootLayout({
     >
       <head>
         <ThemeScript />
+        <SWCleanup />
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
         <JsonLd data={softwareApplicationSchema()} />

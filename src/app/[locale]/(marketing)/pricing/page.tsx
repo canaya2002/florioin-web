@@ -192,8 +192,8 @@ export default async function PricingPage({ params }: PageParams) {
           <div className="relative flex flex-col gap-8">
             <div className="flex flex-col gap-3 text-center">
               <span className="eyebrow">{isEs ? "Un solo plan" : "One plan"}</span>
-              <div className="flex items-baseline justify-center gap-2">
-                <span className="font-display text-[clamp(80px,12vw,160px)] leading-none">
+              <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
+                <span className="font-display text-[clamp(56px,12vw,128px)] leading-none">
                   ${PRICING.perSeat}
                 </span>
                 <span className="text-[var(--fs-body-lg)] text-[var(--fg-muted)]">

@@ -13,11 +13,13 @@ type TextRevealProps = {
   staggerChildren?: number;
 };
 
+const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
+
 export function TextReveal({
   children,
   className,
-  delay = 0,
-  staggerChildren = 0.05,
+  delay = 0.2,
+  staggerChildren = 0.04,
 }: TextRevealProps) {
   const reduced = useReducedMotion();
   const words = useMemo(() => children.split(" "), [children]);
@@ -31,7 +33,7 @@ export function TextReveal({
       className={cn("inline-block", className)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, amount: 0.15 }}
       variants={{
         hidden: {},
         visible: {
@@ -53,12 +55,12 @@ export function TextReveal({
               visible: {
                 y: 0,
                 opacity: 1,
-                transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+                transition: { duration: 0.6, ease: EASE_OUT_EXPO },
               },
             }}
           >
             {word}
-            {i < words.length - 1 && " "}
+            {i < words.length - 1 && " "}
           </motion.span>
         </span>
       ))}

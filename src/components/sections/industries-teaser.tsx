@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import type { ComponentType } from "react";
 
+import { Container } from "@/components/layout/container";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
 import { INDUSTRIES, type Industry } from "@/lib/constants";
@@ -71,15 +72,15 @@ const META: Record<Industry, IndustryMeta> = {
 export function IndustriesTeaser({ locale, dict }: IndustriesTeaserProps) {
   const lp = `/${locale}`;
   return (
-    <section className="container-wide section">
-      <div className="mb-12 flex flex-col items-start gap-3 lg:items-center lg:text-center">
+    <Container size="wide" as="section" bleed>
+      <div className="mb-[var(--space-12)] flex flex-col items-start gap-[var(--space-3)] lg:items-center lg:text-center">
         <span className="eyebrow">{dict.home.industries.eyebrow}</span>
         <h2 className="max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
           {dict.home.industries.title}
         </h2>
       </div>
 
-      <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <ul className="grid grid-cols-2 gap-[var(--space-4)] sm:grid-cols-3 lg:grid-cols-5 lg:gap-[var(--space-6)]">
         {INDUSTRIES.map((industry) => {
           const meta = META[industry];
           const Icon = meta.icon;
@@ -88,7 +89,7 @@ export function IndustriesTeaser({ locale, dict }: IndustriesTeaserProps) {
             <li key={industry}>
               <Link
                 href={`${lp}/solutions/${industry}`}
-                className="group relative flex h-full flex-col items-start gap-3 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)] bg-[var(--glass)] p-5 backdrop-blur-[var(--blur-glass-soft)] shadow-[var(--shadow-sm)] transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] hover:-translate-y-1 hover:border-[var(--primary)]/45 hover:shadow-[var(--shadow-md)]"
+                className="group relative flex h-full flex-col items-start gap-[var(--space-3)] overflow-hidden rounded-[var(--radius-md)] border border-[var(--border-glass)] bg-[var(--glass)] p-[var(--space-6)] backdrop-blur-[var(--blur-glass-soft)] shadow-[var(--shadow-sm)] transition-[transform,box-shadow,border-color] duration-[var(--duration-base)] ease-[var(--ease-in-out)] hover:-translate-y-1 hover:border-[var(--primary)]/45 hover:shadow-[var(--shadow-md)]"
               >
                 <span
                   aria-hidden
@@ -103,7 +104,7 @@ export function IndustriesTeaser({ locale, dict }: IndustriesTeaserProps) {
                 >
                   <Icon
                     aria-hidden
-                    className="h-5 w-5 text-[var(--primary)] transition-transform duration-[var(--dur-base)] ease-[var(--ease-spring)] group-hover:scale-110"
+                    className="h-5 w-5 text-[var(--primary)] transition-transform duration-[var(--duration-fast)] ease-[var(--ease-in-out)] group-hover:scale-105"
                     strokeWidth={1.6}
                   />
                 </span>
@@ -111,13 +112,13 @@ export function IndustriesTeaser({ locale, dict }: IndustriesTeaserProps) {
                   {label}
                 </span>
                 <span className="mt-auto inline-flex items-center text-[var(--fg-subtle)]">
-                  <ArrowUpRight className="h-4 w-4 -translate-x-1 opacity-0 transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] group-hover:translate-x-0 group-hover:opacity-100" />
+                  <ArrowUpRight className="h-4 w-4 -translate-x-1 opacity-0 transition-[transform,opacity] duration-[var(--duration-fast)] ease-[var(--ease-in-out)] group-hover:translate-x-0 group-hover:opacity-100" />
                 </span>
               </Link>
             </li>
           );
         })}
       </ul>
-    </section>
+    </Container>
   );
 }

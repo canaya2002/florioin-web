@@ -9,8 +9,11 @@ type RevealOnScrollProps = HTMLMotionProps<"div"> & {
   children: ReactNode;
   delay?: number;
   direction?: "up" | "down" | "left" | "right" | "none";
+  /** Pixels. Spec rule: keep ≤ 20. */
   distance?: number;
 };
+
+const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
 
 const directionToOffset = (
   direction: RevealOnScrollProps["direction"],
@@ -35,20 +38,21 @@ export function RevealOnScroll({
   children,
   delay = 0,
   direction = "up",
-  distance = 32,
+  distance = 20,
   ...rest
 }: RevealOnScrollProps) {
   const reduced = useReducedMotion();
-  const offset = directionToOffset(direction, distance);
+  const safeDistance = Math.min(distance, 20);
+  const offset = directionToOffset(direction, safeDistance);
   return (
     <motion.div
       initial={reduced ? false : { opacity: 0, ...offset }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, amount: 0.15 }}
       transition={{
-        duration: 0.7,
+        duration: 0.5,
         delay,
-        ease: [0.16, 1, 0.3, 1],
+        ease: EASE_OUT_EXPO,
       }}
       {...rest}
     >

@@ -1,3 +1,4 @@
+import { Container } from "@/components/layout/container";
 import { Marquee } from "@/components/media/marquee";
 import type { Dictionary } from "@/i18n/get-dictionary";
 
@@ -5,9 +6,6 @@ type LogosMarqueeProps = {
   dict: Dictionary;
 };
 
-// Placeholder customer names. Once Carlos drops real logos into
-// public/images/customers/, list them in src/lib/customers.ts and replace
-// these with <Image>s.
 const PLACEHOLDER_LOGOS = [
   "Atlas Legal",
   "Mercado Norte",
@@ -23,22 +21,26 @@ const PLACEHOLDER_LOGOS = [
 
 export function LogosMarquee({ dict }: LogosMarqueeProps) {
   return (
-    <section className="container-wide py-20">
-      <p className="mb-10 text-center text-sm font-semibold uppercase tracking-[0.18em] text-[var(--fg-muted)]">
+    <Container
+      size="wide"
+      as="section"
+      className="py-[var(--space-16)] lg:py-[var(--space-20)]"
+    >
+      <p className="mb-[var(--space-8)] text-center text-sm font-semibold uppercase tracking-[0.18em] text-[var(--fg-muted)]">
         {dict.home.logos.title}
       </p>
       <Marquee pauseOnHover>
         {PLACEHOLDER_LOGOS.map((name) => (
           <div
             key={name}
-            className="flex h-14 shrink-0 items-center justify-center px-8"
+            className="flex h-14 shrink-0 items-center justify-center px-[var(--space-8)]"
           >
-            <span className="font-display text-[clamp(20px,1.6vw,28px)] tracking-tight text-[var(--fg-subtle)] opacity-80 transition-opacity hover:opacity-100">
+            <span className="font-display text-[clamp(20px,1.6vw,28px)] tracking-tight text-[var(--fg-subtle)] opacity-80 transition-opacity duration-[var(--duration-fast)] hover:opacity-100">
               {name}
             </span>
           </div>
         ))}
       </Marquee>
-    </section>
+    </Container>
   );
 }

@@ -61,7 +61,7 @@ export default async function CareersIndexPage({ params }: PageParams) {
           ].map((perk) => (
             <div
               key={perk.title.en}
-              className="rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg)] p-6"
+              className="flex h-full flex-col rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg)] p-6"
             >
               <h3 className="font-display text-[var(--fs-h4)] tracking-tight">
                 {isEs ? perk.title.es : perk.title.en}

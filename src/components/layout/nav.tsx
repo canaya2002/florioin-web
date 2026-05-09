@@ -30,7 +30,7 @@ export function Nav({ locale, dict }: NavProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -62,7 +62,9 @@ export function Nav({ locale, dict }: NavProps) {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)]",
+        "sticky top-0 z-50 w-full",
+        // Single 250ms transition per spec — no fighting between properties.
+        "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-[250ms] ease-[var(--ease-in-out)]",
         scrolled
           ? "border-b border-[var(--border-glass)] bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[160%] shadow-[0_2px_18px_rgba(90,120,180,0.08)]"
           : "border-b border-transparent bg-transparent",
@@ -70,7 +72,7 @@ export function Nav({ locale, dict }: NavProps) {
     >
       <nav
         aria-label="Primary"
-        className="container-wide flex h-16 items-center justify-between gap-6"
+        className="container-wide flex h-16 items-center justify-between gap-[var(--space-6)]"
       >
         <Link
           href={lp}
@@ -139,7 +141,7 @@ function NavLink({
     <li>
       <Link
         href={href}
-        className="rounded-full px-3.5 py-2 text-sm font-medium text-[var(--fg-secondary)] transition-all duration-[var(--dur-fast)] ease-[var(--ease-glass)] hover:bg-[var(--glass)] hover:text-[var(--fg)]"
+        className="rounded-full px-3.5 py-2 text-sm font-medium text-[var(--fg-secondary)] transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--ease-in-out)] hover:bg-[var(--glass)] hover:text-[var(--fg)]"
       >
         {children}
       </Link>
@@ -160,7 +162,7 @@ function NavDropdown({
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            className="inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-[var(--fg-secondary)] transition-all duration-[var(--dur-fast)] ease-[var(--ease-glass)] hover:bg-[var(--glass)] hover:text-[var(--fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
+            className="inline-flex items-center gap-1 rounded-full px-3.5 py-2 text-sm font-medium text-[var(--fg-secondary)] transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--ease-in-out)] hover:bg-[var(--glass)] hover:text-[var(--fg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]"
           >
             {label}
             <ChevronDown className="h-3.5 w-3.5" aria-hidden />

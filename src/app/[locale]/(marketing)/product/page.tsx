@@ -116,7 +116,7 @@ export default async function ProductOverviewPage({ params }: PageParams) {
                       caption={`${pillar.title} demo · drop into public/videos/demos/`}
                     />
                   ) : (
-                    <div className="flex items-center justify-center">
+                    <div className="flex min-h-[80px] items-center justify-center">
                       <Icon
                         aria-hidden
                         className="h-20 w-20 text-[var(--primary)] opacity-60"

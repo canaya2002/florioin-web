@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { cloneElement, isValidElement, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -349,15 +349,27 @@ function Field({
   className,
 }: {
   label: string;
-  input: React.ReactNode;
+  input: React.ReactElement<{ id?: string; "aria-describedby"?: string }>;
   error?: string;
   className?: string;
 }) {
+  const id = useId();
+  const errorId = `${id}-err`;
+  const enhanced = isValidElement(input)
+    ? cloneElement(input, {
+        id,
+        "aria-describedby": error ? errorId : undefined,
+      })
+    : input;
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      <Label>{label}</Label>
-      {input}
-      {error && <p className="text-xs text-[var(--danger)]">{error}</p>}
+      <Label htmlFor={id}>{label}</Label>
+      {enhanced}
+      {error && (
+        <p id={errorId} className="text-xs text-[var(--danger)]">
+          {error}
+        </p>
+      )}
     </div>
   );
 }
@@ -367,10 +379,13 @@ function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
     <select
       {...props}
       className={cn(
-        "flex h-12 w-full rounded-[var(--radius-md)] border border-[var(--border-strong)]",
-        "bg-[var(--bg)] px-4 text-[15px] text-[var(--fg)]",
-        "transition-colors focus-visible:outline-none focus-visible:border-[var(--primary)] focus-visible:ring-2 focus-visible:ring-[var(--primary)]/20",
-        "aria-[invalid=true]:border-[var(--danger)]",
+        "flex h-12 w-full rounded-[var(--radius-md)] border border-[var(--border-glass)]",
+        "bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass-soft)] px-4 text-[15px] text-[var(--fg)]",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]",
+        "transition-[border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-in-out)]",
+        "hover:border-[var(--border-strong)]",
+        "focus-visible:outline-none focus-visible:border-[var(--primary)]/55 focus-visible:ring-4 focus-visible:ring-[var(--primary)]/15",
+        "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
         props.className,
       )}
     />

@@ -77,10 +77,10 @@ export default async function CustomerStoryPage({ params }: PageParams) {
             </dl>
           </div>
           <div
-            className="flex flex-col gap-2 rounded-[var(--radius-2xl)] border border-[var(--border)] p-10 text-center"
+            className="flex flex-col gap-2 rounded-[var(--radius-xl)] border border-[var(--border)] p-8 text-center md:p-10"
             style={{ background: "var(--gradient-card)" }}
           >
-            <span className="font-display text-[clamp(72px,9vw,120px)] leading-none tracking-tight text-gradient">
+            <span className="font-display text-[clamp(56px,9vw,108px)] leading-none tracking-tight text-gradient">
               {story.metric.en}
             </span>
             <span className="text-[15px] text-[var(--fg-secondary)]">

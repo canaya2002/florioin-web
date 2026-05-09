@@ -3,20 +3,23 @@ import { forwardRef, type HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * Card — translucent glass surface. Default variant is the brand-wide light
- * glass (subtle blur + soft shadow). Use `data-variant="solid"` for crisp
- * white surfaces (e.g. inside dialogs) or `data-variant="strong"` for the
- * spotlight surface used in pricing/CTA blocks.
+ * Card — translucent glass surface used everywhere. Defaults are calm
+ * (subtle blur, soft shadow, no transform on hover). To make a card feel
+ * clickable, wrap it in a Link/button or pass `data-interactive` so it
+ * lifts and gains a stronger shadow on hover.
  */
 export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "rounded-[var(--radius-xl)] border border-[var(--border-glass)]",
+        "rounded-[var(--radius-lg)] border border-[var(--border-glass)]",
         "bg-[var(--glass)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%]",
         "shadow-[var(--shadow-md)]",
-        "transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)]",
+        "transition-[box-shadow,transform,border-color] duration-[var(--duration-base)] ease-[var(--ease-in-out)]",
+        // Only interactive cards lift; default cards just shadow-up.
+        "hover:shadow-[var(--shadow-lg)]",
+        "data-[interactive=true]:cursor-pointer data-[interactive=true]:hover:-translate-y-1",
         className,
       )}
       {...props}
@@ -31,7 +34,10 @@ export const CardHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col gap-2 p-7 md:p-8", className)}
+    className={cn(
+      "flex flex-col gap-[var(--space-2)] p-[var(--space-6)] md:p-[var(--space-8)]",
+      className,
+    )}
     {...props}
   />
 ));
@@ -58,7 +64,10 @@ export const CardDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-[15px] leading-relaxed text-[var(--fg-muted)]", className)}
+    className={cn(
+      "text-[15px] leading-relaxed text-[var(--fg-muted)]",
+      className,
+    )}
     {...props}
   />
 ));
@@ -68,7 +77,11 @@ export const CardContent = forwardRef<
   HTMLDivElement,
   HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("px-7 pb-7 md:px-8 md:pb-8", className)} {...props} />
+  <div
+    ref={ref}
+    className={cn("px-[var(--space-6)] pb-[var(--space-6)] md:px-[var(--space-8)] md:pb-[var(--space-8)]", className)}
+    {...props}
+  />
 ));
 CardContent.displayName = "CardContent";
 
@@ -78,7 +91,10 @@ export const CardFooter = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center gap-3 px-7 pb-7 md:px-8 md:pb-8", className)}
+    className={cn(
+      "flex items-center gap-[var(--space-3)] px-[var(--space-6)] pb-[var(--space-6)] md:px-[var(--space-8)] md:pb-[var(--space-8)]",
+      className,
+    )}
     {...props}
   />
 ));

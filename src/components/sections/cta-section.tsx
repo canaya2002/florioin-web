@@ -1,6 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
+import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
@@ -13,9 +14,9 @@ type CtaSectionProps = {
 export function CtaSection({ locale, dict }: CtaSectionProps) {
   const lp = `/${locale}`;
   return (
-    <section className="container-default py-24">
+    <Container as="section" className="py-[var(--space-16)] lg:py-[var(--space-24)]">
       <div
-        className="relative isolate overflow-hidden rounded-[var(--radius-3xl)] border border-[var(--border-glass)] p-10 text-center shadow-[var(--shadow-xl)] md:p-20"
+        className="relative isolate overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] p-[var(--space-8)] text-center shadow-[var(--shadow-xl)] md:p-[var(--space-16)] lg:p-[var(--space-20)]"
         style={{ background: "var(--gradient-hero)" }}
       >
         {/* Soft white inner highlight at the top */}
@@ -32,15 +33,15 @@ export function CtaSection({ locale, dict }: CtaSectionProps) {
               "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.65), transparent 55%)",
           }}
         />
-        {/* Slow drifting frosted blob — adds life without distraction */}
+        {/* Static frosted halo — no animation, keeps the CTA calm. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-32 -right-24 h-96 w-96 rounded-full opacity-30 blur-3xl animate-drift-2"
+          className="pointer-events-none absolute -bottom-32 -right-24 h-96 w-96 rounded-full opacity-25 blur-3xl"
           style={{
             background: "radial-gradient(circle, #ffffff 0%, transparent 60%)",
           }}
         />
-        <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-white">
+        <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-[var(--space-6)] text-white">
           <h2 className="font-display text-[clamp(40px,5vw,72px)] leading-tight tracking-tight">
             {dict.home.finalCta.title}
           </h2>
@@ -59,6 +60,6 @@ export function CtaSection({ locale, dict }: CtaSectionProps) {
           </Link>
         </div>
       </div>
-    </section>
+    </Container>
   );
 }

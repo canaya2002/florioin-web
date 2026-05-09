@@ -21,7 +21,7 @@ export const DropdownMenuSubTrigger = forwardRef<
     ref={ref}
     className={cn(
       "flex cursor-default select-none items-center gap-2 rounded-md px-3 py-2 text-sm outline-none",
-      "focus:bg-[var(--glass)] data-[state=open]:bg-[var(--bg-subtle)]",
+      "focus:bg-[var(--glass)] data-[state=open]:bg-[var(--glass)]",
       className,
     )}
     {...props}

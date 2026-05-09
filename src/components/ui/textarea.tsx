@@ -14,10 +14,12 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         "px-4 py-3 text-[15px] text-[var(--fg)]",
         "placeholder:text-[var(--fg-subtle)] resize-y",
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]",
-        "transition-all duration-[var(--dur-fast)] ease-[var(--ease-glass)]",
-        "focus-visible:outline-none focus-visible:border-[var(--primary)]/50 focus-visible:ring-4 focus-visible:ring-[var(--primary)]/15",
+        "transition-[border-color,box-shadow,background-color] duration-[var(--duration-fast)] ease-[var(--ease-in-out)]",
+        "hover:border-[var(--border-strong)]",
+        "focus-visible:outline-none focus-visible:border-[var(--primary)]/55 focus-visible:ring-4 focus-visible:ring-[var(--primary)]/15",
         "disabled:cursor-not-allowed disabled:opacity-50",
-        "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:ring-[var(--danger)]/20",
+        "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
+        "data-[state=success]:border-[var(--success)] data-[state=success]:focus-visible:ring-[var(--success)]/20",
         className,
       )}
       {...props}
