@@ -29,44 +29,55 @@ export function HowItWorks({ dict }: HowItWorksProps) {
 
   return (
     <Container as="section" bleed>
-      <div className="mb-[var(--space-12)] flex flex-col items-start gap-[var(--space-3)] lg:items-center lg:text-center">
-        <span className="eyebrow">{dict.home.how.eyebrow}</span>
-        <h2 className="max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
+      <div className="mx-auto mb-[var(--space-12)] max-w-[760px] text-center">
+        <span className="eyebrow mb-[var(--space-3)] inline-block">
+          {dict.home.how.eyebrow}
+        </span>
+        <h2 className="font-display text-[clamp(36px,5vw,64px)] leading-[1.05] tracking-[-0.04em]">
           {dict.home.how.title}
         </h2>
       </div>
 
-      <ol className="relative grid gap-[var(--space-6)] md:grid-cols-3">
+      <ol className="grid gap-[var(--space-5)] md:grid-cols-3">
         {steps.map((step, i) => {
           const Icon = step.icon;
+          const number = `0${i + 1}`;
           return (
             <RevealOnScroll
               key={step.title}
               delay={i * 0.08}
               direction="up"
               distance={20}
-              className="group relative isolate flex h-full flex-col gap-[var(--space-5,20px)] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)] bg-[var(--glass)] p-[var(--space-8)] backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)] transition-[box-shadow] duration-[var(--duration-base)] ease-[var(--ease-in-out)] hover:shadow-[var(--shadow-lg)]"
+              className="gcard flex h-full min-h-[240px] flex-col gap-[var(--space-4)] p-[var(--space-8)]"
             >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
-              />
-              <div className="flex items-center gap-[var(--space-4)]">
-                <span
-                  className="relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-[var(--shadow-button)]"
-                  style={{ background: "var(--gradient-hero)" }}
-                  aria-hidden
-                >
-                  <Icon className="h-5 w-5" strokeWidth={2} />
+              <div className="flex items-center gap-[var(--space-3)]">
+                <span className="font-mono text-[12px] tracking-[0.08em] text-[var(--fg-muted)]">
+                  {number}
                 </span>
-                <span className="font-display text-[var(--fs-h3)] leading-none text-[var(--fg-subtle)]/55">
-                  0{i + 1}
+                <span
+                  aria-hidden
+                  className="h-px flex-1"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, var(--border-strong), transparent)",
+                  }}
+                />
+                <span
+                  aria-hidden
+                  className="grid h-9 w-9 place-items-center rounded-[11px] border"
+                  style={{
+                    background: "rgba(168, 140, 255, 0.10)",
+                    borderColor: "rgba(168, 140, 255, 0.25)",
+                    color: "#6b4ad8",
+                  }}
+                >
+                  <Icon className="h-[18px] w-[18px]" strokeWidth={1.7} />
                 </span>
               </div>
-              <h3 className="font-display text-[var(--fs-h4)] tracking-tight">
+              <h3 className="font-display text-[24px] leading-[1.2] tracking-[-0.025em]">
                 {step.title}
               </h3>
-              <p className="text-[15px] leading-relaxed text-[var(--fg-muted)]">
+              <p className="text-[14.5px] leading-[1.55] text-[var(--fg-secondary)]">
                 {step.description}
               </p>
             </RevealOnScroll>

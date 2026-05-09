@@ -16,6 +16,7 @@ export function Footer({ locale, dict }: FooterProps) {
   const lp = `/${locale}`;
   const year = new Date().getFullYear();
 
+  const isEs = locale === "es";
   const cols = [
     {
       title: dict.footer.product,
@@ -26,6 +27,16 @@ export function Footer({ locale, dict }: FooterProps) {
         { href: `${lp}/product/docs`, label: dict.nav.productDocs },
         { href: `${lp}/product/inbox`, label: dict.nav.productInbox },
         { href: `${lp}/pricing`, label: dict.nav.pricing },
+      ],
+    },
+    {
+      title: isEs ? "Industrias" : "Industries",
+      links: [
+        { href: `${lp}/solutions/logistics`, label: isEs ? "Logística" : "Logistics" },
+        { href: `${lp}/solutions/manufacturing`, label: isEs ? "Manufactura" : "Manufacturing" },
+        { href: `${lp}/solutions/consulting`, label: isEs ? "Servicios pro" : "Pro services" },
+        { href: `${lp}/solutions/healthcare`, label: isEs ? "Salud" : "Health" },
+        { href: `${lp}/solutions/construction`, label: isEs ? "Construcción" : "Construction" },
       ],
     },
     {
@@ -42,8 +53,8 @@ export function Footer({ locale, dict }: FooterProps) {
     {
       title: dict.footer.legal,
       links: [
-        { href: `${lp}/legal/privacy`, label: locale === "es" ? "Privacidad" : "Privacy" },
-        { href: `${lp}/legal/terms`, label: locale === "es" ? "Términos" : "Terms" },
+        { href: `${lp}/legal/privacy`, label: isEs ? "Privacidad" : "Privacy" },
+        { href: `${lp}/legal/terms`, label: isEs ? "Términos" : "Terms" },
         { href: `${lp}/legal/dpa`, label: "DPA" },
         { href: `${lp}/legal/cookies`, label: "Cookies" },
         { href: `${lp}/security`, label: dict.nav.security },
@@ -53,14 +64,19 @@ export function Footer({ locale, dict }: FooterProps) {
   ];
 
   return (
-    <footer className="relative isolate overflow-hidden border-t border-[var(--border-glass)] bg-[var(--bg-subtle)] py-[var(--space-16)]">
+    <footer className="relative isolate mt-[var(--space-16)] overflow-hidden border-t border-[var(--border-glass)] py-[var(--space-16)]">
+      {/* Soft top fade so the footer reads as the "ground" of the page
+          without an opaque break in the ambient gradient. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-50"
-        style={{ background: "var(--gradient-mesh)" }}
+        className="pointer-events-none absolute inset-x-0 top-0 h-[160px]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(255,255,255,0.55), transparent)",
+        }}
       />
       <div className="container-wide relative flex flex-col gap-[var(--space-12)]">
-        <div className="grid gap-[var(--space-12)] md:grid-cols-[1.4fr_repeat(3,1fr)]">
+        <div className="grid gap-[var(--space-12)] md:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="flex flex-col gap-[var(--space-4)]">
             <Logo size="md" />
             <p className="max-w-xs text-[15px] text-[var(--fg-muted)]">

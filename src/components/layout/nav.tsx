@@ -60,62 +60,69 @@ export function Nav({ locale, dict }: NavProps) {
   ];
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full",
-        // Single 250ms transition per spec — no fighting between properties.
-        "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-[250ms] ease-[var(--ease-in-out)]",
-        scrolled
-          ? "border-b border-[var(--border-glass)] bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[160%] shadow-[0_2px_18px_rgba(90,120,180,0.08)]"
-          : "border-b border-transparent bg-transparent",
-      )}
-    >
-      <nav
-        aria-label="Primary"
-        className="container-wide flex h-16 items-center justify-between gap-[var(--space-6)]"
-      >
-        <Link
-          href={lp}
-          className="flex items-center"
-          aria-label={dict.common.brand}
+    <header className="sticky top-4 z-50 w-full px-[var(--space-4)]">
+      <div className="mx-auto w-full max-w-[1440px]">
+        <nav
+          aria-label="Primary"
+          className={cn(
+            "relative flex h-[62px] items-center gap-[var(--space-3)] rounded-full border px-[var(--space-3)] pl-[var(--space-4)] backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[150%]",
+            "transition-[background-color,box-shadow] duration-[var(--duration-base)] ease-[var(--ease-in-out)]",
+            scrolled
+              ? "bg-[var(--glass-strong)] border-[var(--border-glass)] shadow-[var(--shadow-glass)]"
+              : "bg-[var(--glass)] border-[var(--border-glass)] shadow-[var(--shadow-md)]",
+          )}
         >
-          <Logo size="md" />
-        </Link>
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-x-[22px] top-0 h-px bg-gradient-to-r from-transparent via-white/90 to-transparent"
+          />
 
-        <ul className="hidden items-center gap-1 lg:flex">
-          <NavDropdown label={dict.nav.product} items={productLinks} />
-          <NavLink href={`${lp}/solutions`}>{dict.nav.solutions}</NavLink>
-          <NavLink href={`${lp}/pricing`}>{dict.nav.pricing}</NavLink>
-          <NavDropdown label={dict.nav.resources} items={resourceLinks} />
-          <NavDropdown label={dict.nav.company} items={companyLinks} />
-        </ul>
-
-        <div className="flex items-center gap-1.5">
-          <a
-            href={APP_LOGIN_URL}
-            className="hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--fg-muted)] transition-colors hover:text-[var(--fg)] md:inline-flex"
+          <Link
+            href={lp}
+            className="flex items-center gap-[var(--space-2)]"
+            aria-label={dict.common.brand}
           >
-            {dict.common.ctaSignIn}
-          </a>
-          <ThemeToggle />
-          <LanguageSwitcher currentLocale={locale} />
-          <Link href={`${lp}/request-access`} className="hidden md:inline-flex">
-            <Button size="sm" variant="primary">
-              {dict.common.ctaPrimary}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Logo size="md" />
           </Link>
-          <Button
-            size="icon"
-            variant="ghost"
-            className="lg:hidden"
-            aria-label="Open menu"
-            onClick={() => setMobileOpen(true)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
-        </div>
-      </nav>
+
+          <ul className="ml-[var(--space-4)] hidden items-center gap-[2px] lg:flex">
+            <NavDropdown label={dict.nav.product} items={productLinks} />
+            <NavLink href={`${lp}/solutions`}>{dict.nav.solutions}</NavLink>
+            <NavLink href={`${lp}/pricing`}>{dict.nav.pricing}</NavLink>
+            <NavDropdown label={dict.nav.resources} items={resourceLinks} />
+            <NavDropdown label={dict.nav.company} items={companyLinks} />
+          </ul>
+
+          <div className="ml-auto flex items-center gap-[var(--space-2)]">
+            <a
+              href={APP_LOGIN_URL}
+              className="hidden rounded-full px-3 py-2 text-sm font-medium text-[var(--fg-muted)] transition-colors hover:text-[var(--fg)] md:inline-flex"
+            >
+              {dict.common.ctaSignIn}
+            </a>
+            <ThemeToggle />
+            <LanguageSwitcher currentLocale={locale} />
+            <Link
+              href={`${lp}/request-access`}
+              className="hidden md:inline-flex"
+            >
+              <Button size="sm" variant="primary">
+                {dict.common.ctaPrimary}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+            <Button
+              size="icon"
+              variant="ghost"
+              className="lg:hidden"
+              aria-label="Open menu"
+              onClick={() => setMobileOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          </div>
+        </nav>
+      </div>
 
       <NavMobile
         open={mobileOpen}

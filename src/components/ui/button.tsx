@@ -23,15 +23,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          "text-[var(--primary-fg)] shadow-[var(--shadow-button)]",
+          "text-[var(--primary-fg)] shadow-[var(--shadow-button)] border border-white/30",
           "hover:-translate-y-px hover:brightness-[1.05]",
           "hover:shadow-[0_18px_36px_rgba(168,140,255,0.42),0_6px_14px_rgba(255,141,218,0.24),inset_0_1px_0_rgba(255,255,255,0.55)]",
-          // White inset sheen highlight
-          "before:absolute before:inset-0 before:rounded-[inherit] before:bg-[linear-gradient(180deg,rgba(255,255,255,0.32)_0%,rgba(255,255,255,0)_55%)] before:opacity-90 before:pointer-events-none",
-          // One-shot diagonal sheen on hover. Lives inside ::after, only
-          // animates on hover, no infinite loops. Hidden under reduced-motion.
-          "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:overflow-hidden",
-          "[&]:hover:after:bg-[var(--gradient-button-sheen,transparent)]",
         ],
         secondary: [
           "bg-[var(--glass-strong)] text-[var(--fg)] backdrop-blur-[var(--blur-glass-soft)]",

@@ -43,7 +43,7 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
 
   return (
     <Container as="section" bleed>
-      <h2 className="mb-[var(--space-12)] max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
+      <h2 className="mx-auto mb-[var(--space-12)] max-w-[760px] text-center font-display text-[clamp(32px,4.5vw,56px)] leading-[1.05] tracking-[-0.035em]">
         {dict.home.testimonials.title}
       </h2>
       <Stagger

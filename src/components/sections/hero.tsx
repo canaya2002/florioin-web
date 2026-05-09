@@ -1,11 +1,10 @@
 "use client";
 
-import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import Link from "next/link";
 
 import { FadeIn } from "@/components/animations/fade-in";
 import { SlideUp } from "@/components/animations/slide-up";
-import { TextReveal } from "@/components/animations/text-reveal";
 import { Container } from "@/components/layout/container";
 import { GradientPlaceholder } from "@/components/media/gradient-placeholder";
 import { Button } from "@/components/ui/button";
@@ -19,61 +18,62 @@ type HeroProps = {
   dict: Dictionary;
 };
 
-/**
- * Hero choreography (total ≈ 1.4s):
- *   eyebrow  100ms  · 400ms · y8
- *   h1       200ms  · 600ms · y16
- *   subcopy  350ms  · 500ms · y12
- *   ctas     500ms  · 400ms · y8
- *   visual   600ms  · 800ms · scale 0.96 → 1
- *
- * All entries use --ease-out-expo. Background blobs are continuous
- * ambient motion; they do not enter, they're already drifting.
- */
+const TRUST_INDUSTRIES_EN = [
+  "Logistics",
+  "Manufacturing",
+  "Pro services",
+  "Hospitality",
+  "Health",
+  "Construction",
+  "Retail",
+];
+const TRUST_INDUSTRIES_ES = [
+  "Logística",
+  "Manufactura",
+  "Servicios pro",
+  "Hospitalidad",
+  "Salud",
+  "Construcción",
+  "Retail",
+];
+
 export function Hero({ locale, dict }: HeroProps) {
   const lp = `/${locale}`;
+  const isEs = locale === "es";
+  const industries = isEs ? TRUST_INDUSTRIES_ES : TRUST_INDUSTRIES_EN;
+
   return (
-    <section
-      className={[
-        "relative isolate overflow-hidden",
-        // 80–96 mobile / 96–128 desktop top padding so the headline
-        // never hugs the nav.
-        "pb-[var(--space-16)] pt-[var(--space-20)] lg:pt-[var(--space-32)]",
-      ].join(" ")}
-    >
-      {/* Pastel ambient glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[80%]"
-        style={{ background: "var(--gradient-glow)" }}
-      />
+    <section className="relative isolate overflow-hidden pb-[var(--space-20)] pt-[140px] lg:pb-[var(--space-24)] lg:pt-[180px]">
       <FloatingBlobs variant="hero" />
 
-      <Container className="relative flex flex-col items-start gap-[var(--space-8)] lg:items-center lg:text-center">
+      <Container className="relative flex flex-col items-center gap-[var(--space-8)] text-center">
         <FadeIn delay={0.1} duration={0.4}>
-          <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border-glass)] bg-[var(--glass-strong)] px-4 py-1.5 text-sm font-medium text-[var(--fg-secondary)] shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-[var(--blur-glass-soft)]">
-            <Sparkles aria-hidden className="h-3.5 w-3.5 text-[var(--accent)]" />
-            {dict.home.hero.eyebrow}
+          <span className="eyebrow-pill">
+            <span className="dot" aria-hidden />
+            <span>{dict.home.hero.eyebrow}</span>
           </span>
         </FadeIn>
 
-        {/* Hero H1 uses --fs-h1 (40–80px) not --fs-display (56–112px) — the
-            display size overflows long Spanish headlines on 375px viewports. */}
-        <h1 className="font-display text-[var(--fs-h1)] leading-[1.05] tracking-[-0.04em] text-[var(--fg)]">
-          <TextReveal>{dict.home.hero.headline}</TextReveal>
-        </h1>
+        <SlideUp delay={0.2} duration={0.6} distance={16}>
+          <h1 className="mx-auto max-w-[980px] font-display text-[clamp(40px,6.5vw,88px)] leading-[1.04] tracking-[-0.045em] text-[var(--fg)] [text-wrap:balance]">
+            {dict.home.hero.headlinePrefix}{" "}
+            <span className="text-gradient">
+              {dict.home.hero.headlineHighlight}
+            </span>
+          </h1>
+        </SlideUp>
 
-        <SlideUp delay={0.35} duration={0.5} distance={12} className="max-w-2xl">
-          <p className="text-[var(--fs-body-lg)] leading-relaxed text-[var(--fg-muted)]">
+        <SlideUp delay={0.4} duration={0.5} distance={12} className="max-w-[680px]">
+          <p className="text-[var(--fs-body-lg)] leading-[1.55] text-[var(--fg-secondary)]">
             {dict.home.hero.sub}
           </p>
         </SlideUp>
 
         <SlideUp
-          delay={0.5}
+          delay={0.55}
           duration={0.4}
           distance={8}
-          className="flex w-full flex-wrap items-center gap-[var(--space-3)] sm:w-auto"
+          className="flex w-full flex-col items-stretch justify-center gap-[var(--space-3)] sm:w-auto sm:flex-row sm:items-center"
         >
           <Link href={`${lp}/request-access`} className="w-full sm:w-auto">
             <Button size="lg" variant="primary" className="w-full sm:w-auto">
@@ -83,13 +83,13 @@ export function Hero({ locale, dict }: HeroProps) {
           </Link>
           <Button
             size="lg"
-            variant="outline"
+            variant="secondary"
             asChild
             className="w-full sm:w-auto"
           >
             <a href="#demo">
               <Play className="h-4 w-4" />
-              {dict.common.ctaSecondary}
+              {dict.home.hero.watchDemo}
             </a>
           </Button>
           <a
@@ -101,35 +101,44 @@ export function Hero({ locale, dict }: HeroProps) {
         </SlideUp>
 
         <SlideUp
-          delay={0.6}
+          delay={0.7}
           duration={0.8}
           distance={20}
-          className="w-full"
+          className="mt-[var(--space-12)] w-full"
         >
           <div
             id="demo"
-            className="relative mx-auto mt-[var(--space-8)] w-full max-w-5xl scroll-mt-24"
+            className="relative mx-auto w-full max-w-[1120px] scroll-mt-32 rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass-soft)] p-[14px] shadow-[var(--shadow-xl)] backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[150%]"
           >
-            {/* Pastel halo behind the glass shell — clipped by section overflow */}
-            <div
+            <span
               aria-hidden
-              className="pointer-events-none absolute -inset-8 rounded-[var(--radius-2xl)] opacity-50 blur-3xl"
-              style={{ background: "var(--gradient-hero)" }}
+              className="pointer-events-none absolute inset-x-[32px] top-0 h-px bg-gradient-to-r from-transparent via-white/95 to-transparent"
             />
-            {/* Glass shell — LCP target is the poster inside, not a video. */}
-            <div className="relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-glass)] bg-[var(--glass-strong)] p-[var(--space-2)] shadow-[var(--shadow-xl)] backdrop-blur-[var(--blur-glass)]">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
-              />
-              <GradientPlaceholder
-                className="aspect-[16/9]"
-                variant="dawn"
-                caption="Hero demo · drop into public/videos/hero/"
-              />
-            </div>
+            <GradientPlaceholder
+              className="aspect-[16/10] rounded-[var(--radius-xl)]"
+              variant="dawn"
+              caption="Hero demo · drop into public/videos/hero/"
+            />
           </div>
         </SlideUp>
+
+        <FadeIn delay={0.9} duration={0.5}>
+          <div className="mx-auto mt-[var(--space-8)] flex max-w-[920px] flex-col items-center gap-[var(--space-4)] sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-[var(--space-8)] sm:gap-y-[var(--space-3)]">
+            <span className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-[var(--fg-muted)]">
+              {dict.home.hero.trustLabel}
+            </span>
+            <ul className="flex flex-wrap items-center justify-center gap-x-[var(--space-6)] gap-y-[var(--space-2)]">
+              {industries.map((industry) => (
+                <li
+                  key={industry}
+                  className="font-display text-[15px] tracking-[-0.02em] text-[var(--fg-secondary)]"
+                >
+                  {industry}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </FadeIn>
       </Container>
     </section>
   );

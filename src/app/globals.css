@@ -443,6 +443,82 @@ body {
   box-shadow: var(--shadow-glass);
 }
 
+/* Glass card primitive (.gcard) — the kit's canonical elevated panel.
+   Translucent white, 32px radius, soft border, inset top highlight. Use
+   for bento tiles, pricing card, how-it-works steps, manifesto pull-quote. */
+.gcard {
+  position: relative;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-glass);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  box-shadow: var(--shadow-glass);
+  overflow: hidden;
+}
+.gcard::before {
+  content: "";
+  position: absolute;
+  inset-inline: 18px;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.85),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Eyebrow pill — small glass badge with a gradient dot. Used above hero
+   headlines and on prominent CTAs. */
+.eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 9999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  border: 1px solid var(--border-glass);
+  box-shadow: var(--shadow-sm);
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--fg-secondary);
+  letter-spacing: 0.02em;
+}
+.eyebrow-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gradient-hero);
+}
+
+/* Round 44px glass icon button — used in nav and toolbars. */
+.icon-btn {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 1px solid var(--border-glass);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+  color: var(--fg);
+  cursor: pointer;
+  transition:
+    box-shadow var(--duration-fast) var(--ease-in-out),
+    transform var(--duration-fast) var(--ease-in-out);
+}
+.icon-btn:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
 /* Animated gradient border — sits on top of the surface as a thin sheen */
 .glass-border-glow {
   position: relative;

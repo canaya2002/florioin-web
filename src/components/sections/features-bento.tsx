@@ -28,9 +28,9 @@ export function FeaturesBento({ locale, dict }: FeaturesBentoProps) {
     <section className="relative isolate overflow-hidden section">
       <FloatingBlobs variant="subtle" />
       <Container size="wide" className="relative">
-        <div className="mb-[var(--space-12)] flex flex-col items-start gap-[var(--space-3)] lg:items-center lg:text-center">
+        <div className="mx-auto mb-[var(--space-12)] flex max-w-[760px] flex-col items-center gap-[var(--space-3)] text-center">
           <span className="eyebrow">{dict.home.what.eyebrow}</span>
-          <h2 className="max-w-3xl font-display text-[var(--fs-h2)] leading-tight tracking-tight">
+          <h2 className="font-display text-[clamp(32px,4.5vw,56px)] leading-[1.05] tracking-[-0.035em]">
             {dict.home.what.title}
           </h2>
         </div>

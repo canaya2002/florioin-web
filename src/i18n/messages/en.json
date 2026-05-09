@@ -51,8 +51,17 @@
     "hero": {
       "eyebrow": "Built for ambitious teams",
       "headline": "The operating system of your business, with AI",
+      "headlinePrefix": "The operating system of your business, with",
+      "headlineHighlight": "AI",
       "sub": "FlorioIn brings tasks, documents, inbox, and an AI Co-Pilot into a single platform. You speak. You write. You decide. And it becomes finished work.",
-      "watchDemo": "Watch demo · 2 min"
+      "watchDemo": "Watch demo · 2 min",
+      "trustLabel": "Used by teams in"
+    },
+    "manifesto": {
+      "eyebrow": "Manifesto",
+      "bodyPrefix": "Built for companies that value their",
+      "bodyHighlight": "time",
+      "bodySuffix": "The product should disappear; the work should not."
     },
     "what": {
       "eyebrow": "What FlorioIn does",

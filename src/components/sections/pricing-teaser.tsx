@@ -1,4 +1,4 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, CircleCheck } from "lucide-react";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
@@ -19,91 +19,108 @@ export function PricingTeaser({ locale, dict }: PricingTeaserProps) {
 
   const includes = isEs
     ? [
-        "Co-Piloto IA con límites razonables",
-        "Tasks · Docs · Inbox · Forms — todo",
-        "Apps web · iOS · iPad · Android · Mac · Win · Linux",
-        "Modo oscuro · ES + EN",
-        "Seguridad enterprise: SSO, RLS, audit logs",
-        "Reembolso 100% en los primeros 30 días",
+        "Tasks · tableros ilimitados",
+        "Docs · páginas ilimitadas",
+        "Smart Inbox",
+        "Co-Pilot · prompts ilimitados",
+        "Español + Inglés",
+        "99.99% uptime SLA",
+        "SSO / SAML en cada plan",
       ]
     : [
-        "AI Co-Pilot with reasonable limits",
-        "Tasks · Docs · Inbox · Forms — everything",
-        "Web · iOS · iPad · Android · Mac · Win · Linux apps",
-        "Dark mode · EN + ES",
-        "Enterprise security: SSO, RLS, audit logs",
-        "100% refund in the first 30 days",
+        "Tasks · unlimited boards",
+        "Docs · unlimited pages",
+        "Smart Inbox",
+        "Co-Pilot · unlimited prompts",
+        "Spanish + English",
+        "99.99% uptime SLA",
+        "SSO / SAML on every plan",
       ];
 
   return (
     <section className="relative isolate overflow-hidden section">
       <FloatingBlobs variant="violet" />
       <Container className="relative">
-        <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass-strong)] p-[var(--space-8)] backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[160%] shadow-[var(--shadow-xl)] md:p-[var(--space-12)]">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-100"
-            style={{ background: "var(--gradient-card)" }}
-          />
-          <div className="relative grid gap-[var(--space-8)] md:grid-cols-2 md:gap-[var(--space-12)]">
-            <div className="flex flex-col gap-[var(--space-6)]">
-              <span className="eyebrow">{dict.home.pricing.eyebrow}</span>
-              <h2 className="font-display text-[var(--fs-h2)] leading-tight tracking-tight">
-                {dict.home.pricing.title}
-              </h2>
-              <p className="text-[var(--fs-body-lg)] leading-relaxed text-[var(--fg-muted)]">
-                {dict.home.pricing.sub}
-              </p>
-              <div className="flex items-baseline gap-2">
-                <span className="text-gradient font-display text-[clamp(64px,8vw,112px)] leading-none">
-                  ${PRICING.perSeat}
-                </span>
-                <span className="text-[var(--fg-muted)]">
-                  {isEs ? "/ usuario / mes" : "/ user / month"}
-                </span>
-              </div>
-              <div className="mt-[var(--space-2)] flex flex-wrap items-center gap-[var(--space-3)]">
-                <Link
-                  href={`${lp}/pricing`}
-                  className="w-full sm:w-auto"
-                >
-                  <Button size="lg" variant="primary" className="w-full sm:w-auto">
-                    {dict.home.pricing.cta}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </Link>
-                <Link
-                  href={`${lp}/request-access`}
-                  className="w-full sm:w-auto"
-                >
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                    {dict.common.ctaPrimary}
-                  </Button>
-                </Link>
-              </div>
-            </div>
+        <div className="mx-auto mb-[var(--space-10)] max-w-[760px] text-center">
+          <span className="eyebrow mb-[var(--space-3)] inline-block">
+            {dict.home.pricing.eyebrow}
+          </span>
+          <h2 className="font-display text-[clamp(36px,5vw,64px)] leading-[1.05] tracking-[-0.04em]">
+            <span className="text-gradient">${PRICING.perSeat}</span>{" "}
+            {isEs
+              ? "por usuario. Por mes. Para siempre."
+              : "per seat. Per month. Forever."}
+          </h2>
+          <p className="mx-auto mt-[var(--space-4)] max-w-[560px] text-[18px] leading-[1.55] text-[var(--fg-secondary)]">
+            {dict.home.pricing.sub}
+          </p>
+        </div>
 
-            <ul className="flex flex-col gap-[var(--space-3)]">
-              {includes.map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span
-                    aria-hidden
-                    className="mt-0.5 inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-full shadow-[var(--shadow-button)]"
-                    style={{ background: "var(--gradient-hero)" }}
-                  >
-                    <Check className="h-3 w-3 text-white" strokeWidth={3} />
-                  </span>
-                  <span className="text-[15px] text-[var(--fg-secondary)]">
-                    {item}
-                  </span>
-                </li>
-              ))}
-            </ul>
+        <div className="gcard mx-auto grid max-w-[780px] items-center gap-[var(--space-8)] p-[var(--space-8)] md:grid-cols-[1fr_1px_1fr] md:px-[36px] md:py-[32px]">
+          <div>
+            <div className="flex items-baseline gap-[10px]">
+              <span
+                className="font-display text-[96px] leading-none tracking-[-0.05em]"
+                style={{
+                  background: "var(--gradient-hero)",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                ${PRICING.perSeat}
+              </span>
+              <span className="text-[14px] leading-[1.3] text-[var(--fg-muted)]">
+                USD
+                <br />
+                {isEs ? "por usuario / mes" : "per seat / mo"}
+              </span>
+            </div>
+            <div className="mt-[var(--space-3)] font-mono text-[12px] text-[var(--fg-muted)]">
+              {isEs
+                ? "facturado mensual · cancela cuando quieras"
+                : "billed monthly · cancel anytime"}
+            </div>
+            <Link
+              href={`${lp}/request-access`}
+              className="mt-[var(--space-6)] inline-block"
+            >
+              <Button size="lg" variant="primary">
+                {dict.common.ctaPrimary}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
+
+          <div
+            aria-hidden
+            className="hidden h-full md:block"
+            style={{
+              background:
+                "linear-gradient(180deg, transparent, var(--border-strong), transparent)",
+            }}
+          />
+
+          <ul className="flex flex-col gap-[var(--space-3)]">
+            {includes.map((item) => (
+              <li
+                key={item}
+                className="flex items-center gap-[10px] text-[14.5px] text-[var(--fg-secondary)]"
+              >
+                <span
+                  aria-hidden
+                  className="grid h-5 w-5 place-items-center rounded-full"
+                  style={{
+                    background: "rgba(52, 199, 154, 0.18)",
+                    color: "#1f8a5b",
+                  }}
+                >
+                  <CircleCheck className="h-[14px] w-[14px]" strokeWidth={2} />
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </Container>
     </section>

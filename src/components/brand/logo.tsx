@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 
 type LogoProps = {
@@ -8,9 +10,9 @@ type LogoProps = {
 
 const sizeMap = {
   sm: { mark: 24, text: "text-base" },
-  md: { mark: 32, text: "text-lg" },
-  lg: { mark: 44, text: "text-2xl" },
-  xl: { mark: 64, text: "text-4xl" },
+  md: { mark: 36, text: "text-[19px]" },
+  lg: { mark: 48, text: "text-2xl" },
+  xl: { mark: 72, text: "text-4xl" },
 } as const;
 
 export function Logo({
@@ -19,51 +21,25 @@ export function Logo({
   className,
 }: LogoProps) {
   const { mark, text } = sizeMap[size];
-  const gradientId = `florioin-grad-${size}`;
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 font-display tracking-tight",
+        "inline-flex items-center gap-2 font-display tracking-[-0.025em]",
         text,
         className,
       )}
       aria-label="FlorioIn"
     >
-      <svg
+      <Image
+        src="/logos/FlorioinLogo.png"
+        alt=""
         width={mark}
         height={mark}
-        viewBox="0 0 64 64"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        className="shrink-0"
-      >
-        <defs>
-          <linearGradient
-            id={gradientId}
-            x1="0"
-            y1="0"
-            x2="64"
-            y2="64"
-            gradientUnits="userSpaceOnUse"
-          >
-            <stop offset="0%" stopColor="#FF8DDA" />
-            <stop offset="50%" stopColor="#A88CFF" />
-            <stop offset="100%" stopColor="#38E4FF" />
-          </linearGradient>
-        </defs>
-        <rect
-          width="64"
-          height="64"
-          rx="14"
-          fill={`url(#${gradientId})`}
-        />
-        <path
-          d="M22 18 H46 V26 H30 V32 H42 V40 H30 V50 H22 Z"
-          fill="white"
-        />
-      </svg>
+        priority
+        className="shrink-0 select-none"
+        style={{ width: mark, height: mark }}
+      />
       {variant === "full" && (
         <span className="font-display text-current">FlorioIn</span>
       )}

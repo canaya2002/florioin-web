@@ -36,7 +36,7 @@ export function PageHero({
     <section
       className={cn(
         "relative isolate overflow-hidden",
-        "pb-[var(--space-12)] pt-[var(--space-20)] lg:pt-[var(--space-24)]",
+        "pb-[var(--space-16)] pt-[140px] lg:pb-[var(--space-20)] lg:pt-[180px]",
         className,
       )}
     >

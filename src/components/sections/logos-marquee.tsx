@@ -21,11 +21,7 @@ const PLACEHOLDER_LOGOS = [
 
 export function LogosMarquee({ dict }: LogosMarqueeProps) {
   return (
-    <Container
-      size="wide"
-      as="section"
-      className="py-[var(--space-16)] lg:py-[var(--space-20)]"
-    >
+    <Container size="wide" as="section" bleed>
       <p className="mb-[var(--space-8)] text-center text-sm font-semibold uppercase tracking-[0.18em] text-[var(--fg-muted)]">
         {dict.home.logos.title}
       </p>

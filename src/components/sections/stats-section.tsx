@@ -40,14 +40,10 @@ export function StatsSection({ locale, dict }: StatsSectionProps) {
   ];
 
   return (
-    <section className="relative isolate overflow-hidden py-[var(--space-16)] lg:py-[var(--space-20)]">
+    <section className="section relative isolate overflow-hidden">
       <FloatingBlobs variant="cyan" />
       <Container>
-        <div className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass)] px-[var(--space-6)] py-[var(--space-12)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%] shadow-[var(--shadow-lg)] md:px-[var(--space-12)] md:py-[var(--space-16)]">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
-          />
+        <div className="gcard px-[var(--space-6)] py-[var(--space-12)] md:px-[var(--space-12)] md:py-[var(--space-16)]">
           <h2 className="mb-[var(--space-12)] text-center font-display text-[var(--fs-h3)] tracking-tight">
             {dict.home.stats.title}
           </h2>

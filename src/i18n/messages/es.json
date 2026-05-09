@@ -51,8 +51,17 @@
     "hero": {
       "eyebrow": "Hecho para empresas ambiciosas",
       "headline": "El sistema operativo de tu empresa, con IA",
+      "headlinePrefix": "El sistema operativo de tu empresa, con",
+      "headlineHighlight": "IA",
       "sub": "FlorioIn une tareas, documentos, bandeja y un Co-Piloto de IA en una sola plataforma. Hablas. Escribes. Decides. Y se convierte en trabajo terminado.",
-      "watchDemo": "Ver demo · 2 min"
+      "watchDemo": "Ver demo · 2 min",
+      "trustLabel": "Usado por equipos en"
+    },
+    "manifesto": {
+      "eyebrow": "Manifiesto",
+      "bodyPrefix": "Hecho para empresas que valoran su",
+      "bodyHighlight": "tiempo",
+      "bodySuffix": "El producto debe desaparecer; el trabajo, no."
     },
     "what": {
       "eyebrow": "Lo que hace FlorioIn",
