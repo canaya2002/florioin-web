@@ -53,8 +53,13 @@ export function Footer({ locale, dict }: FooterProps) {
   ];
 
   return (
-    <footer className="border-t border-[var(--border)] bg-[var(--bg-subtle)] py-16">
-      <div className="container-wide flex flex-col gap-12">
+    <footer className="relative isolate overflow-hidden border-t border-[var(--border-glass)] bg-[var(--bg-subtle)] py-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-50"
+        style={{ background: "var(--gradient-mesh)" }}
+      />
+      <div className="container-wide relative flex flex-col gap-12">
         <div className="grid gap-12 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div className="flex flex-col gap-4">
             <Logo size="md" />
@@ -67,7 +72,7 @@ export function Footer({ locale, dict }: FooterProps) {
                 rel="noreferrer"
                 target="_blank"
                 aria-label="Twitter"
-                className="rounded-full p-2 text-[var(--fg-muted)] hover:bg-[var(--bg)] hover:text-[var(--fg)]"
+                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
               >
                 <TwitterIcon />
               </a>
@@ -76,7 +81,7 @@ export function Footer({ locale, dict }: FooterProps) {
                 rel="noreferrer"
                 target="_blank"
                 aria-label="LinkedIn"
-                className="rounded-full p-2 text-[var(--fg-muted)] hover:bg-[var(--bg)] hover:text-[var(--fg)]"
+                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
               >
                 <LinkedInIcon />
               </a>
@@ -85,7 +90,7 @@ export function Footer({ locale, dict }: FooterProps) {
                 rel="noreferrer"
                 target="_blank"
                 aria-label="GitHub"
-                className="rounded-full p-2 text-[var(--fg-muted)] hover:bg-[var(--bg)] hover:text-[var(--fg)]"
+                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
               >
                 <GitHubIcon />
               </a>
@@ -124,7 +129,7 @@ export function Footer({ locale, dict }: FooterProps) {
           ))}
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-4 border-t border-[var(--border)] pt-8 text-sm text-[var(--fg-muted)] md:flex-row md:items-center">
+        <div className="flex flex-col items-start justify-between gap-4 border-t border-[var(--border-glass)] pt-8 text-sm text-[var(--fg-muted)] md:flex-row md:items-center">
           <p>{dict.footer.copyright.replace("{year}", String(year))}</p>
           <div className="flex items-center gap-2">
             <ThemeToggle ariaLabel={dict.footer.theme} />

@@ -2,6 +2,7 @@
 
 import { CountUp } from "@/components/animations/count-up";
 import { Stagger, StaggerItem } from "@/components/animations/stagger";
+import { FloatingBlobs } from "@/components/ui/floating-blobs";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
 
@@ -38,26 +39,38 @@ export function StatsSection({ locale, dict }: StatsSectionProps) {
   ];
 
   return (
-    <section className="border-y border-[var(--border)] bg-[var(--bg-subtle)] py-20">
-      <div className="container-default">
-        <h2 className="mb-12 text-center font-display text-[var(--fs-h3)] tracking-tight">
-          {dict.home.stats.title}
-        </h2>
-        <Stagger className="grid grid-cols-2 gap-10 sm:grid-cols-4">
-          {stats.map((stat, i) => (
-            <StaggerItem key={i} className="flex flex-col items-center gap-2 text-center">
-              <div className="font-display text-[clamp(48px,6vw,80px)] leading-none tracking-tight">
-                <CountUp
-                  to={stat.value}
-                  format={stat.format}
-                  prefix={stat.prefix}
-                  suffix={stat.suffix}
-                />
-              </div>
-              <p className="text-[15px] text-[var(--fg-muted)]">{stat.label}</p>
-            </StaggerItem>
-          ))}
-        </Stagger>
+    <section className="relative isolate overflow-hidden py-24">
+      <FloatingBlobs variant="cyan" />
+      <div className="container-default relative">
+        <div className="relative overflow-hidden rounded-[var(--radius-3xl)] border border-[var(--border-glass)] bg-[var(--glass)] px-8 py-16 backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%] shadow-[var(--shadow-lg)] md:px-16">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
+          />
+          <h2 className="mb-12 text-center font-display text-[var(--fs-h3)] tracking-tight">
+            {dict.home.stats.title}
+          </h2>
+          <Stagger className="grid grid-cols-2 gap-10 sm:grid-cols-4">
+            {stats.map((stat, i) => (
+              <StaggerItem
+                key={i}
+                className="flex flex-col items-center gap-2 text-center"
+              >
+                <div className="text-gradient font-display text-[clamp(48px,6vw,80px)] leading-none tracking-tight">
+                  <CountUp
+                    to={stat.value}
+                    format={stat.format}
+                    prefix={stat.prefix}
+                    suffix={stat.suffix}
+                  />
+                </div>
+                <p className="text-[15px] text-[var(--fg-muted)]">
+                  {stat.label}
+                </p>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
       </div>
     </section>
   );

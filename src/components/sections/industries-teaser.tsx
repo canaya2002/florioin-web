@@ -29,7 +29,7 @@ type IndustriesTeaserProps = {
 };
 
 type IndustryMeta = {
-  icon: ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string; strokeWidth?: number }>;
   labelEn: string;
   labelEs: string;
 };
@@ -88,17 +88,30 @@ export function IndustriesTeaser({ locale, dict }: IndustriesTeaserProps) {
             <li key={industry}>
               <Link
                 href={`${lp}/solutions/${industry}`}
-                className="group flex h-full flex-col items-start gap-3 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg)] p-5 transition-all hover:-translate-y-0.5 hover:border-[var(--primary)]/40 hover:shadow-[var(--shadow-md)]"
+                className="group relative flex h-full flex-col items-start gap-3 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)] bg-[var(--glass)] p-5 backdrop-blur-[var(--blur-glass-soft)] shadow-[var(--shadow-sm)] transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] hover:-translate-y-1 hover:border-[var(--primary)]/45 hover:shadow-[var(--shadow-md)]"
               >
-                <Icon
+                <span
                   aria-hidden
-                  className="h-6 w-6 text-[var(--primary)] transition-transform group-hover:scale-110"
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
                 />
-                <span className="text-sm font-medium text-[var(--fg)]">
+                <span
+                  className="flex h-10 w-10 items-center justify-center rounded-[var(--radius-md)] border border-[var(--border-glass)] backdrop-blur-[var(--blur-glass-soft)]"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, rgba(168,140,255,0.20), rgba(56,228,255,0.14))",
+                  }}
+                >
+                  <Icon
+                    aria-hidden
+                    className="h-5 w-5 text-[var(--primary)] transition-transform duration-[var(--dur-base)] ease-[var(--ease-spring)] group-hover:scale-110"
+                    strokeWidth={1.6}
+                  />
+                </span>
+                <span className="text-sm font-semibold text-[var(--fg)]">
                   {label}
                 </span>
-                <span className="ml-auto inline-flex items-center text-[var(--fg-subtle)]">
-                  <ArrowUpRight className="h-4 w-4 opacity-0 transition-opacity group-hover:opacity-100" />
+                <span className="mt-auto inline-flex items-center text-[var(--fg-subtle)]">
+                  <ArrowUpRight className="h-4 w-4 -translate-x-1 opacity-0 transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] group-hover:translate-x-0 group-hover:opacity-100" />
                 </span>
               </Link>
             </li>

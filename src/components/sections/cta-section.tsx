@@ -15,29 +15,43 @@ export function CtaSection({ locale, dict }: CtaSectionProps) {
   return (
     <section className="container-default py-24">
       <div
-        className="relative overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border)] p-10 text-center md:p-20"
+        className="relative isolate overflow-hidden rounded-[var(--radius-3xl)] border border-[var(--border-glass)] p-10 text-center shadow-[var(--shadow-xl)] md:p-20"
         style={{ background: "var(--gradient-hero)" }}
       >
+        {/* Soft white inner highlight at the top */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-20"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/60"
+        />
+        {/* Frosted radial wash to brighten the centre */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-40"
           style={{
             backgroundImage:
-              "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.5), transparent 50%)",
+              "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.65), transparent 55%)",
+          }}
+        />
+        {/* Slow drifting frosted blob — adds life without distraction */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -bottom-32 -right-24 h-96 w-96 rounded-full opacity-30 blur-3xl animate-drift-2"
+          style={{
+            background: "radial-gradient(circle, #ffffff 0%, transparent 60%)",
           }}
         />
         <div className="relative mx-auto flex max-w-2xl flex-col items-center gap-6 text-white">
           <h2 className="font-display text-[clamp(40px,5vw,72px)] leading-tight tracking-tight">
             {dict.home.finalCta.title}
           </h2>
-          <p className="text-[var(--fs-body-lg)] text-white/80">
+          <p className="text-[var(--fs-body-lg)] leading-relaxed text-white/85">
             {dict.home.finalCta.sub}
           </p>
           <Link href={`${lp}/request-access`}>
             <Button
               size="xl"
               variant="secondary"
-              className="bg-white text-[var(--fg)] shadow-[var(--shadow-lg)] hover:bg-white"
+              className="bg-white text-[var(--fg)] shadow-[0_18px_42px_rgba(0,0,0,0.18)] hover:bg-white"
             >
               {dict.common.ctaPrimary}
               <ArrowRight className="h-5 w-5" />

@@ -14,7 +14,7 @@ export const AccordionItem = forwardRef<
 >(({ className, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b border-[var(--border)]", className)}
+    className={cn("border-b border-[var(--border-glass)]", className)}
     {...props}
   />
 ));

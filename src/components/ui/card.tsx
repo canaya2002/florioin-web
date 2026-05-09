@@ -2,12 +2,21 @@ import { forwardRef, type HTMLAttributes } from "react";
 
 import { cn } from "@/lib/utils";
 
+/**
+ * Card — translucent glass surface. Default variant is the brand-wide light
+ * glass (subtle blur + soft shadow). Use `data-variant="solid"` for crisp
+ * white surfaces (e.g. inside dialogs) or `data-variant="strong"` for the
+ * spotlight surface used in pricing/CTA blocks.
+ */
 export const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
       className={cn(
-        "rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg)] shadow-[var(--shadow-sm)]",
+        "rounded-[var(--radius-xl)] border border-[var(--border-glass)]",
+        "bg-[var(--glass)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%]",
+        "shadow-[var(--shadow-md)]",
+        "transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)]",
         className,
       )}
       {...props}
@@ -22,7 +31,7 @@ export const CardHeader = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex flex-col gap-1.5 p-6", className)}
+    className={cn("flex flex-col gap-2 p-7 md:p-8", className)}
     {...props}
   />
 ));
@@ -49,7 +58,7 @@ export const CardDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-[15px] text-[var(--fg-muted)]", className)}
+    className={cn("text-[15px] leading-relaxed text-[var(--fg-muted)]", className)}
     {...props}
   />
 ));
@@ -59,7 +68,7 @@ export const CardContent = forwardRef<
   HTMLDivElement,
   HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("p-6 pt-0", className)} {...props} />
+  <div ref={ref} className={cn("px-7 pb-7 md:px-8 md:pb-8", className)} {...props} />
 ));
 CardContent.displayName = "CardContent";
 
@@ -69,7 +78,7 @@ export const CardFooter = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("flex items-center gap-3 p-6 pt-0", className)}
+    className={cn("flex items-center gap-3 px-7 pb-7 md:px-8 md:pb-8", className)}
     {...props}
   />
 ));

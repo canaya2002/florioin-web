@@ -5,52 +5,85 @@ type GradientPlaceholderProps = {
   className?: string;
   /** A small caption describing what asset goes here. */
   caption?: string;
+  variant?: "default" | "frosted" | "dawn" | "violet" | "cyan";
 };
 
 /**
- * Used during development before real product imagery exists. Once Carlos
- * drops real assets in, swap this for `<LazyImage>` or `<AutoplayVideo>`.
+ * Premium media shell used during development before real product imagery
+ * exists. Once Carlos drops real assets in, swap this for `<LazyImage>`,
+ * `<AutoplayVideo>`, or `<MediaShell>` with a poster.
+ *
+ * The look is Apple-like: pastel gradient, frosted highlight, soft grid,
+ * a tiny glass label so engineers know what asset belongs where.
  */
 export function GradientPlaceholder({
   label,
   className,
   caption,
+  variant = "default",
 }: GradientPlaceholderProps) {
+  const gradient =
+    variant === "violet"
+      ? "linear-gradient(135deg, rgba(168,140,255,0.32) 0%, rgba(255,141,218,0.20) 60%, rgba(56,228,255,0.18) 100%)"
+      : variant === "cyan"
+        ? "linear-gradient(135deg, rgba(56,228,255,0.32) 0%, rgba(168,140,255,0.22) 60%, rgba(255,141,218,0.16) 100%)"
+        : variant === "dawn"
+          ? "linear-gradient(135deg, rgba(255,141,218,0.32) 0%, rgba(168,140,255,0.24) 50%, rgba(56,228,255,0.20) 100%)"
+          : variant === "frosted"
+            ? "linear-gradient(135deg, rgba(245,240,255,0.85) 0%, rgba(238,247,255,0.85) 100%)"
+            : "linear-gradient(135deg, rgba(255,141,218,0.20) 0%, rgba(168,140,255,0.20) 50%, rgba(56,228,255,0.18) 100%)";
   return (
     <div
       className={cn(
-        "relative h-full w-full overflow-hidden rounded-[var(--radius-lg)]",
-        "border border-[var(--border)]",
+        "relative h-full w-full overflow-hidden rounded-[var(--radius-xl)]",
+        "border border-[var(--border-glass)] shadow-[var(--shadow-md)]",
         className,
       )}
       style={{
-        background:
-          "linear-gradient(135deg, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.16) 50%, rgba(236,72,153,0.14) 100%)",
+        background: gradient,
       }}
       aria-hidden={!label}
       role={label ? "img" : undefined}
       aria-label={label}
     >
+      {/* Glass top highlight */}
       <div
         aria-hidden
-        className="absolute inset-0 opacity-40"
+        className="absolute inset-0 opacity-80"
         style={{
           background:
-            "radial-gradient(circle at 30% 20%, rgba(255,255,255,0.4), transparent 50%)",
+            "linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.0) 35%)",
         }}
       />
+      {/* Soft radial */}
       <div
         aria-hidden
-        className="absolute inset-0"
+        className="absolute inset-0 opacity-60"
         style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          background:
+            "radial-gradient(circle at 28% 22%, rgba(255,255,255,0.55), transparent 55%)",
         }}
       />
+      {/* Tiny dotted grid (much subtler than the previous square grid) */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-50"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(20, 24, 40, 0.07) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          backgroundPosition: "0 0",
+        }}
+      />
+      {/* Inset white border */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-px rounded-[calc(var(--radius-xl)-1px)] ring-1 ring-inset ring-white/45"
+      />
       {(label || caption) && (
-        <div className="absolute bottom-3 left-3 right-3 flex flex-col gap-0.5 rounded-md bg-black/30 p-2 text-[11px] font-medium text-white/90 backdrop-blur-sm">
-          {label && <span>{label}</span>}
+        <div className="absolute bottom-3 left-3 right-3 inline-flex max-w-fit items-center gap-2 rounded-full border border-[var(--border-glass)] bg-white/55 px-3 py-1.5 text-[11px] font-medium text-[var(--fg)] backdrop-blur-md">
+          {label && <span className="font-semibold">{label}</span>}
+          {label && caption && <span aria-hidden className="opacity-30">·</span>}
           {caption && <span className="opacity-70">{caption}</span>}
         </div>
       )}

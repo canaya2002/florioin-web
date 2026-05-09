@@ -21,7 +21,7 @@ export const DropdownMenuSubTrigger = forwardRef<
     ref={ref}
     className={cn(
       "flex cursor-default select-none items-center gap-2 rounded-md px-3 py-2 text-sm outline-none",
-      "focus:bg-[var(--bg-subtle)] data-[state=open]:bg-[var(--bg-subtle)]",
+      "focus:bg-[var(--glass)] data-[state=open]:bg-[var(--bg-subtle)]",
       className,
     )}
     {...props}
@@ -39,7 +39,8 @@ export const DropdownMenuSubContent = forwardRef<
   <DropdownPrimitive.SubContent
     ref={ref}
     className={cn(
-      "z-50 min-w-[8rem] overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg)] p-1 shadow-[var(--shadow-lg)]",
+      "z-50 min-w-[8rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)]",
+      "bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass)] p-1.5 shadow-[var(--shadow-lg)]",
       className,
     )}
     {...props}
@@ -56,7 +57,9 @@ export const DropdownMenuContent = forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg)] p-1 shadow-[var(--shadow-lg)]",
+        "z-50 min-w-[10rem] overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-glass)]",
+        "bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[160%]",
+        "p-1.5 shadow-[var(--shadow-lg)]",
         "data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
         className,
       )}
@@ -76,7 +79,7 @@ export const DropdownMenuItem = forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-pointer select-none items-center gap-2 rounded-md px-3 py-2 text-sm outline-none",
-      "transition-colors focus:bg-[var(--bg-subtle)] focus:text-[var(--fg)]",
+      "transition-colors focus:bg-[var(--glass)] focus:text-[var(--fg)]",
       "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
       inset && "pl-8",
       className,
@@ -94,7 +97,7 @@ export const DropdownMenuCheckboxItem = forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-pointer select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none",
-      "focus:bg-[var(--bg-subtle)] data-[disabled]:opacity-50",
+      "focus:bg-[var(--glass)] data-[disabled]:opacity-50",
       className,
     )}
     checked={checked}
@@ -118,7 +121,7 @@ export const DropdownMenuRadioItem = forwardRef<
     ref={ref}
     className={cn(
       "relative flex cursor-pointer select-none items-center rounded-md py-2 pl-8 pr-3 text-sm outline-none",
-      "focus:bg-[var(--bg-subtle)] data-[disabled]:opacity-50",
+      "focus:bg-[var(--glass)] data-[disabled]:opacity-50",
       className,
     )}
     {...props}

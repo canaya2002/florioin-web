@@ -22,16 +22,17 @@ export async function GET(request: NextRequest) {
   const typeParam = searchParams.get("type");
   const type: OgType = isType(typeParam) ? typeParam : "default";
 
+  // FlorioIn Light Glass palette — pastel pink → violet → cyan.
   const accent =
     type === "blog"
-      ? "#8B5CF6"
+      ? "#A88CFF"
       : type === "product"
-        ? "#6366F1"
+        ? "#38E4FF"
         : type === "solution"
-          ? "#EC4899"
+          ? "#FF8DDA"
           : type === "customer"
-            ? "#10B981"
-            : "#6366F1";
+            ? "#34C79A"
+            : "#A88CFF";
 
   return new ImageResponse(
     (
@@ -42,25 +43,41 @@ export async function GET(request: NextRequest) {
           display: "flex",
           flexDirection: "column",
           background:
-            "linear-gradient(135deg, #0a0a0b 0%, #18181b 60%, #27272a 100%)",
-          color: "white",
+            "linear-gradient(135deg, #fbfdff 0%, #f5f0ff 55%, #eef7ff 100%)",
+          color: "#101424",
           padding: 80,
           position: "relative",
           fontFamily: "Inter, system-ui, -apple-system, sans-serif",
         }}
       >
-        {/* Glow accent */}
+        {/* Pastel ambient blobs */}
         <div
           style={{
             position: "absolute",
             top: -200,
             right: -200,
-            width: 600,
-            height: 600,
+            width: 700,
+            height: 700,
             borderRadius: "50%",
-            background: accent,
-            opacity: 0.25,
-            filter: "blur(80px)",
+            background:
+              "radial-gradient(circle, #FF8DDA 0%, rgba(255,141,218,0) 70%)",
+            opacity: 0.55,
+            filter: "blur(60px)",
+            display: "flex",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: -240,
+            left: -160,
+            width: 640,
+            height: 640,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(circle, #38E4FF 0%, rgba(56,228,255,0) 70%)",
+            opacity: 0.45,
+            filter: "blur(60px)",
             display: "flex",
           }}
         />
@@ -69,7 +86,7 @@ export async function GET(request: NextRequest) {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 14,
+            gap: 16,
             marginBottom: "auto",
           }}
         >
@@ -77,14 +94,16 @@ export async function GET(request: NextRequest) {
             style={{
               width: 56,
               height: 56,
-              borderRadius: 12,
+              borderRadius: 14,
               background:
-                "linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%)",
+                "linear-gradient(135deg, #FF8DDA 0%, #A88CFF 50%, #38E4FF 100%)",
+              boxShadow: "0 12px 28px rgba(168,140,255,0.32)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: 36,
               fontWeight: 800,
+              color: "white",
             }}
           >
             F
@@ -105,7 +124,7 @@ export async function GET(request: NextRequest) {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 16,
+            gap: 18,
             maxWidth: 980,
           }}
         >
@@ -116,7 +135,7 @@ export async function GET(request: NextRequest) {
                 textTransform: "uppercase",
                 letterSpacing: "0.18em",
                 color: accent,
-                fontWeight: 600,
+                fontWeight: 700,
               }}
             >
               {eyebrow}
@@ -130,6 +149,7 @@ export async function GET(request: NextRequest) {
               fontWeight: 700,
               margin: 0,
               display: "flex",
+              color: "#101424",
             }}
           >
             {title}
@@ -139,7 +159,7 @@ export async function GET(request: NextRequest) {
               style={{
                 fontSize: 24,
                 lineHeight: 1.4,
-                color: "#A1A1AA",
+                color: "#5F6472",
                 margin: 0,
                 display: "flex",
               }}
@@ -156,12 +176,14 @@ export async function GET(request: NextRequest) {
             alignItems: "center",
             justifyContent: "space-between",
             marginTop: 32,
-            color: "#71717A",
+            color: "#8A91A3",
             fontSize: 18,
           }}
         >
           <span>florioin.com</span>
-          <span style={{ color: accent }}>$3 / user / month</span>
+          <span style={{ color: accent, fontWeight: 600 }}>
+            $3 / user / month
+          </span>
         </div>
       </div>
     ),

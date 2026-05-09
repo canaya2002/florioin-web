@@ -42,8 +42,8 @@ export function NavMobile({
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-        <DialogPrimitive.Content className="fixed inset-y-0 right-0 z-[70] flex h-full w-full max-w-sm flex-col bg-[var(--bg)] p-6 shadow-[var(--shadow-xl)] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right">
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[60] bg-[rgba(20,24,40,0.32)] backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+        <DialogPrimitive.Content className="fixed inset-y-0 right-0 z-[70] flex h-full w-full max-w-sm flex-col border-l border-[var(--border-glass)] bg-[var(--glass-strong)] p-6 shadow-[var(--shadow-xl)] backdrop-blur-[var(--blur-glass-strong)] backdrop-saturate-[160%] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right">
           <DialogPrimitive.Title className="sr-only">
             Navigation
           </DialogPrimitive.Title>
@@ -53,7 +53,7 @@ export function NavMobile({
           <div className="flex items-center justify-between">
             <Logo size="md" />
             <DialogPrimitive.Close
-              className="rounded-full p-2 text-[var(--fg-muted)] hover:bg-[var(--bg-subtle)]"
+              className="rounded-full p-2 text-[var(--fg-muted)] transition-colors hover:bg-[var(--glass)] hover:text-[var(--fg)]"
               aria-label="Close menu"
             >
               <X className="h-5 w-5" />
@@ -81,7 +81,7 @@ export function NavMobile({
             </Accordion>
           </nav>
 
-          <div className="mt-6 flex flex-col gap-3 border-t border-[var(--border)] pt-6">
+          <div className="mt-6 flex flex-col gap-3 border-t border-[var(--border-glass)] pt-6">
             <a
               href={APP_LOGIN_URL}
               className="text-center text-sm font-medium text-[var(--fg-muted)] hover:text-[var(--fg)]"
@@ -115,7 +115,7 @@ function MobileLink({
     <Link
       href={href}
       onClick={onClick}
-      className="flex items-center justify-between border-b border-[var(--border)] py-5 text-left font-medium text-[var(--fg)]"
+      className="flex items-center justify-between border-b border-[var(--border-glass)] py-5 text-left font-medium text-[var(--fg)]"
     >
       {children}
     </Link>

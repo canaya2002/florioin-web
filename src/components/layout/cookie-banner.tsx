@@ -62,7 +62,7 @@ export function CookieBanner({ locale }: CookieBannerProps) {
     <div
       role="dialog"
       aria-label={isEs ? "Aviso de cookies" : "Cookie notice"}
-      className="fixed bottom-4 left-4 right-4 z-50 max-w-md rounded-[var(--radius-lg)] border border-[var(--border)] bg-[var(--bg)] p-5 shadow-[var(--shadow-xl)] md:left-auto md:right-6"
+      className="fixed bottom-4 left-4 right-4 z-50 max-w-md rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass-strong)] p-5 shadow-[var(--shadow-xl)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[160%] md:left-auto md:right-6"
     >
       <div className="flex items-start gap-3">
         <Cookie
@@ -118,7 +118,7 @@ export function CookieBanner({ locale }: CookieBannerProps) {
           type="button"
           onClick={() => decide("rejected")}
           aria-label={isEs ? "Cerrar" : "Close"}
-          className="ml-auto rounded-full p-1 text-[var(--fg-muted)] hover:bg-[var(--bg-subtle)]"
+          className="ml-auto rounded-full p-1 text-[var(--fg-muted)] transition-colors hover:bg-[var(--glass)] hover:text-[var(--fg)]"
         >
           <X className="h-4 w-4" />
         </button>

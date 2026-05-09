@@ -73,7 +73,7 @@ export function AutoplayVideo({
     <video
       ref={ref}
       className={cn(
-        "w-full rounded-[var(--radius-lg)] border border-[var(--border)] object-cover",
+        "w-full rounded-[var(--radius-xl)] border border-[var(--border-glass)] object-cover shadow-[var(--shadow-md)]",
         aspect,
         className,
       )}
@@ -82,7 +82,8 @@ export function AutoplayVideo({
       loop
       playsInline
       autoPlay={!reduced}
-      preload="metadata"
+      preload="none"
+      aria-hidden={!caption}
       onError={() => setErrored(true)}
       aria-label={caption}
     >

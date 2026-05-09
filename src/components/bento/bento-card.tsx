@@ -54,10 +54,13 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
     ref,
   ) => {
     const wrapperClass = cn(
-      "group relative flex h-full flex-col overflow-hidden",
-      "rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg)]",
-      "shadow-[var(--shadow-sm)] transition-all duration-[var(--dur-base)] ease-[var(--ease-out-expo)]",
-      "hover:-translate-y-0.5 hover:shadow-[var(--shadow-lg)] hover:border-[var(--primary)]/40",
+      "group relative isolate flex h-full flex-col overflow-hidden",
+      "rounded-[var(--radius-2xl)] border border-[var(--border-glass)]",
+      "bg-[var(--glass)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%]",
+      "shadow-[var(--shadow-md)]",
+      "transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)]",
+      "hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]",
+      "hover:border-[var(--primary)]/40",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2",
       sizeClasses[size],
       className,
@@ -65,13 +68,29 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
 
     const inner = (
       <>
+        {/* Soft gradient fill */}
         {gradient && (
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-60"
+            className="pointer-events-none absolute inset-0 opacity-100"
             style={{ background: "var(--gradient-card)" }}
           />
         )}
+        {/* Inset highlight at the top edge */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
+        />
+        {/* Hover sheen — appears as a slow diagonal highlight on hover */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--dur-slow)] ease-[var(--ease-glass)] group-hover:opacity-100"
+          style={{
+            background:
+              "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.6) 50%, transparent 65%)",
+            mixBlendMode: "soft-light",
+          }}
+        />
         {visual && visualPosition === "background" && (
           <div
             aria-hidden
@@ -82,7 +101,7 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
         )}
         <div
           className={cn(
-            "relative z-10 flex h-full flex-col p-6 lg:p-8",
+            "relative z-10 flex h-full flex-col p-7 lg:p-9",
             visualPosition === "side" && "sm:flex-row sm:items-center sm:gap-8",
             visualPosition === "above" && "justify-end",
           )}
@@ -92,13 +111,13 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           )}
           <div
             className={cn(
-              "flex flex-col gap-2",
+              "flex flex-col gap-2.5",
               visualPosition === "side" && "sm:flex-1",
             )}
           >
             {eyebrow && <span className="eyebrow">{eyebrow}</span>}
             {title && (
-              <h3 className="font-display text-[clamp(22px,2.4vw,32px)] leading-tight tracking-tight">
+              <h3 className="font-display text-[clamp(22px,2.4vw,32px)] leading-tight tracking-tight text-[var(--fg)]">
                 {title}
               </h3>
             )}
@@ -124,10 +143,10 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
           {children}
 
           {ctaLabel && (
-            <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--primary)]">
+            <div className="mt-7 inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--primary)]">
               {ctaLabel}
               <ArrowUpRight
-                className="h-4 w-4 transition-transform duration-300 ease-[var(--ease-out-expo)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="h-4 w-4 transition-transform duration-[var(--dur-base)] ease-[var(--ease-glass)] group-hover:translate-x-1 group-hover:-translate-y-1"
                 aria-hidden
               />
             </div>

@@ -31,7 +31,7 @@ export function AnnouncementBar({
   return (
     <div
       className={cn(
-        "relative w-full border-b border-[var(--border)] bg-[var(--bg-subtle)] py-2 text-[var(--fg-secondary)]",
+        "relative w-full border-b border-[var(--border-glass)] bg-[var(--glass-strong)] py-2 text-[var(--fg-secondary)] backdrop-blur-[var(--blur-glass-soft)]",
         className,
       )}
     >

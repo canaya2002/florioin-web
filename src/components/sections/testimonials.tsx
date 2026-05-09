@@ -49,19 +49,23 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
         {items.map((item) => (
           <StaggerItem
             key={item.author}
-            className="relative flex flex-col gap-6 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg)] p-8"
+            className="group relative flex flex-col gap-6 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--border-glass)] bg-[var(--glass)] p-8 backdrop-blur-[var(--blur-glass)] shadow-[var(--shadow-md)] transition-all duration-[var(--dur-base)] ease-[var(--ease-glass)] hover:-translate-y-1 hover:shadow-[var(--shadow-lg)]"
           >
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent"
+            />
             <Quote
               aria-hidden
-              className="h-7 w-7 text-[var(--primary)]/60"
+              className="h-8 w-8 text-[var(--primary)]/55"
             />
             <p className="text-[17px] leading-relaxed text-[var(--fg-secondary)]">
               {item.quote}
             </p>
-            <div className="mt-auto flex items-center gap-3 border-t border-[var(--border)] pt-4">
+            <div className="mt-auto flex items-center gap-3 border-t border-[var(--border-glass)] pt-4">
               <div
                 aria-hidden
-                className="flex h-10 w-10 items-center justify-center rounded-full font-medium text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full font-semibold text-white shadow-[var(--shadow-button)]"
                 style={{ background: "var(--gradient-hero)" }}
               >
                 {item.author
@@ -71,7 +75,7 @@ export function Testimonials({ locale, dict }: TestimonialsProps) {
                   .slice(0, 2)}
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-[var(--fg)]">
+                <span className="text-sm font-semibold text-[var(--fg)]">
                   {item.author}
                 </span>
                 <span className="text-xs text-[var(--fg-muted)]">

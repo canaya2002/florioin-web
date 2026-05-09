@@ -6,6 +6,7 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { SlideUp } from "@/components/animations/slide-up";
 import { TextReveal } from "@/components/animations/text-reveal";
 import { Button } from "@/components/ui/button";
+import { FloatingBlobs } from "@/components/ui/floating-blobs";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
@@ -33,15 +34,16 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative overflow-hidden pb-12 pt-20 md:pt-28",
+        "relative isolate overflow-hidden pb-16 pt-24 md:pt-32",
         className,
       )}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-80"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[80%]"
         style={{ background: "var(--gradient-glow)" }}
       />
+      <FloatingBlobs variant="subtle" />
       <div
         className={cn(
           "container-default relative flex flex-col gap-8",

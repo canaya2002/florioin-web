@@ -1,4 +1,6 @@
-/* Custom keyframes used across the marketing site. */
+/* Custom keyframes used across the marketing site.
+   Premium, calm, Apple-like motion — long durations, soft easings,
+   transform/opacity only for GPU friendliness. */
 
 @keyframes float {
   0%,
@@ -6,7 +8,53 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-8px);
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0);
+  }
+}
+
+@keyframes drift-1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(40px, -30px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes drift-2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50px, 30px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes drift-3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30px, 40px, 0) scale(0.95);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 
@@ -31,10 +79,10 @@
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 40px rgba(168, 140, 255, 0.22);
   }
   50% {
-    box-shadow: 0 0 80px rgba(99, 102, 241, 0.55);
+    box-shadow: 0 0 80px rgba(168, 140, 255, 0.42);
   }
 }
 
@@ -46,6 +94,25 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
@@ -69,6 +136,25 @@
 
 .animate-float {
   animation: float 6s var(--ease-smooth) infinite;
+  will-change: transform;
+}
+
+.animate-float-slow {
+  animation: float-slow 9s var(--ease-smooth) infinite;
+  will-change: transform;
+}
+
+.animate-drift-1 {
+  animation: drift-1 var(--dur-blob) var(--ease-smooth) infinite;
+  will-change: transform;
+}
+.animate-drift-2 {
+  animation: drift-2 calc(var(--dur-blob) + 4s) var(--ease-smooth) infinite;
+  will-change: transform;
+}
+.animate-drift-3 {
+  animation: drift-3 calc(var(--dur-blob) + 7s) var(--ease-smooth) infinite;
+  will-change: transform;
 }
 
 .animate-marquee {
@@ -76,18 +162,33 @@
 }
 
 .animate-glow {
-  animation: glow-pulse 3s ease-in-out infinite;
+  animation: glow-pulse 4s ease-in-out infinite;
 }
 
 .animate-fade-in-up {
   animation: fade-in-up var(--dur-slow) var(--ease-out-expo) both;
 }
 
+.animate-fade-in {
+  animation: fade-in var(--dur-slow) var(--ease-out-expo) both;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift var(--dur-mesh) var(--ease-smooth) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
+  .animate-float-slow,
+  .animate-drift-1,
+  .animate-drift-2,
+  .animate-drift-3,
   .animate-marquee,
   .animate-glow,
-  .animate-fade-in-up {
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-gradient {
     animation: none !important;
   }
 }
