@@ -15,18 +15,22 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/product/tasks",
     title: isEs ? "Tareas" : "Tasks",
     description: isEs
       ? "Tableros, listas, timelines, dependencias. Cada vista renderea en menos de 100ms."
       : "Boards, lists, timelines, dependencies. Every view paints in under 100ms.",
-  };
+  });
 }
 
 export default async function TasksPage({ params }: PageParams) {

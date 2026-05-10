@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { CtaSection } from "@/components/sections/cta-section";
+import { FeatureWall } from "@/components/sections/feature-wall";
 import { FeaturesBento } from "@/components/sections/features-bento";
 import { Hero } from "@/components/sections/hero";
 import { HowItWorks } from "@/components/sections/how-it-works";
@@ -8,8 +9,11 @@ import { IndustriesTeaser } from "@/components/sections/industries-teaser";
 import { LogosMarquee } from "@/components/sections/logos-marquee";
 import { Manifesto } from "@/components/sections/manifesto";
 import { PricingTeaser } from "@/components/sections/pricing-teaser";
+import { StackReplacement } from "@/components/sections/stack-replacement";
 import { StatsSection } from "@/components/sections/stats-section";
 import { Testimonials } from "@/components/sections/testimonials";
+import { UseCasesByTeam } from "@/components/sections/use-cases-by-team";
+import { WorkIsBroken } from "@/components/sections/work-is-broken";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
 
@@ -24,12 +28,16 @@ export default async function HomePage({ params }: PageParams) {
   return (
     <>
       <Hero locale={lang} dict={dict} />
-      <FeaturesBento locale={lang} dict={dict} />
-      <HowItWorks dict={dict} />
-      <StatsSection locale={lang} dict={dict} />
       <LogosMarquee dict={dict} />
-      <Testimonials locale={lang} dict={dict} />
+      <WorkIsBroken locale={lang} />
+      <StackReplacement locale={lang} />
+      <FeaturesBento locale={lang} dict={dict} />
+      <FeatureWall locale={lang} />
+      <HowItWorks dict={dict} />
+      <UseCasesByTeam locale={lang} />
       <IndustriesTeaser locale={lang} dict={dict} />
+      <StatsSection locale={lang} dict={dict} />
+      <Testimonials locale={lang} dict={dict} />
       <PricingTeaser locale={lang} dict={dict} />
       <Manifesto dict={dict} />
       <CtaSection locale={lang} dict={dict} />

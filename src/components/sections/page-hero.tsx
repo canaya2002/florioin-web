@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 
 import { FadeIn } from "@/components/animations/fade-in";
 import { SlideUp } from "@/components/animations/slide-up";
-import { TextReveal } from "@/components/animations/text-reveal";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { FloatingBlobs } from "@/components/ui/floating-blobs";
@@ -45,7 +44,7 @@ export function PageHero({
         className="pointer-events-none absolute inset-x-0 top-0 h-[80%]"
         style={{ background: "var(--gradient-glow)" }}
       />
-      <FloatingBlobs variant="subtle" />
+      <FloatingBlobs variant="hero" />
       <Container
         className={cn(
           "relative flex flex-col gap-[var(--space-6)]",
@@ -54,11 +53,21 @@ export function PageHero({
       >
         {eyebrow && (
           <FadeIn delay={0.1} duration={0.4}>
-            <span className="eyebrow">{eyebrow}</span>
+            <span className="eyebrow-pill">
+              <span className="dot" aria-hidden />
+              <span>{eyebrow}</span>
+            </span>
           </FadeIn>
         )}
-        <h1 className="max-w-4xl font-display text-[var(--fs-h1)] leading-[1.05] tracking-[-0.04em]">
-          <TextReveal>{title}</TextReveal>
+        {/* H1 renders unanimated — it's the LCP candidate on every page.
+            Word-by-word reveals delay LCP and rarely justify the cost. */}
+        <h1
+          className={cn(
+            "font-display text-[var(--fs-h1)] leading-[1.05] tracking-[-0.04em] text-[var(--fg)] [text-wrap:balance]",
+            isCenter ? "max-w-[980px]" : "max-w-4xl",
+          )}
+        >
+          {title}
         </h1>
         <SlideUp
           delay={0.3}
@@ -66,7 +75,7 @@ export function PageHero({
           distance={12}
           className={isCenter ? "max-w-2xl" : "max-w-3xl"}
         >
-          <div className="text-[var(--fs-body-lg)] leading-relaxed text-[var(--fg-muted)]">
+          <div className="text-[var(--fs-body-lg)] leading-relaxed text-[var(--fg-secondary)]">
             {description}
           </div>
         </SlideUp>
@@ -75,7 +84,10 @@ export function PageHero({
             delay={0.45}
             duration={0.4}
             distance={8}
-            className="flex w-full flex-wrap items-center gap-[var(--space-3)] sm:w-auto"
+            className={cn(
+              "flex w-full flex-wrap items-center gap-[var(--space-3)] sm:w-auto",
+              isCenter && "justify-center",
+            )}
           >
             {primaryCta && (
               <Link href={primaryCta.href} className="w-full sm:w-auto">

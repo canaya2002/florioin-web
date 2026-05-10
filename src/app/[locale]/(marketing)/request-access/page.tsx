@@ -5,18 +5,22 @@ import { AccessRequestForm } from "@/components/forms/access-request-form";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/request-access",
     title: isEs ? "Solicitar acceso" : "Request access",
     description: isEs
       ? "Cuéntanos de tu equipo y te activamos en menos de 24 horas."
       : "Tell us about your team and we'll activate you within 24 hours.",
-  };
+  });
 }
 
 export default async function RequestAccessPage({ params }: PageParams) {

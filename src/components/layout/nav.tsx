@@ -2,11 +2,11 @@
 
 import { ArrowRight, ChevronDown, Menu } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Logo } from "@/components/brand/logo";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -36,6 +36,7 @@ export function Nav({ locale, dict }: NavProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const isEs = locale === "es";
   const lp = `/${locale}`;
   const productLinks = [
     { href: `${lp}/product`, label: dict.nav.productOverview },
@@ -44,6 +45,13 @@ export function Nav({ locale, dict }: NavProps) {
     { href: `${lp}/product/docs`, label: dict.nav.productDocs },
     { href: `${lp}/product/inbox`, label: dict.nav.productInbox },
     { href: `${lp}/product/integrations`, label: dict.nav.productIntegrations },
+  ];
+
+  const useCaseLinks = [
+    { href: `${lp}#use-cases`, label: isEs ? "Por equipo" : "By team" },
+    { href: `${lp}/solutions`, label: isEs ? "Por industria" : "By industry" },
+    { href: `${lp}#capabilities`, label: isEs ? "Capacidades" : "Capabilities" },
+    { href: `${lp}#stack`, label: isEs ? "Reemplaza tu stack" : "Replace your stack" },
   ];
 
   const resourceLinks = [
@@ -87,7 +95,10 @@ export function Nav({ locale, dict }: NavProps) {
 
           <ul className="ml-[var(--space-4)] hidden items-center gap-[2px] lg:flex">
             <NavDropdown label={dict.nav.product} items={productLinks} />
-            <NavLink href={`${lp}/solutions`}>{dict.nav.solutions}</NavLink>
+            <NavDropdown
+              label={isEs ? "Casos de uso" : "Use cases"}
+              items={useCaseLinks}
+            />
             <NavLink href={`${lp}/pricing`}>{dict.nav.pricing}</NavLink>
             <NavDropdown label={dict.nav.resources} items={resourceLinks} />
             <NavDropdown label={dict.nav.company} items={companyLinks} />
@@ -100,7 +111,6 @@ export function Nav({ locale, dict }: NavProps) {
             >
               {dict.common.ctaSignIn}
             </a>
-            <ThemeToggle />
             <LanguageSwitcher currentLocale={locale} />
             <Link
               href={`${lp}/request-access`}
@@ -130,6 +140,7 @@ export function Nav({ locale, dict }: NavProps) {
         locale={locale}
         dict={dict}
         productLinks={productLinks}
+        useCaseLinks={useCaseLinks}
         resourceLinks={resourceLinks}
         companyLinks={companyLinks}
       />
@@ -163,6 +174,7 @@ function NavDropdown({
   label: string;
   items: { href: string; label: string }[];
 }) {
+  const router = useRouter();
   return (
     <li>
       <DropdownMenu>
@@ -177,8 +189,15 @@ function NavDropdown({
         </DropdownMenuTrigger>
         <DropdownMenuContent className="min-w-[14rem]">
           {items.map((item) => (
-            <DropdownMenuItem key={item.href} asChild>
-              <Link href={item.href}>{item.label}</Link>
+            <DropdownMenuItem
+              key={item.href}
+              onSelect={(event) => {
+                event.preventDefault();
+                router.push(item.href);
+              }}
+              className="cursor-pointer"
+            >
+              {item.label}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

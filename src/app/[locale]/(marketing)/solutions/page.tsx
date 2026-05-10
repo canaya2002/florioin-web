@@ -26,6 +26,7 @@ import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
 import { INDUSTRIES, type Industry } from "@/lib/constants";
 import { INDUSTRY_CONTENT } from "@/lib/industries";
+import { pageMetadata } from "@/lib/seo";
 
 const ICON_MAP: Record<Industry, LucideIcon> = {
   legal: Landmark,
@@ -49,13 +50,16 @@ type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/solutions",
     title: isEs ? "Soluciones por industria" : "Solutions by industry",
     description: isEs
       ? "FlorioIn personalizado para 15 industrias: legal, marketing, salud, finanzas, retail, tech y más."
       : "FlorioIn tailored for 15 industries: legal, marketing, healthcare, finance, retail, tech, and more.",
-  };
+  });
 }
 
 export default async function SolutionsIndexPage({ params }: PageParams) {

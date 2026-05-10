@@ -11,6 +11,7 @@ import {
   CHANGELOG_TAG_LABELS,
   getChangelogEntry,
 } from "@/lib/changelog";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string; version: string }> };
@@ -27,13 +28,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, version } = await params;
+  if (!isLocale(locale)) return {};
   const entry = getChangelogEntry(version);
   if (!entry) return { title: "Not found" };
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: `/changelog/${version}`,
     title: `v${version} · ${isEs ? entry.title.es : entry.title.en}`,
     description: isEs ? entry.summary.es : entry.summary.en,
-  };
+    ogType: "article",
+    publishedTime: entry.releasedAt,
+  });
 }
 
 export default async function ChangelogEntryPage({ params }: PageParams) {

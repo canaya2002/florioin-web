@@ -10,19 +10,23 @@ import {
   BLOG_CATEGORY_LABELS,
   BLOG_POSTS,
 } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/blog",
     title: "Blog",
     description: isEs
       ? "Anuncios, guías de producto y casos de éxito de FlorioIn."
       : "FlorioIn announcements, product guides, and customer case studies.",
-  };
+  });
 }
 
 export default async function BlogIndexPage({ params }: PageParams) {

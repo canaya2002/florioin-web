@@ -2,12 +2,23 @@ import { notFound } from "next/navigation";
 
 import { LegalDoc } from "@/components/sections/legal-doc";
 import { isLocale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
-export const metadata = {
-  title: "Cookie Policy",
-};
+export async function generateMetadata({ params }: PageParams) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const isEs = locale === "es";
+  return pageMetadata({
+    locale,
+    path: "/legal/cookies",
+    title: isEs ? "Política de Cookies" : "Cookie Policy",
+    description: isEs
+      ? "Cookies que usamos y cómo gestionarlas."
+      : "Cookies we use and how to manage them.",
+  });
+}
 
 export default async function CookiesPage({ params }: PageParams) {
   const { locale } = await params;

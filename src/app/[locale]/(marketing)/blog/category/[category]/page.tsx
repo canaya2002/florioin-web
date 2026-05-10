@@ -11,6 +11,7 @@ import {
   type BlogCategory,
   getBlogPostsByCategory,
 } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = {
@@ -33,12 +34,20 @@ function isCategory(value: string): value is BlogCategory {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, category } = await params;
+  if (!isLocale(locale)) return {};
   if (!isCategory(category)) return { title: "Not found" };
   const isEs = locale === "es";
   const label = isEs
     ? BLOG_CATEGORY_LABELS[category].es
     : BLOG_CATEGORY_LABELS[category].en;
-  return { title: `${label} · Blog` };
+  return pageMetadata({
+    locale,
+    path: `/blog/category/${category}`,
+    title: `${label} · Blog`,
+    description: isEs
+      ? `Posts del blog en la categoría ${label.toLowerCase()}.`
+      : `Blog posts in the ${label.toLowerCase()} category.`,
+  });
 }
 
 export default async function BlogCategoryPage({ params }: PageParams) {

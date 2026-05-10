@@ -2,10 +2,16 @@ import { ArrowLeft, Check, MapPin, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import {
+  JsonLd,
+  breadcrumbSchema,
+  jobPostingSchema,
+} from "@/components/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { isLocale, locales, type Locale } from "@/i18n/locales";
 import { CAREERS, getCareer } from "@/lib/careers";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
 
@@ -21,13 +27,16 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
   const job = getCareer(slug);
   if (!job) return { title: "Not found" };
   const isEs = locale === "es";
-  return {
-    title: `${isEs ? job.title.es : job.title.en} · Careers`,
+  return pageMetadata({
+    locale,
+    path: `/careers/${slug}`,
+    title: `${isEs ? job.title.es : job.title.en} · ${isEs ? "Carreras" : "Careers"}`,
     description: isEs ? job.summary.es : job.summary.en,
-  };
+  });
 }
 
 export default async function CareerJobPage({ params }: PageParams) {
@@ -43,6 +52,28 @@ export default async function CareerJobPage({ params }: PageParams) {
   );
 
   return (
+    <>
+      <JsonLd
+        data={jobPostingSchema({
+          title: isEs ? job.title.es : job.title.en,
+          description: isEs ? job.summary.es : job.summary.en,
+          postedAt: job.postedAt,
+          location: job.location,
+          type: isEs ? job.type.es : job.type.en,
+          slug: job.slug,
+          locale: lang,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: `/${lang}` },
+          { name: isEs ? "Carreras" : "Careers", url: `/${lang}/careers` },
+          {
+            name: isEs ? job.title.es : job.title.en,
+            url: `/${lang}/careers/${job.slug}`,
+          },
+        ])}
+      />
     <article className="container-default pb-24 pt-20 md:pt-28">
       <Link
         href={`${lp}/careers`}
@@ -124,6 +155,7 @@ export default async function CareerJobPage({ params }: PageParams) {
         </aside>
       </div>
     </article>
+    </>
   );
 }
 

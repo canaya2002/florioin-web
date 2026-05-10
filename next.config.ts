@@ -61,6 +61,64 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            // Hint to crawlers — index-control beyond meta robots, applies to non-HTML too.
+            key: "X-Robots-Tag",
+            value: "index, follow",
+          },
+        ],
+      },
+      {
+        // Hashed Next static assets are immutable — cache for a year.
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Public marketing assets (logos, fonts, og images) — long cache.
+        source: "/(logos|fonts|og)/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Icon route is dynamic but stable — week cache.
+        source: "/icon",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=604800, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        // Sitemap and robots — short cache so crawlers see fresh content.
+        source: "/(sitemap.xml|robots.txt|manifest.webmanifest)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        // Utility pages must not be indexed even if accidentally linked.
+        source: "/:locale/dev",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
+      {
+        source: "/:locale/request-access/thank-you",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
     ];

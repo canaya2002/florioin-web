@@ -37,6 +37,8 @@ export function Logo({
         width={mark}
         height={mark}
         priority
+        fetchPriority="high"
+        sizes={`${mark}px`}
         className="shrink-0 select-none"
         style={{ width: mark, height: mark }}
       />

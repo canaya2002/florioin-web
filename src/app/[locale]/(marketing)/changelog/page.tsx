@@ -8,19 +8,23 @@ import {
   CHANGELOG_TAG_COLORS,
   CHANGELOG_TAG_LABELS,
 } from "@/lib/changelog";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/changelog",
     title: "Changelog",
     description: isEs
       ? "Cada release de FlorioIn — qué cambia, qué mejora, qué se arregla."
       : "Every FlorioIn release — what's new, what's improved, what's fixed.",
-  };
+  });
 }
 
 export default async function ChangelogIndexPage({ params }: PageParams) {

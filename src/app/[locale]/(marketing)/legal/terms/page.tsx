@@ -2,12 +2,23 @@ import { notFound } from "next/navigation";
 
 import { LegalDoc } from "@/components/sections/legal-doc";
 import { isLocale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
-export const metadata = {
-  title: "Terms of Service",
-};
+export async function generateMetadata({ params }: PageParams) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const isEs = locale === "es";
+  return pageMetadata({
+    locale,
+    path: "/legal/terms",
+    title: isEs ? "Términos de Servicio" : "Terms of Service",
+    description: isEs
+      ? "Las reglas que rigen el uso de FlorioIn."
+      : "The rules that govern the use of FlorioIn.",
+  });
+}
 
 export default async function TermsPage({ params }: PageParams) {
   const { locale } = await params;

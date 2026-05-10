@@ -5,18 +5,22 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/about",
     title: isEs ? "Sobre nosotros" : "About",
     description: isEs
       ? "Quiénes somos, qué creemos, y por qué construimos FlorioIn."
       : "Who we are, what we believe, and why we build FlorioIn.",
-  };
+  });
 }
 
 export default async function AboutPage({ params }: PageParams) {

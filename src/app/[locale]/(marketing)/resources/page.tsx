@@ -10,6 +10,7 @@ import {
   RESOURCE_TYPE_LABELS,
   type ResourceType,
 } from "@/lib/resources";
+import { pageMetadata } from "@/lib/seo";
 import type { LucideIcon } from "lucide-react";
 
 const TYPE_ICON: Record<ResourceType, LucideIcon> = {
@@ -23,13 +24,16 @@ type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/resources",
     title: isEs ? "Recursos" : "Resources",
     description: isEs
       ? "eBooks, plantillas, guías y webinars para sacar más de tu equipo."
       : "eBooks, templates, guides, and webinars to get more from your team.",
-  };
+  });
 }
 
 export default async function ResourcesIndexPage({ params }: PageParams) {

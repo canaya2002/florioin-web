@@ -2,13 +2,23 @@ import { notFound } from "next/navigation";
 
 import { LegalDoc } from "@/components/sections/legal-doc";
 import { isLocale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
-export const metadata = {
-  title: "Privacy Policy",
-  robots: { index: true, follow: true },
-};
+export async function generateMetadata({ params }: PageParams) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const isEs = locale === "es";
+  return pageMetadata({
+    locale,
+    path: "/legal/privacy",
+    title: isEs ? "Política de Privacidad" : "Privacy Policy",
+    description: isEs
+      ? "Cómo FlorioIn recolecta, usa y protege tus datos."
+      : "How FlorioIn collects, uses, and protects your data.",
+  });
+}
 
 export default async function PrivacyPage({ params }: PageParams) {
   const { locale } = await params;

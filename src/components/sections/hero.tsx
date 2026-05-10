@@ -54,14 +54,14 @@ export function Hero({ locale, dict }: HeroProps) {
           </span>
         </FadeIn>
 
-        <SlideUp delay={0.2} duration={0.6} distance={16}>
-          <h1 className="mx-auto max-w-[980px] font-display text-[clamp(40px,6.5vw,88px)] leading-[1.04] tracking-[-0.045em] text-[var(--fg)] [text-wrap:balance]">
-            {dict.home.hero.headlinePrefix}{" "}
-            <span className="text-gradient">
-              {dict.home.hero.headlineHighlight}
-            </span>
-          </h1>
-        </SlideUp>
+        {/* H1 renders without wrapper animation so it's the LCP candidate
+            immediately — no opacity:0 → 1 transition gating the metric. */}
+        <h1 className="mx-auto max-w-[980px] font-display text-[clamp(40px,6.5vw,88px)] leading-[1.04] tracking-[-0.045em] text-[var(--fg)] [text-wrap:balance]">
+          {dict.home.hero.headlinePrefix}{" "}
+          <span className="text-gradient">
+            {dict.home.hero.headlineHighlight}
+          </span>
+        </h1>
 
         <SlideUp delay={0.4} duration={0.5} distance={12} className="max-w-[680px]">
           <p className="text-[var(--fs-body-lg)] leading-[1.55] text-[var(--fg-secondary)]">

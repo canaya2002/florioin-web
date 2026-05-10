@@ -6,18 +6,22 @@ import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
 import { SITE, SOCIAL_LINKS } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/contact",
     title: isEs ? "Contacto" : "Contact",
     description: isEs
       ? "Escríbenos. Respondemos en menos de un día hábil."
       : "Reach out. We respond within one business day.",
-  };
+  });
 }
 
 export default async function ContactPage({ params }: PageParams) {

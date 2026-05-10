@@ -1,9 +1,9 @@
 /**
- * Anti-FOUC theme script. Renders a sync <script> in <head> that reads the
- * persisted theme (or falls back to system preference) and applies it to
- * <html data-theme> before React hydrates. ~280B minified.
+ * Light-only mode. The brand is light-first and white everywhere — dark
+ * mode has been removed. Any previously-stored "dark" preference is wiped
+ * on load so returning visitors never get stranded in dark.
  */
-const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem('theme');var d=t==='dark'||(t==null&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.dataset.theme=d?'dark':'light';document.documentElement.style.colorScheme=d?'dark':'light';}catch(e){document.documentElement.dataset.theme='light';}})();`;
+const THEME_SCRIPT = `(function(){try{localStorage.setItem('theme','light');}catch(e){}document.documentElement.dataset.theme='light';document.documentElement.style.colorScheme='light';})();`;
 
 export function ThemeScript() {
   return <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />;

@@ -11,13 +11,14 @@
    pastel gradient (pink → violet → cyan), soft blue-grey shadows.
    ───────────────────────────────────────────────────────── */
 :root {
-  /* Surfaces (light, luminous, slightly cool) */
-  --bg: #fbfdff;
-  --bg-subtle: #f5f8fd;
-  --bg-muted: #eef3fb;
-  --bg-ice: #eef7ff;
-  --bg-lavender: #f5f0ff;
-  --bg-cool: #f8fbff;
+  /* Surfaces — pure white for every page background. Cards rely on borders
+     and shadows for definition rather than tinted off-whites. */
+  --bg: #ffffff;
+  --bg-subtle: #ffffff;
+  --bg-muted: #f4f5f7;
+  --bg-ice: #ffffff;
+  --bg-lavender: #ffffff;
+  --bg-cool: #ffffff;
 
   /* Glass panes — translucent whites for layered surfaces */
   --glass: rgba(255, 255, 255, 0.62);
@@ -74,12 +75,8 @@
     rgba(168, 140, 255, 0.85) 45%,
     rgba(56, 228, 255, 0.85) 100%
   );
-  --gradient-card: linear-gradient(
-    180deg,
-    rgba(168, 140, 255, 0.06) 0%,
-    rgba(56, 228, 255, 0.04) 50%,
-    transparent 100%
-  );
+  /* Card overlay kept transparent — every card surface stays pure white. */
+  --gradient-card: transparent;
   --gradient-glow: radial-gradient(
     1100px 600px at 50% -10%,
     rgba(168, 140, 255, 0.28) 0%,
@@ -259,12 +256,7 @@
   --accent: #ff9fdf;
   --accent-2: #6ce9ff;
 
-  --gradient-card: linear-gradient(
-    180deg,
-    rgba(168, 140, 255, 0.10) 0%,
-    rgba(56, 228, 255, 0.05) 60%,
-    transparent 100%
-  );
+  --gradient-card: transparent;
   --gradient-glow: radial-gradient(
     1100px 600px at 50% -10%,
     rgba(168, 140, 255, 0.28) 0%,
@@ -357,7 +349,7 @@ html {
 }
 
 body {
-  background-color: var(--bg);
+  background-color: #ffffff;
   color: var(--fg);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -366,10 +358,9 @@ body {
   font-feature-settings:
     "ss01" on,
     "cv11" on;
-  /* Subtle ambient tint behind everything — gives the page a luminous,
-     wellness feel without competing for attention. */
-  background-image: var(--gradient-ambient);
-  background-attachment: fixed;
+}
+:root[data-theme="dark"] body {
+  background-color: var(--bg);
 }
 
 ::selection {

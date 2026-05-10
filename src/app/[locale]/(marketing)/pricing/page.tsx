@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { JsonLd, faqSchema } from "@/components/seo/json-ld";
 import {
   Accordion,
   AccordionContent,
@@ -14,18 +15,22 @@ import { Button } from "@/components/ui/button";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
 import { PRICING } from "@/lib/constants";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/pricing",
     title: isEs ? "Precios" : "Pricing",
     description: isEs
       ? "$3 USD por usuario al mes. Sin tiers, sin trucos. Reembolso 100% en 30 días."
       : "$3 USD per user per month. No tiers, no tricks. 100% refund in 30 days.",
-  };
+  });
 }
 
 export default async function PricingPage({ params }: PageParams) {
@@ -166,6 +171,9 @@ export default async function PricingPage({ params }: PageParams) {
 
   return (
     <>
+      <JsonLd
+        data={faqSchema(faqs.map((f) => ({ question: f.q, answer: f.a })))}
+      />
       <PageHero
         eyebrow={dict.nav.pricing}
         title={
@@ -183,24 +191,30 @@ export default async function PricingPage({ params }: PageParams) {
 
       {/* Main pricing card */}
       <section className="container-default pb-16">
-        <div className="relative mx-auto max-w-3xl overflow-hidden rounded-[var(--radius-2xl)] border-2 border-[var(--primary)]/30 bg-[var(--bg)] p-10 shadow-[var(--shadow-xl)] md:p-14">
+        <div className="relative mx-auto max-w-2xl overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--primary)]/30 bg-[var(--bg)] p-10 shadow-[var(--shadow-lg)] md:p-12">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-50"
+            className="pointer-events-none absolute inset-0 opacity-60"
             style={{ background: "var(--gradient-card)" }}
           />
           <div className="relative flex flex-col gap-8">
-            <div className="flex flex-col gap-3 text-center">
-              <span className="eyebrow">{isEs ? "Un solo plan" : "One plan"}</span>
-              <div className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1">
-                <span className="font-display text-[clamp(56px,12vw,128px)] leading-none">
+            <div className="flex flex-col items-center gap-4 text-center">
+              <span className="eyebrow-pill">
+                <span className="dot" aria-hidden />
+                <span>{isEs ? "Un solo plan" : "One plan"}</span>
+              </span>
+              <div className="flex items-baseline justify-center gap-2">
+                <span className="font-display text-[clamp(64px,9vw,96px)] leading-[0.95] tracking-[-0.04em] text-gradient">
                   ${PRICING.perSeat}
                 </span>
-                <span className="text-[var(--fs-body-lg)] text-[var(--fg-muted)]">
-                  USD {isEs ? "/ usuario / mes" : "/ user / month"}
+                <span className="font-display text-[clamp(20px,2vw,28px)] leading-none tracking-tight text-[var(--fg-muted)]">
+                  USD
                 </span>
               </div>
-              <p className="text-[15px] text-[var(--fg-muted)]">
+              <p className="text-[15px] font-medium text-[var(--fg-secondary)]">
+                {isEs ? "por usuario / mes" : "per user / month"}
+              </p>
+              <p className="max-w-md text-[14px] text-[var(--fg-muted)]">
                 {isEs
                   ? "Facturación mensual prorrateada · Sin permanencia · Cancela cuando quieras"
                   : "Monthly invoicing with proration · No commitment · Cancel anytime"}

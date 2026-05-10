@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { Logo } from "@/components/brand/logo";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
 import { SITE, SOCIAL_LINKS } from "@/lib/constants";
@@ -26,7 +25,30 @@ export function Footer({ locale, dict }: FooterProps) {
         { href: `${lp}/product/tasks`, label: dict.nav.productTasks },
         { href: `${lp}/product/docs`, label: dict.nav.productDocs },
         { href: `${lp}/product/inbox`, label: dict.nav.productInbox },
+        { href: `${lp}/product/integrations`, label: dict.nav.productIntegrations },
         { href: `${lp}/pricing`, label: dict.nav.pricing },
+      ],
+    },
+    {
+      title: isEs ? "Capacidades" : "Capabilities",
+      links: [
+        { href: `${lp}#capabilities`, label: isEs ? "Trabajo" : "Work" },
+        { href: `${lp}#capabilities`, label: isEs ? "Conocimiento" : "Knowledge" },
+        { href: `${lp}#capabilities`, label: isEs ? "Comunicación" : "Communication" },
+        { href: `${lp}#capabilities`, label: isEs ? "AI Co-Piloto" : "AI Co-Pilot" },
+        { href: `${lp}#capabilities`, label: isEs ? "Automatización" : "Automation" },
+        { href: `${lp}#capabilities`, label: "Enterprise" },
+      ],
+    },
+    {
+      title: isEs ? "Casos de uso" : "Use cases",
+      links: [
+        { href: `${lp}#use-cases`, label: isEs ? "Marketing" : "Marketing" },
+        { href: `${lp}#use-cases`, label: isEs ? "Operaciones" : "Operations" },
+        { href: `${lp}#use-cases`, label: isEs ? "Ventas" : "Sales" },
+        { href: `${lp}#use-cases`, label: isEs ? "Producto" : "Product" },
+        { href: `${lp}#use-cases`, label: isEs ? "Soporte" : "Support" },
+        { href: `${lp}#use-cases`, label: isEs ? "RH y Finanzas" : "HR & Finance" },
       ],
     },
     {
@@ -37,6 +59,7 @@ export function Footer({ locale, dict }: FooterProps) {
         { href: `${lp}/solutions/consulting`, label: isEs ? "Servicios pro" : "Pro services" },
         { href: `${lp}/solutions/healthcare`, label: isEs ? "Salud" : "Health" },
         { href: `${lp}/solutions/construction`, label: isEs ? "Construcción" : "Construction" },
+        { href: `${lp}/solutions`, label: isEs ? "Ver todas →" : "See all →" },
       ],
     },
     {
@@ -51,13 +74,13 @@ export function Footer({ locale, dict }: FooterProps) {
       ],
     },
     {
-      title: dict.footer.legal,
+      title: isEs ? "Recursos" : "Resources",
       links: [
+        { href: `${lp}/security`, label: dict.nav.security },
         { href: `${lp}/legal/privacy`, label: isEs ? "Privacidad" : "Privacy" },
         { href: `${lp}/legal/terms`, label: isEs ? "Términos" : "Terms" },
         { href: `${lp}/legal/dpa`, label: "DPA" },
         { href: `${lp}/legal/cookies`, label: "Cookies" },
-        { href: `${lp}/security`, label: dict.nav.security },
         { href: SITE.statusUrl, label: dict.footer.status, external: true },
       ],
     },
@@ -76,8 +99,8 @@ export function Footer({ locale, dict }: FooterProps) {
         }}
       />
       <div className="container-wide relative flex flex-col gap-[var(--space-12)]">
-        <div className="grid gap-[var(--space-12)] md:grid-cols-[1.4fr_repeat(4,1fr)]">
-          <div className="flex flex-col gap-[var(--space-4)]">
+        <div className="grid gap-[var(--space-10)] md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)] xl:grid-cols-[1.4fr_repeat(6,1fr)]">
+          <div className="flex flex-col gap-[var(--space-4)] xl:col-span-1 lg:col-span-4 md:col-span-2">
             <Logo size="md" />
             <p className="max-w-xs text-[15px] text-[var(--fg-muted)]">
               {dict.footer.tagline}
@@ -120,7 +143,7 @@ export function Footer({ locale, dict }: FooterProps) {
               </h3>
               <ul className="flex flex-col gap-2.5">
                 {col.links.map((link) => (
-                  <li key={link.href}>
+                  <li key={`${col.title}-${link.label}`}>
                     {"external" in link && link.external ? (
                       <a
                         href={link.href}
@@ -148,7 +171,6 @@ export function Footer({ locale, dict }: FooterProps) {
         <div className="flex flex-col items-start justify-between gap-4 border-t border-[var(--border-glass)] pt-8 text-sm text-[var(--fg-muted)] md:flex-row md:items-center">
           <p>{dict.footer.copyright.replace("{year}", String(year))}</p>
           <div className="flex items-center gap-2">
-            <ThemeToggle ariaLabel={dict.footer.theme} />
             <LanguageSwitcher currentLocale={locale} />
           </div>
         </div>

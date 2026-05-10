@@ -4,18 +4,22 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/product/integrations",
     title: isEs ? "Integraciones" : "Integrations",
     description: isEs
       ? "200+ integraciones nativas con Google Workspace, Microsoft 365, Slack, GitHub, Salesforce, Stripe."
       : "200+ native integrations with Google Workspace, Microsoft 365, Slack, GitHub, Salesforce, Stripe.",
-  };
+  });
 }
 
 const CATEGORIES: Array<{

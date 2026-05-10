@@ -22,6 +22,7 @@ type NavMobileProps = {
   locale: Locale;
   dict: Dictionary;
   productLinks: { href: string; label: string }[];
+  useCaseLinks: { href: string; label: string }[];
   resourceLinks: { href: string; label: string }[];
   companyLinks: { href: string; label: string }[];
 };
@@ -32,10 +33,12 @@ export function NavMobile({
   locale,
   dict,
   productLinks,
+  useCaseLinks,
   resourceLinks,
   companyLinks,
 }: NavMobileProps) {
   const lp = `/${locale}`;
+  const isEs = locale === "es";
 
   const close = () => onOpenChange(false);
 
@@ -66,9 +69,11 @@ export function NavMobile({
           >
             <Accordion type="multiple" className="w-full">
               <MobileGroup label={dict.nav.product} items={productLinks} onNavigate={close} />
-              <MobileLink href={`${lp}/solutions`} onClick={close}>
-                {dict.nav.solutions}
-              </MobileLink>
+              <MobileGroup
+                label={isEs ? "Casos de uso" : "Use cases"}
+                items={useCaseLinks}
+                onNavigate={close}
+              />
               <MobileLink href={`${lp}/pricing`} onClick={close}>
                 {dict.nav.pricing}
               </MobileLink>

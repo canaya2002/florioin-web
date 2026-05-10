@@ -3,11 +3,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CtaSection } from "@/components/sections/cta-section";
+import {
+  JsonLd,
+  articleSchema,
+  breadcrumbSchema,
+} from "@/components/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, locales, type Locale } from "@/i18n/locales";
 import { BLOG_CATEGORY_LABELS, BLOG_POSTS, getBlogPost } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
@@ -24,13 +30,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
   const post = getBlogPost(slug);
   if (!post) return { title: "Not found" };
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: `/blog/${slug}`,
     title: isEs ? post.title.es : post.title.en,
     description: isEs ? post.excerpt.es : post.excerpt.en,
-  };
+    ogType: "article",
+    publishedTime: post.publishedAt,
+  });
 }
 
 export default async function BlogPostPage({ params }: PageParams) {
@@ -46,6 +57,26 @@ export default async function BlogPostPage({ params }: PageParams) {
 
   return (
     <>
+      <JsonLd
+        data={articleSchema({
+          title: isEs ? post.title.es : post.title.en,
+          description: isEs ? post.excerpt.es : post.excerpt.en,
+          authorName: post.authorName,
+          publishedAt: post.publishedAt,
+          slug: post.slug,
+          locale: lang,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: `/${lang}` },
+          { name: "Blog", url: `/${lang}/blog` },
+          {
+            name: isEs ? post.title.es : post.title.en,
+            url: `/${lang}/blog/${post.slug}`,
+          },
+        ])}
+      />
       <article className="container-default pt-20 pb-16 md:pt-28">
         <Link
           href={`${lp}/blog`}

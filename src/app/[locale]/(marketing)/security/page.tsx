@@ -12,18 +12,22 @@ import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/security",
     title: isEs ? "Seguridad" : "Security",
     description: isEs
       ? "Cómo protegemos tus datos: arquitectura multi-tenant, encriptación, audit logs, SSO."
       : "How we protect your data: multi-tenant architecture, encryption, audit logs, SSO.",
-  };
+  });
 }
 
 export default async function SecurityPage({ params }: PageParams) {

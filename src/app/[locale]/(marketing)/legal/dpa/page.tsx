@@ -2,12 +2,23 @@ import { notFound } from "next/navigation";
 
 import { LegalDoc } from "@/components/sections/legal-doc";
 import { isLocale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
-export const metadata = {
-  title: "Data Processing Addendum",
-};
+export async function generateMetadata({ params }: PageParams) {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const isEs = locale === "es";
+  return pageMetadata({
+    locale,
+    path: "/legal/dpa",
+    title: isEs ? "Acuerdo de Procesamiento de Datos" : "Data Processing Addendum",
+    description: isEs
+      ? "Cómo FlorioIn procesa datos en cumplimiento con regulaciones."
+      : "How FlorioIn processes data in compliance with regulations.",
+  });
+}
 
 export default async function DpaPage({ params }: PageParams) {
   const { locale } = await params;

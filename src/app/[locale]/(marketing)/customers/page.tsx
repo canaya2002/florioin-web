@@ -7,18 +7,22 @@ import { Badge } from "@/components/ui/badge";
 import { isLocale, type Locale } from "@/i18n/locales";
 import { CUSTOMERS } from "@/lib/customers";
 import { INDUSTRY_CONTENT } from "@/lib/industries";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/customers",
     title: isEs ? "Casos de éxito" : "Customer stories",
     description: isEs
       ? "Cómo equipos en LATAM y EE.UU. están usando FlorioIn para acelerar."
       : "How teams across LATAM and the US are using FlorioIn to accelerate.",
-  };
+  });
 }
 
 export default async function CustomersIndexPage({ params }: PageParams) {

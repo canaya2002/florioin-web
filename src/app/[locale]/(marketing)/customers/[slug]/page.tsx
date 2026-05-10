@@ -3,11 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CtaSection } from "@/components/sections/cta-section";
+import { JsonLd, breadcrumbSchema } from "@/components/seo/json-ld";
 import { Badge } from "@/components/ui/badge";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, locales, type Locale } from "@/i18n/locales";
 import { CUSTOMERS, getCustomerStory } from "@/lib/customers";
 import { INDUSTRY_CONTENT } from "@/lib/industries";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
@@ -24,13 +26,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
   const story = getCustomerStory(slug);
   if (!story) return { title: "Not found" };
   const isEs = locale === "es";
-  return {
-    title: `${story.company} · Customer story`,
+  return pageMetadata({
+    locale,
+    path: `/customers/${slug}`,
+    title: `${story.company} · ${isEs ? "Caso de éxito" : "Customer story"}`,
     description: isEs ? story.excerpt.es : story.excerpt.en,
-  };
+    ogType: "article",
+    publishedTime: story.publishedAt,
+  });
 }
 
 export default async function CustomerStoryPage({ params }: PageParams) {
@@ -45,6 +52,16 @@ export default async function CustomerStoryPage({ params }: PageParams) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: `/${lang}` },
+          { name: isEs ? "Casos de éxito" : "Customer stories", url: `/${lang}/customers` },
+          {
+            name: story.company,
+            url: `/${lang}/customers/${story.slug}`,
+          },
+        ])}
+      />
       <article className="container-default pb-12 pt-20 md:pt-28">
         <Link
           href={`${lp}/customers`}
@@ -80,7 +97,7 @@ export default async function CustomerStoryPage({ params }: PageParams) {
             className="flex flex-col gap-2 rounded-[var(--radius-xl)] border border-[var(--border)] p-8 text-center md:p-10"
             style={{ background: "var(--gradient-card)" }}
           >
-            <span className="font-display text-[clamp(56px,9vw,108px)] leading-none tracking-tight text-gradient">
+            <span className="font-display text-[clamp(48px,6.5vw,80px)] leading-[0.95] tracking-[-0.04em] text-gradient">
               {story.metric.en}
             </span>
             <span className="text-[15px] text-[var(--fg-secondary)]">

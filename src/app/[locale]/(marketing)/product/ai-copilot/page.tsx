@@ -9,18 +9,22 @@ import { FeatureList } from "@/components/sections/feature-list";
 import { PageHero } from "@/components/sections/page-hero";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/product/ai-copilot",
     title: isEs ? "Co-Piloto IA" : "AI Co-Pilot",
     description: isEs
       ? "Tu Co-Piloto que entiende tu negocio. Voz, RAG, tool use real, multi-modelo."
       : "Your Co-Pilot that understands your business. Voice, RAG, real tool use, multi-model.",
-  };
+  });
 }
 
 export default async function AiCopilotPage({ params }: PageParams) {

@@ -9,18 +9,22 @@ import { BentoGrid } from "@/components/bento/bento-grid";
 import { GradientPlaceholder } from "@/components/media/gradient-placeholder";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, type Locale } from "@/i18n/locales";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/product",
     title: isEs ? "Producto" : "Product",
     description: isEs
       ? "Cuatro productos en uno: Tareas, Documentos, Co-Piloto IA y Bandeja unificada."
       : "Four products in one: Tasks, Docs, AI Co-Pilot, and Unified Inbox.",
-  };
+  });
 }
 
 export default async function ProductOverviewPage({ params }: PageParams) {

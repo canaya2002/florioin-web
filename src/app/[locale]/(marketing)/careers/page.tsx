@@ -6,18 +6,22 @@ import { PageHero } from "@/components/sections/page-hero";
 import { Badge } from "@/components/ui/badge";
 import { isLocale, type Locale } from "@/i18n/locales";
 import { CAREERS } from "@/lib/careers";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale } = await params;
+  if (!isLocale(locale)) return {};
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: "/careers",
     title: isEs ? "Carreras" : "Careers",
     description: isEs
       ? "Únete a FlorioIn — un equipo pequeño construyendo una de las plataformas B2B más ambiciosas en LATAM."
       : "Join FlorioIn — a small team building one of the most ambitious B2B platforms in LATAM.",
-  };
+  });
 }
 
 export default async function CareersIndexPage({ params }: PageParams) {

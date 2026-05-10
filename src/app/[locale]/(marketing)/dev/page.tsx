@@ -42,7 +42,10 @@ import { isLocale } from "@/i18n/locales";
 
 type PageParams = { params: Promise<{ locale: string }> };
 
-export const metadata = { title: "Component gallery — dev" };
+export const metadata = {
+  title: "Component gallery — dev",
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+};
 
 export default async function DevGallery({ params }: PageParams) {
   const { locale } = await params;

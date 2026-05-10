@@ -12,6 +12,7 @@ import {
   RESOURCE_TYPE_LABELS,
   getResource,
 } from "@/lib/resources";
+import { pageMetadata } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
 type PageParams = { params: Promise<{ locale: string; slug: string }> };
@@ -28,13 +29,18 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageParams) {
   const { locale, slug } = await params;
+  if (!isLocale(locale)) return {};
   const resource = getResource(slug);
   if (!resource) return { title: "Not found" };
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: `/resources/${slug}`,
     title: isEs ? resource.title.es : resource.title.en,
     description: isEs ? resource.description.es : resource.description.en,
-  };
+    ogType: "article",
+    publishedTime: resource.publishedAt,
+  });
 }
 
 export default async function ResourceDetailPage({ params }: PageParams) {

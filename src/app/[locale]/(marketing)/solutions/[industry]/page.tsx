@@ -5,11 +5,13 @@ import { notFound } from "next/navigation";
 import { GradientPlaceholder } from "@/components/media/gradient-placeholder";
 import { CtaSection } from "@/components/sections/cta-section";
 import { PageHero } from "@/components/sections/page-hero";
+import { JsonLd, breadcrumbSchema } from "@/components/seo/json-ld";
 import { Button } from "@/components/ui/button";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale, locales, type Locale } from "@/i18n/locales";
 import { INDUSTRIES, type Industry } from "@/lib/constants";
 import { INDUSTRY_CONTENT } from "@/lib/industries";
+import { pageMetadata } from "@/lib/seo";
 
 type PageParams = {
   params: Promise<{ locale: string; industry: string }>;
@@ -36,10 +38,12 @@ export async function generateMetadata({ params }: PageParams) {
   }
   const content = INDUSTRY_CONTENT[industry];
   const isEs = locale === "es";
-  return {
+  return pageMetadata({
+    locale,
+    path: `/solutions/${industry}`,
     title: isEs ? content.label.es : content.label.en,
     description: isEs ? content.description.es : content.description.en,
-  };
+  });
 }
 
 export default async function IndustryPage({ params }: PageParams) {
@@ -55,6 +59,16 @@ export default async function IndustryPage({ params }: PageParams) {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbSchema([
+          { name: "Home", url: `/${lang}` },
+          { name: isEs ? "Soluciones" : "Solutions", url: `/${lang}/solutions` },
+          {
+            name: isEs ? content.label.es : content.label.en,
+            url: `/${lang}/solutions/${industry}`,
+          },
+        ])}
+      />
       <PageHero
         eyebrow={isEs ? content.label.es : content.label.en}
         title={isEs ? content.headline.es : content.headline.en}
