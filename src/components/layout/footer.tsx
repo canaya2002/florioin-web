@@ -1,4 +1,8 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { useRef } from "react";
 
 import { Logo } from "@/components/brand/logo";
 import { LanguageSwitcher } from "@/components/i18n/language-switcher";
@@ -11,9 +15,13 @@ type FooterProps = {
   dict: Dictionary;
 };
 
+const EASE_OUT_EXPO = [0.16, 1, 0.3, 1] as const;
+
 export function Footer({ locale, dict }: FooterProps) {
   const lp = `/${locale}`;
   const year = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  const isInView = useInView(footerRef, { once: true, amount: 0.1 });
 
   const isEs = locale === "es";
   const cols = [
@@ -34,9 +42,9 @@ export function Footer({ locale, dict }: FooterProps) {
       links: [
         { href: `${lp}#capabilities`, label: isEs ? "Trabajo" : "Work" },
         { href: `${lp}#capabilities`, label: isEs ? "Conocimiento" : "Knowledge" },
-        { href: `${lp}#capabilities`, label: isEs ? "Comunicación" : "Communication" },
+        { href: `${lp}#capabilities`, label: isEs ? "Comunicacion" : "Communication" },
         { href: `${lp}#capabilities`, label: isEs ? "AI Co-Piloto" : "AI Co-Pilot" },
-        { href: `${lp}#capabilities`, label: isEs ? "Automatización" : "Automation" },
+        { href: `${lp}#capabilities`, label: isEs ? "Automatizacion" : "Automation" },
         { href: `${lp}#capabilities`, label: "Enterprise" },
       ],
     },
@@ -54,12 +62,12 @@ export function Footer({ locale, dict }: FooterProps) {
     {
       title: isEs ? "Industrias" : "Industries",
       links: [
-        { href: `${lp}/solutions/logistics`, label: isEs ? "Logística" : "Logistics" },
+        { href: `${lp}/solutions/logistics`, label: isEs ? "Logistica" : "Logistics" },
         { href: `${lp}/solutions/manufacturing`, label: isEs ? "Manufactura" : "Manufacturing" },
         { href: `${lp}/solutions/consulting`, label: isEs ? "Servicios pro" : "Pro services" },
         { href: `${lp}/solutions/healthcare`, label: isEs ? "Salud" : "Health" },
-        { href: `${lp}/solutions/construction`, label: isEs ? "Construcción" : "Construction" },
-        { href: `${lp}/solutions`, label: isEs ? "Ver todas →" : "See all →" },
+        { href: `${lp}/solutions/construction`, label: isEs ? "Construccion" : "Construction" },
+        { href: `${lp}/solutions`, label: isEs ? "Ver todas" : "See all" },
       ],
     },
     {
@@ -78,7 +86,7 @@ export function Footer({ locale, dict }: FooterProps) {
       links: [
         { href: `${lp}/security`, label: dict.nav.security },
         { href: `${lp}/legal/privacy`, label: isEs ? "Privacidad" : "Privacy" },
-        { href: `${lp}/legal/terms`, label: isEs ? "Términos" : "Terms" },
+        { href: `${lp}/legal/terms`, label: isEs ? "Terminos" : "Terms" },
         { href: `${lp}/legal/dpa`, label: "DPA" },
         { href: `${lp}/legal/cookies`, label: "Cookies" },
         { href: SITE.statusUrl, label: dict.footer.status, external: true },
@@ -87,93 +95,143 @@ export function Footer({ locale, dict }: FooterProps) {
   ];
 
   return (
-    <footer className="relative isolate mt-[var(--space-16)] overflow-hidden border-t border-[var(--border-glass)] py-[var(--space-16)]">
-      {/* Soft top fade so the footer reads as the "ground" of the page
-          without an opaque break in the ambient gradient. */}
-      <div
+    <footer 
+      ref={footerRef}
+      className="relative isolate mt-[var(--space-16)] overflow-hidden border-t border-[var(--border-glass)] py-[var(--space-16)]"
+    >
+      {/* Animated gradient background */}
+      <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[160px]"
+        className="pointer-events-none absolute inset-x-0 top-0 h-[200px]"
         style={{
           background:
-            "linear-gradient(180deg, rgba(255,255,255,0.55), transparent)",
+            "linear-gradient(180deg, rgba(255,255,255,0.6), transparent)",
+        }}
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1 }}
+      />
+      
+      {/* Subtle animated orb */}
+      <motion.div
+        className="pointer-events-none absolute -bottom-40 left-1/2 h-[400px] w-[600px] -translate-x-1/2 rounded-full opacity-20"
+        style={{
+          background: "radial-gradient(ellipse at center, rgba(168, 140, 255, 0.3) 0%, transparent 70%)",
+        }}
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.15, 0.25, 0.15],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut",
         }}
       />
+      
       <div className="container-wide relative flex flex-col gap-[var(--space-12)]">
         <div className="grid gap-[var(--space-10)] md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)] xl:grid-cols-[1.4fr_repeat(6,1fr)]">
-          <div className="flex flex-col gap-[var(--space-4)] xl:col-span-1 lg:col-span-4 md:col-span-2">
-            <Logo size="md" />
+          {/* Brand column */}
+          <motion.div 
+            className="flex flex-col gap-[var(--space-4)] xl:col-span-1 lg:col-span-4 md:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
+          >
+            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Logo size="md" />
+            </motion.div>
             <p className="max-w-xs text-[15px] text-[var(--fg-muted)]">
               {dict.footer.tagline}
             </p>
             <div className="mt-2 flex items-center gap-2">
-              <a
-                href={SOCIAL_LINKS.twitter}
-                rel="noreferrer"
-                target="_blank"
-                aria-label="Twitter"
-                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
-              >
-                <TwitterIcon />
-              </a>
-              <a
-                href={SOCIAL_LINKS.linkedin}
-                rel="noreferrer"
-                target="_blank"
-                aria-label="LinkedIn"
-                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
-              >
-                <LinkedInIcon />
-              </a>
-              <a
-                href={SOCIAL_LINKS.github}
-                rel="noreferrer"
-                target="_blank"
-                aria-label="GitHub"
-                className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)] hover:-translate-y-px"
-              >
-                <GitHubIcon />
-              </a>
+              {[
+                { href: SOCIAL_LINKS.twitter, label: "Twitter", Icon: TwitterIcon },
+                { href: SOCIAL_LINKS.linkedin, label: "LinkedIn", Icon: LinkedInIcon },
+                { href: SOCIAL_LINKS.github, label: "GitHub", Icon: GitHubIcon },
+              ].map(({ href, label, Icon }, index) => (
+                <motion.a
+                  key={label}
+                  href={href}
+                  rel="noreferrer"
+                  target="_blank"
+                  aria-label={label}
+                  className="rounded-full p-2 text-[var(--fg-muted)] transition-all hover:bg-[var(--glass)] hover:text-[var(--fg)]"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  transition={{ duration: 0.4, delay: 0.2 + index * 0.1 }}
+                  whileHover={{ y: -2, scale: 1.1 }}
+                >
+                  <Icon />
+                </motion.a>
+              ))}
             </div>
-          </div>
+          </motion.div>
 
-          {cols.map((col) => (
-            <div key={col.title} className="flex flex-col gap-4">
+          {/* Link columns */}
+          {cols.map((col, colIndex) => (
+            <motion.div 
+              key={col.title} 
+              className="flex flex-col gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.1 + colIndex * 0.05, ease: EASE_OUT_EXPO }}
+            >
               <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--fg-muted)]">
                 {col.title}
               </h3>
               <ul className="flex flex-col gap-2.5">
-                {col.links.map((link) => (
-                  <li key={`${col.title}-${link.label}`}>
+                {col.links.map((link, linkIndex) => (
+                  <motion.li 
+                    key={`${col.title}-${link.label}`}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+                    transition={{ duration: 0.3, delay: 0.2 + colIndex * 0.05 + linkIndex * 0.02 }}
+                  >
                     {"external" in link && link.external ? (
-                      <a
+                      <motion.a
                         href={link.href}
                         rel="noreferrer"
                         target="_blank"
                         className="text-[15px] text-[var(--fg-secondary)] transition-colors hover:text-[var(--fg)]"
+                        whileHover={{ x: 2 }}
+                        transition={{ duration: 0.15 }}
                       >
                         {link.label}
-                      </a>
+                      </motion.a>
                     ) : (
                       <Link
                         href={link.href}
                         className="text-[15px] text-[var(--fg-secondary)] transition-colors hover:text-[var(--fg)]"
                       >
-                        {link.label}
+                        <motion.span
+                          className="inline-block"
+                          whileHover={{ x: 2 }}
+                          transition={{ duration: 0.15 }}
+                        >
+                          {link.label}
+                        </motion.span>
                       </Link>
                     )}
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="flex flex-col items-start justify-between gap-4 border-t border-[var(--border-glass)] pt-8 text-sm text-[var(--fg-muted)] md:flex-row md:items-center">
+        {/* Bottom bar */}
+        <motion.div 
+          className="flex flex-col items-start justify-between gap-4 border-t border-[var(--border-glass)] pt-8 text-sm text-[var(--fg-muted)] md:flex-row md:items-center"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
           <p>{dict.footer.copyright.replace("{year}", String(year))}</p>
           <div className="flex items-center gap-2">
             <LanguageSwitcher currentLocale={locale} />
           </div>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
