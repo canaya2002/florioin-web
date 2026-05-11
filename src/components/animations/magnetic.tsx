@@ -20,8 +20,9 @@ export function Magnetic({
   const ref = useRef<HTMLDivElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 240, damping: 20 });
-  const springY = useSpring(y, { stiffness: 240, damping: 20 });
+  // Softer spring — premium "settles" feel rather than snappy follow.
+  const springX = useSpring(x, { stiffness: 180, damping: 24, mass: 0.55 });
+  const springY = useSpring(y, { stiffness: 180, damping: 24, mass: 0.55 });
 
   function handleMove(event: PointerEvent<HTMLDivElement>) {
     if (reduced || !ref.current) return;

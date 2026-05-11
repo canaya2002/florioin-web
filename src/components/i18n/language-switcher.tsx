@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown";
 import { Button } from "@/components/ui/button";
 import { locales, localeLabels, type Locale } from "@/i18n/locales";
+import { track } from "@/lib/analytics";
 
 type LanguageSwitcherProps = {
   currentLocale: Locale;
@@ -36,6 +37,7 @@ export function LanguageSwitcher({
 
   const handleSelect = (target: Locale) => {
     if (target === currentLocale) return;
+    track("ui.locale_switch", { from: currentLocale, to: target });
     try {
       document.cookie = `NEXT_LOCALE=${target}; Path=/; Max-Age=${60 * 60 * 24 * 365}; SameSite=Lax`;
     } catch {

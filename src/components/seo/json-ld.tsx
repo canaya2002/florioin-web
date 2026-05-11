@@ -23,11 +23,10 @@ export function organizationSchema() {
     "@type": "Organization",
     name: SITE.name,
     url: SITE.url,
-    logo: `${SITE.url}/icon`,
+    logo: `${SITE.url}/logos/FlorioinLogo.png`,
     sameAs: [
       "https://twitter.com/florioin",
       "https://www.linkedin.com/company/florioin",
-      "https://github.com/florioin",
     ],
     contactPoint: [
       {
@@ -52,10 +51,14 @@ export function websiteSchema() {
 }
 
 export function softwareApplicationSchema() {
+  // No aggregateRating until we have a verifiable public review source —
+  // Google's structured-data policy treats invented ratings as a violation.
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: SITE.name,
+    description: SITE.description,
+    url: SITE.url,
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web, iOS, Android, macOS, Windows, Linux",
     offers: {
@@ -66,11 +69,6 @@ export function softwareApplicationSchema() {
         "@type": "QuantitativeValue",
         unitText: "user/month",
       },
-    },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.9",
-      ratingCount: "200",
     },
   };
 }
@@ -109,7 +107,7 @@ export function articleSchema(input: {
     publisher: {
       "@type": "Organization",
       name: SITE.name,
-      logo: { "@type": "ImageObject", url: `${SITE.url}/icon` },
+      logo: { "@type": "ImageObject", url: `${SITE.url}/logos/FlorioinLogo.png` },
     },
     mainEntityOfPage: `${SITE.url}/${input.locale}/blog/${input.slug}`,
   };

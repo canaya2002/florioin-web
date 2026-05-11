@@ -47,56 +47,64 @@ export const BentoCard = forwardRef<HTMLDivElement, BentoCardProps>(
       href,
       ctaLabel,
       visualPosition = "background",
-      gradient = false,
+      // `gradient` was the toggle for the old tinted card fill; the pebble
+      // surface is always pure white now, so we drop it from props before
+      // forwarding to the DOM.
+      gradient,
       children,
       ...props
     },
     ref,
   ) => {
+    // `gradient` is intentionally ignored — the pebble surface is always
+    // pure white. The prop stays in the type for backward compatibility.
+    void gradient;
     const isInteractive = Boolean(href);
 
     const wrapperClass = cn(
       "group relative isolate flex h-full min-h-[240px] flex-col overflow-hidden",
-      "rounded-[var(--radius-xl)] border border-[var(--border-glass)]",
-      "bg-[var(--glass)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-[140%]",
-      "shadow-[var(--shadow-md)]",
-      "transition-[transform,box-shadow,border-color] duration-[var(--duration-base)] ease-[var(--ease-in-out)]",
-      // Interactive cards lift; informational cards only get a soft shadow boost.
+      // Pebble — flat white surface. No shadows, no borders. Hover is
+      // a spring-feeling lift + micro-scale that uses the out-expo curve
+      // for that "settles into place" premium feel.
+      "rounded-[var(--radius-xl)] bg-white",
+      "transition-[transform] duration-500 ease-[var(--ease-out-expo)] will-change-transform",
       isInteractive
         ? [
-            "cursor-pointer hover:-translate-y-1 active:-translate-y-0.5 hover:shadow-[var(--shadow-lg)]",
-            "hover:border-[var(--primary)]/40",
+            "cursor-pointer hover:-translate-y-2 hover:scale-[1.012] active:-translate-y-0.5 active:scale-100",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2",
           ]
-        : "hover:shadow-[var(--shadow-lg)]",
+        : "hover:-translate-y-1 hover:scale-[1.005]",
       sizeClasses[size],
       className,
     );
 
     const inner = (
       <>
-        {/* Soft gradient fill */}
-        {gradient && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{ background: "var(--gradient-card)" }}
-          />
-        )}
         {/* Inset highlight at the top edge */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
+          className="pointer-events-none absolute inset-x-[10%] top-0 h-px bg-gradient-to-r from-transparent via-white/95 to-transparent"
         />
-        {/* Hover sheen — only on interactive cards, only on devices with hover. */}
+        {/* Continuous slow sheen — alive, not just on hover */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-[-30%] -left-1/3 w-2/3 animate-sheen-wave motion-reduce:hidden"
+          style={{
+            background:
+              "linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%)",
+            animationDuration: "14s",
+            animationDelay: "-3s",
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Hover sheen burst */}
         {isInteractive && (
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[var(--duration-base)] ease-[var(--ease-in-out)] group-hover:opacity-100 motion-reduce:hidden"
             style={{
               background:
-                "linear-gradient(120deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%)",
-              mixBlendMode: "soft-light",
+                "radial-gradient(60% 50% at var(--mx,50%) var(--my,50%), rgba(168,140,255,0.18), transparent 65%)",
             }}
           />
         )}

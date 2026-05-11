@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { cloneElement, isValidElement, useId, useState } from "react";
+import { cloneElement, isValidElement, useEffect, useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Dictionary } from "@/i18n/get-dictionary";
 import type { Locale } from "@/i18n/locales";
+import { track } from "@/lib/analytics";
 import { INDUSTRIES } from "@/lib/constants";
 import { INDUSTRY_CONTENT } from "@/lib/industries";
 import { cn } from "@/lib/utils";
@@ -91,8 +92,18 @@ export function AccessRequestForm({ locale, dict }: AccessRequestFormProps) {
     },
   });
 
+  // Track form impression once on mount — useful to compute conversion rate.
+  useEffect(() => {
+    track("form.access_request_view", {});
+  }, []);
+
   const onSubmit = async (values: FormValues) => {
     setServerError(null);
+    track("form.access_request_submit", {
+      headcount: values.headcount,
+      industry: values.industry,
+      source: values.source ?? "unknown",
+    });
     try {
       const response = await fetch("/api/access-request", {
         method: "POST",
@@ -105,15 +116,20 @@ export function AccessRequestForm({ locale, dict }: AccessRequestFormProps) {
         };
         throw new Error(body.error ?? "Submission failed");
       }
+      track("form.access_request_success", {
+        headcount: values.headcount,
+        industry: values.industry,
+      });
       router.push(`/${locale}/request-access/thank-you`);
     } catch (err) {
-      setServerError(
+      const message =
         err instanceof Error
           ? err.message
           : isEs
             ? "Algo salió mal. Inténtalo de nuevo."
-            : "Something went wrong. Please try again.",
-      );
+            : "Something went wrong. Please try again.";
+      track("form.access_request_error", { error: message });
+      setServerError(message);
     }
   };
 
@@ -284,7 +300,7 @@ export function AccessRequestForm({ locale, dict }: AccessRequestFormProps) {
         <input
           type="checkbox"
           {...register("agree")}
-          className="mt-1 h-4 w-4 rounded border-[var(--border-strong)] text-[var(--primary)]"
+          className="mt-1 h-4 w-4 rounded text-[var(--primary)] accent-[var(--primary)]"
         />
         <span>
           {isEs ? "Acepto los " : "I agree to the "}
@@ -313,7 +329,7 @@ export function AccessRequestForm({ locale, dict }: AccessRequestFormProps) {
       {serverError && (
         <div
           role="alert"
-          className="rounded-[var(--radius-md)] border border-[var(--danger)]/30 bg-[var(--danger)]/10 p-4 text-sm text-[var(--danger)]"
+          className="rounded-full bg-[var(--danger)]/12 px-5 py-3 text-sm text-[var(--danger)]"
         >
           {serverError}
         </div>
@@ -379,13 +395,12 @@ function Select(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
     <select
       {...props}
       className={cn(
-        "flex h-12 w-full rounded-[var(--radius-md)] border border-[var(--border-glass)]",
-        "bg-[var(--glass-strong)] backdrop-blur-[var(--blur-glass-soft)] px-4 text-[15px] text-[var(--fg)]",
-        "shadow-[inset_0_1px_0_rgba(255,255,255,0.5)]",
-        "transition-[border-color,box-shadow] duration-[var(--duration-fast)] ease-[var(--ease-in-out)]",
-        "hover:border-[var(--border-strong)]",
-        "focus-visible:outline-none focus-visible:border-[var(--primary)]/55 focus-visible:ring-4 focus-visible:ring-[var(--primary)]/15",
-        "aria-[invalid=true]:border-[var(--danger)] aria-[invalid=true]:focus-visible:ring-[var(--danger)]/20",
+        "flex h-12 w-full rounded-full bg-[#fafbfc] px-5 text-[15px] text-[var(--fg)]",
+        "transition-[background-color,outline-color] duration-[var(--duration-fast)] ease-[var(--ease-in-out)]",
+        "hover:bg-[#f4f5f7]",
+        "focus-visible:outline-none focus-visible:bg-white",
+        "focus-visible:[outline:3px_solid_rgba(168,140,255,0.45)] focus-visible:outline-offset-1",
+        "aria-[invalid=true]:[outline:2px_solid_var(--danger)]",
         props.className,
       )}
     />

@@ -39,7 +39,6 @@ export function GradientPlaceholder({
         // to pass `aspect-*`. Callers that supply their own ratio override it.
         "relative h-full w-full overflow-hidden rounded-[var(--radius-xl)]",
         "aspect-[16/10]",
-        "border border-[var(--border-glass)] shadow-[var(--shadow-md)]",
         className,
       )}
       style={{

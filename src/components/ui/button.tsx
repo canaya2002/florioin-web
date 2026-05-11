@@ -10,8 +10,9 @@ const buttonVariants = cva(
     // Layout
     "relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium",
     "isolate select-none",
-    // Motion — fast (150ms) hover/focus per spec
-    "transition-[transform,box-shadow,background-color,border-color,filter] duration-[var(--duration-fast)] ease-[var(--ease-in-out)]",
+    // Motion — soft spring-feeling out-expo curve. Slightly longer so the
+    // lift "settles" rather than snapping.
+    "transition-[transform,background-color,border-color,filter] duration-300 ease-[var(--ease-out-expo)] will-change-transform",
     // Focus ring (3px ring at 2px offset, brand color)
     "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--primary)]/55 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg)]",
     // Disabled
@@ -23,26 +24,24 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: [
-          "text-[var(--primary-fg)] shadow-[var(--shadow-button)] border border-white/30",
-          "hover:-translate-y-px hover:brightness-[1.05]",
-          "hover:shadow-[0_18px_36px_rgba(168,140,255,0.42),0_6px_14px_rgba(255,141,218,0.24),inset_0_1px_0_rgba(255,255,255,0.55)]",
+          "text-[var(--primary-fg)] border border-white/30",
+          "hover:-translate-y-0.5 hover:brightness-[1.05] hover:scale-[1.02]",
         ],
         secondary: [
           "bg-[var(--glass-strong)] text-[var(--fg)] backdrop-blur-[var(--blur-glass-soft)]",
-          "border border-[var(--border-glass)] shadow-[var(--shadow-sm)]",
-          "hover:-translate-y-px hover:shadow-[var(--shadow-md)] hover:border-[var(--border-strong)]",
+          "hover:-translate-y-0.5 hover:scale-[1.02]",
         ],
         ghost: [
           "text-[var(--fg)] hover:bg-[var(--glass)]",
-          "hover:backdrop-blur-[var(--blur-glass-soft)]",
+          "hover:backdrop-blur-[var(--blur-glass-soft)] hover:-translate-y-0.5",
         ],
         link: [
           "text-[var(--primary)] underline-offset-4 hover:underline px-0 h-auto",
         ],
         outline: [
-          "border border-[var(--border-strong)] bg-[var(--glass-soft)] text-[var(--fg)]",
+          "bg-[var(--glass-soft)] text-[var(--fg)]",
           "backdrop-blur-[var(--blur-glass-soft)]",
-          "hover:bg-[var(--glass)] hover:border-[var(--primary)]/45 hover:-translate-y-px",
+          "hover:bg-[var(--glass)] hover:-translate-y-0.5 hover:scale-[1.02]",
         ],
       },
       size: {

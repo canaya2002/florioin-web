@@ -64,7 +64,6 @@ export function Nav({ locale, dict }: NavProps) {
   const companyLinks = [
     { href: `${lp}/about`, label: dict.nav.about },
     { href: `${lp}/careers`, label: dict.nav.careers },
-    { href: `${lp}/contact`, label: dict.nav.contact },
   ];
 
   return (

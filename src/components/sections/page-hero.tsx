@@ -6,12 +6,12 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { SlideUp } from "@/components/animations/slide-up";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
-import { FloatingBlobs } from "@/components/ui/floating-blobs";
+import { FloatingOrbs } from "@/components/ui/floating-orbs";
 import { cn } from "@/lib/utils";
 
 type PageHeroProps = {
   eyebrow?: string;
-  title: string;
+  title: string | ReactNode;
   description: ReactNode;
   primaryCta?: { href: string; label: string };
   secondaryCta?: { href: string; label: string };
@@ -20,6 +20,12 @@ type PageHeroProps = {
   className?: string;
 };
 
+/**
+ * Shared hero used by every interior page. Same Light Glass system as
+ * the landing — pure white bg, floating glass orbs, no shadows, no
+ * bordered containers. The H1 is unanimated so it stays the LCP
+ * candidate on every page.
+ */
 export function PageHero({
   eyebrow,
   title,
@@ -34,36 +40,29 @@ export function PageHero({
   return (
     <section
       className={cn(
-        "relative isolate overflow-hidden",
+        "relative isolate overflow-hidden bg-white",
         "pb-[var(--space-16)] pt-[140px] lg:pb-[var(--space-20)] lg:pt-[180px]",
         className,
       )}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-[80%]"
-        style={{ background: "var(--gradient-glow)" }}
-      />
-      <FloatingBlobs variant="hero" />
+      <FloatingOrbs parallax={0.35} />
       <Container
         className={cn(
-          "relative flex flex-col gap-[var(--space-6)]",
+          "relative z-10 flex flex-col gap-[var(--space-6)]",
           isCenter && "items-center text-center",
         )}
       >
         {eyebrow && (
           <FadeIn delay={0.1} duration={0.4}>
-            <span className="eyebrow-pill">
+            <span className="eyebrow-pill inline-flex">
               <span className="dot" aria-hidden />
               <span>{eyebrow}</span>
             </span>
           </FadeIn>
         )}
-        {/* H1 renders unanimated — it's the LCP candidate on every page.
-            Word-by-word reveals delay LCP and rarely justify the cost. */}
         <h1
           className={cn(
-            "font-display text-[var(--fs-h1)] leading-[1.05] tracking-[-0.04em] text-[var(--fg)] [text-wrap:balance]",
+            "font-display text-[clamp(40px,6vw,84px)] leading-[1.02] tracking-[-0.05em] text-[var(--fg)] [text-wrap:balance]",
             isCenter ? "max-w-[980px]" : "max-w-4xl",
           )}
         >

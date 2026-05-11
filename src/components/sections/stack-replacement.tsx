@@ -1,8 +1,14 @@
-import { ArrowRight, MoveRight } from "lucide-react";
-import Link from "next/link";
+"use client";
 
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, MoveRight, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { useRef } from "react";
+
+import { RevealOnScroll } from "@/components/animations/reveal-on-scroll";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
+import { useReducedMotion } from "@/hooks/use-reduced-motion";
 import type { Locale } from "@/i18n/locales";
 import { PRICING } from "@/lib/constants";
 
@@ -31,7 +37,7 @@ export function StackReplacement({ locale }: StackReplacementProps) {
   return (
     <section
       id="stack"
-      className="section relative isolate overflow-hidden scroll-mt-24"
+      className="section relative isolate overflow-hidden bg-white scroll-mt-24"
     >
       <Container>
         <div className="mb-[var(--space-12)] flex flex-col items-start gap-[var(--space-4)] lg:flex-row lg:items-end lg:justify-between">
@@ -40,7 +46,7 @@ export function StackReplacement({ locale }: StackReplacementProps) {
               <span className="dot" aria-hidden />
               <span>{isEs ? "Reemplaza tu stack" : "Replace your stack"}</span>
             </span>
-            <h2 className="font-display text-[clamp(36px,5vw,64px)] leading-[1.05] tracking-[-0.04em] text-[var(--fg)]">
+            <h2 className="font-display text-[clamp(40px,6vw,84px)] leading-[1.02] tracking-[-0.05em] text-[var(--fg)] [text-wrap:balance]">
               {isEs ? (
                 <>
                   Una factura.{" "}
@@ -67,102 +73,184 @@ export function StackReplacement({ locale }: StackReplacementProps) {
           </Link>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-          {/* Replaced apps grid */}
-          <div className="rounded-[var(--radius-2xl)] border border-[var(--border)] bg-[var(--bg)] p-6 md:p-8">
-            <div className="mb-5 flex items-center justify-between">
-              <h3 className="font-display text-[18px] tracking-tight">
+        <div className="grid gap-[var(--space-10)] lg:grid-cols-[1.3fr_1fr]">
+          {/* Old stack — flowing pill cloud, no shadows */}
+          <RevealOnScroll
+            direction="left"
+            distance={24}
+            duration={0.7}
+            className="relative flex flex-col gap-[var(--space-6)]"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-display text-[20px] tracking-tight">
                 {isEs ? "Lo que reemplazas" : "What you replace"}
               </h3>
-              <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs font-medium text-[var(--fg-muted)]">
+              <span className="lozenge px-3 py-1 text-xs font-medium text-[var(--fg-muted)]">
                 {isEs ? "stack típico" : "typical stack"}
               </span>
             </div>
-            <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
-              {STACK.map((app) => (
+
+            <ul className="flex flex-wrap gap-3">
+              {STACK.map((app, i) => (
                 <li
                   key={app.name}
-                  className="group relative flex flex-col gap-1.5 rounded-[var(--radius-md)] border border-[var(--border)] bg-[var(--bg)] p-3.5"
+                  className="lozenge group flex animate-breathe items-center gap-3 px-4 py-2.5 transition-transform duration-[var(--duration-base)] hover:-translate-y-1"
+                  style={{
+                    animationDelay: `${i * -0.6}s`,
+                    animationDuration: `${7 + (i % 3)}s`,
+                  }}
                 >
-                  <span className="absolute right-3 top-3 text-[10px] font-semibold uppercase tracking-wider text-[var(--fg-subtle)]">
-                    {isEs ? app.category.es : app.category.en}
-                  </span>
-                  <span className="font-display text-[15px] leading-tight tracking-tight text-[var(--fg)] line-through decoration-[var(--danger)]/60 decoration-2 underline-offset-2">
+                  <span
+                    aria-hidden
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{
+                      background:
+                        i % 3 === 0
+                          ? "#ff8dda"
+                          : i % 3 === 1
+                            ? "#a88cff"
+                            : "#38e4ff",
+                    }}
+                  />
+                  <span className="font-display text-[15px] leading-tight tracking-tight text-[var(--fg)] line-through decoration-[var(--danger)]/55 decoration-2 underline-offset-2">
                     {app.name}
                   </span>
-                  <span className="text-[12px] text-[var(--fg-muted)]">
+                  <span className="text-[11.5px] text-[var(--fg-muted)]">
                     ${app.cost}
-                    <span className="text-[11px]">
-                      {isEs ? "/usuario/mes" : "/seat/mo"}
-                    </span>
+                  </span>
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--fg-subtle)]">
+                    {isEs ? app.category.es : app.category.en}
                   </span>
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex items-baseline justify-between border-t border-[var(--border)] pt-5">
+
+            <div className="lozenge flex items-baseline justify-between gap-4 px-6 py-4">
               <span className="text-[13px] font-medium uppercase tracking-wider text-[var(--fg-muted)]">
                 {isEs ? "Total stack actual" : "Current stack total"}
               </span>
-              <span className="font-display text-[clamp(28px,3.5vw,40px)] leading-none tracking-tight text-[var(--fg-secondary)] line-through decoration-[var(--danger)]/40">
+              <span className="font-display text-[clamp(32px,4vw,52px)] leading-none tracking-tight text-[var(--fg-secondary)] line-through decoration-[var(--danger)]/40 decoration-2">
                 ${totalOld.toFixed(2)}
               </span>
             </div>
-          </div>
+          </RevealOnScroll>
 
-          {/* FlorioIn replacement card */}
-          <div
-            className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[var(--radius-2xl)] border border-[var(--primary)]/30 bg-[var(--bg)] p-8 shadow-[var(--shadow-md)] md:p-10"
+          {/* FlorioIn replacement — the morphing gradient IS the container.
+              No outer white wrapper, no shadow, no rectangle hiding behind it. */}
+          <RevealOnScroll
+            direction="right"
+            distance={24}
+            duration={0.7}
+            className="relative flex items-center justify-center"
           >
-            <div className="flex flex-col gap-4">
-              <div className="flex items-center gap-2">
-                <span
-                  aria-hidden
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full"
-                  style={{ background: "var(--gradient-hero)" }}
-                >
-                  <MoveRight className="h-4 w-4 text-white" />
-                </span>
-                <span className="text-[13px] font-semibold uppercase tracking-wider text-[var(--primary)]">
-                  FlorioIn
-                </span>
-              </div>
-              <p className="text-[15px] text-[var(--fg-muted)]">
-                {isEs
-                  ? "Una sola plataforma. Tasks, Docs, Chat, AI, Forms, Automations, Video — todo dentro."
-                  : "One platform. Tasks, Docs, Chat, AI, Forms, Automations, Video — all inside."}
-              </p>
-            </div>
-
-            <div className="flex items-baseline gap-2">
-              <span className="font-display text-[clamp(56px,7vw,80px)] leading-[0.95] tracking-[-0.04em] text-gradient">
-                ${PRICING.perSeat}
-              </span>
-              <span className="font-display text-[clamp(18px,1.6vw,22px)] leading-none tracking-tight text-[var(--fg-muted)]">
-                USD
-              </span>
-            </div>
-            <p className="-mt-3 text-[13px] text-[var(--fg-muted)]">
-              {isEs ? "por usuario / mes" : "per seat / month"}
-            </p>
-
-            <div className="rounded-[var(--radius-md)] border border-[var(--success)]/30 bg-[var(--success)]/8 p-4">
-              <div className="flex items-baseline justify-between">
-                <span className="text-[12px] font-semibold uppercase tracking-wider text-[var(--fg-secondary)]">
-                  {isEs ? "Ahorras / usuario / mes" : "You save / seat / month"}
-                </span>
-                <span className="font-display text-[clamp(24px,2.5vw,30px)] leading-none tracking-tight text-[#1f8a5b]">
-                  ${savings.toFixed(2)}
-                </span>
-              </div>
-              <p className="mt-1.5 text-[12px] text-[var(--fg-muted)]">
-                {isEs
-                  ? `~$${(savings * 50 * 12).toLocaleString()} al año en un equipo de 50`
-                  : `~$${(savings * 50 * 12).toLocaleString()} a year on a 50-person team`}
-              </p>
-            </div>
-          </div>
+            <FlorioInBlob
+              isEs={isEs}
+              savings={savings}
+              perSeat={PRICING.perSeat}
+            />
+          </RevealOnScroll>
         </div>
       </Container>
     </section>
+  );
+}
+
+function FlorioInBlob({
+  isEs,
+  savings,
+  perSeat,
+}: {
+  isEs: boolean;
+  savings: number;
+  perSeat: number;
+}) {
+  const reduced = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  // Subtle scroll-bound float — the blob drifts ~24px through the viewport.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const blobY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+  return (
+    <motion.div
+      ref={ref}
+      className="w-full max-w-[480px]"
+      style={reduced ? undefined : { y: blobY }}
+    >
+      {/* The blob IS the surface. No inner rectangle, no underglow halo,
+          no shadow. Single morphing gradient shape with px-based corners
+          so content stays clearly inside the visible curve. */}
+      <div
+        className="relative isolate flex flex-col gap-5 overflow-hidden px-10 py-12 text-white animate-morph md:px-12"
+        style={{
+          background: "var(--gradient-hero)",
+          borderRadius: "96px 64px 84px 72px / 72px 84px 64px 96px",
+        }}
+      >
+        {/* Continuous sheen */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-y-[-30%] -left-1/3 w-2/3 animate-sheen-wave"
+          style={{
+            background:
+              "linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.45) 50%, transparent 70%)",
+            animationDuration: "9s",
+            mixBlendMode: "soft-light",
+          }}
+        />
+
+        <div className="flex items-center gap-2">
+          <span
+            aria-hidden
+            className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/25 backdrop-blur"
+          >
+            <Sparkles className="h-4 w-4 text-white" />
+          </span>
+          <span className="text-[13px] font-semibold uppercase tracking-wider">
+            FlorioIn
+          </span>
+          <span className="ml-auto rounded-full bg-white/15 px-2.5 py-1 text-[10.5px] font-mono backdrop-blur">
+            {isEs ? "Una factura" : "One invoice"}
+          </span>
+        </div>
+
+        <p className="text-[15px] leading-snug text-white/95">
+          {isEs
+            ? "Tasks, Docs, Chat, AI, Forms, Automations, Video — todo dentro."
+            : "Tasks, Docs, Chat, AI, Forms, Automations, Video — all inside."}
+        </p>
+
+        <div className="flex items-baseline gap-2">
+          <span className="font-display text-[clamp(64px,8vw,104px)] leading-[0.88] tracking-[-0.05em] text-white animate-breathe">
+            ${perSeat}
+          </span>
+          <span className="font-display text-[clamp(16px,1.5vw,22px)] leading-none tracking-tight text-white/90">
+            USD
+          </span>
+        </div>
+        <p className="-mt-3 text-[13px] text-white/85">
+          {isEs ? "por usuario / mes" : "per seat / month"}
+        </p>
+
+        {/* Savings — flex column with no fixed-width pill, so it can't
+            push text outside the blob's organic shape. */}
+        <div className="flex flex-col gap-1.5 rounded-[32px] bg-white/18 px-5 py-4 backdrop-blur">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[11.5px] font-semibold uppercase tracking-wider text-white">
+              {isEs ? "Ahorras / seat / mes" : "You save / seat / month"}
+            </span>
+            <span className="inline-flex items-center gap-1 font-display text-[clamp(20px,2vw,26px)] leading-none tracking-tight text-white">
+              <MoveRight className="h-3.5 w-3.5" />${savings.toFixed(2)}
+            </span>
+          </div>
+          <p className="text-[11.5px] leading-snug text-white/80">
+            {isEs
+              ? `~$${(savings * 50 * 12).toLocaleString()} al año en un equipo de 50`
+              : `~$${(savings * 50 * 12).toLocaleString()} a year on a 50-person team`}
+          </p>
+        </div>
+      </div>
+    </motion.div>
   );
 }

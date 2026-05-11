@@ -55,11 +55,22 @@ const nextConfig: NextConfig = {
       {
         source: "/(.*)",
         headers: [
+          {
+            // HSTS — 2 years, subdomains included, preload eligible.
+            // Once submitted to hstspreload.org the browser refuses HTTP
+            // for florioin.com forever (downgrade attack mitigation).
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
           { key: "X-Content-Type-Options", value: "nosniff" },
+          // X-Frame-Options legacy header — modern browsers use CSP
+          // `frame-ancestors`, but plenty of bots still respect this.
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
+            value:
+              "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
           {
             // Hint to crawlers — index-control beyond meta robots, applies to non-HTML too.
@@ -85,16 +96,6 @@ const nextConfig: NextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        // Icon route is dynamic but stable — week cache.
-        source: "/icon",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=604800, stale-while-revalidate=86400",
           },
         ],
       },

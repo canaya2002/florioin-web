@@ -48,26 +48,30 @@ type StaggerItemProps = {
   className?: string;
   /** Pixels. Spec rule: keep ≤ 20. */
   distance?: number;
+  style?: React.CSSProperties;
 };
 
 export function StaggerItem({
   children,
   className,
   distance = 16,
+  style,
 }: StaggerItemProps) {
   const reduced = useReducedMotion();
   const safeDistance = Math.min(distance, 20);
   return (
     <motion.div
       className={className}
+      style={style}
       variants={{
         hidden: reduced
           ? { opacity: 1, y: 0 }
-          : { opacity: 0, y: safeDistance },
+          : { opacity: 0, y: safeDistance, scale: 0.985 },
         visible: {
           opacity: 1,
           y: 0,
-          transition: { duration: 0.5, ease: EASE_OUT_EXPO },
+          scale: 1,
+          transition: { duration: 0.7, ease: EASE_OUT_EXPO },
         },
       }}
     >

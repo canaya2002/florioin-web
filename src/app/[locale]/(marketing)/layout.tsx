@@ -5,6 +5,7 @@ import { SmoothScroll } from "@/components/animations/smooth-scroll";
 import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Footer } from "@/components/layout/footer";
 import { Nav } from "@/components/layout/nav";
+import { ScrollDepthTracker } from "@/components/seo/scroll-depth-tracker";
 import { getDictionary } from "@/i18n/get-dictionary";
 import { isLocale } from "@/i18n/locales";
 
@@ -25,6 +26,7 @@ export default async function MarketingLayout({
     <>
       <SmoothScroll />
       <ScrollProgress />
+      <ScrollDepthTracker />
       <Nav locale={locale} dict={dict} />
       <main id="main" className="flex-1">
         {children}

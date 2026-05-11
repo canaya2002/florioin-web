@@ -1,11 +1,20 @@
 import { AlarmClock, MailWarning, Search, Workflow } from "lucide-react";
 
+import { RevealOnScroll } from "@/components/animations/reveal-on-scroll";
 import { Container } from "@/components/layout/container";
 import type { Locale } from "@/i18n/locales";
 
 type WorkIsBrokenProps = {
   locale: Locale;
 };
+
+const TINTS = ["#ff8dda", "#a88cff", "#38e4ff", "#f25bd8"];
+const RADII = [
+  "60px 88px 64px 80px / 80px 64px 88px 60px",
+  "88px 60px 80px 64px / 60px 80px 64px 88px",
+  "72px 96px 60px 84px / 84px 60px 96px 72px",
+  "96px 64px 80px 60px / 60px 96px 64px 80px",
+];
 
 export function WorkIsBroken({ locale }: WorkIsBrokenProps) {
   const isEs = locale === "es";
@@ -24,21 +33,21 @@ export function WorkIsBroken({ locale }: WorkIsBrokenProps) {
           stat: "1.8h",
           unit: "/día",
           title: "Cada persona pierde 1.8 horas al día",
-          body: "Buscando archivos, copiando entre herramientas, pegando lo mismo en tres lugares. Eso son 9 horas a la semana — un día completo.",
+          body: "Buscando archivos, copiando entre herramientas, pegando lo mismo en tres lugares. Eso son 9 horas a la semana.",
         },
         {
           icon: Search,
           stat: "62%",
           unit: "del tiempo",
           title: "Más del 60% es 'trabajo sobre el trabajo'",
-          body: "Reuniones para coordinar, status updates, follow-ups, recordatorios. Solo el 38% del tiempo se hace el trabajo real.",
+          body: "Status updates, follow-ups, recordatorios. Solo el 38% del tiempo se hace el trabajo real.",
         },
         {
           icon: MailWarning,
           stat: "$140",
           unit: "/usuario",
           title: "Pagas $140 USD por persona en SaaS",
-          body: "Slack, Asana, Notion, Loom, Zapier, Google Workspace, ChatGPT… cada uno con su propio precio, factura y password.",
+          body: "Slack, Asana, Notion, Loom, Zapier, ChatGPT… cada uno con su propio precio y password.",
         },
       ]
     : [
@@ -54,36 +63,36 @@ export function WorkIsBroken({ locale }: WorkIsBrokenProps) {
           stat: "1.8h",
           unit: "/day",
           title: "Each person loses 1.8 hours a day",
-          body: "Searching files, copying between tools, pasting the same thing in three places. That's 9 hours a week — a full workday.",
+          body: "Searching files, copying between tools, pasting the same thing in three places. That's 9 hours a week.",
         },
         {
           icon: Search,
           stat: "62%",
           unit: "of time",
           title: "Over 60% is 'work about work'",
-          body: "Status meetings, follow-ups, reminders, alignment. Only 38% of the time is real work happening.",
+          body: "Status meetings, follow-ups, reminders. Only 38% of the time is real work happening.",
         },
         {
           icon: MailWarning,
           stat: "$140",
           unit: "/seat",
           title: "You're paying $140 USD per person in SaaS",
-          body: "Slack, Asana, Notion, Loom, Zapier, Google Workspace, ChatGPT… each with its own price, invoice, and password.",
+          body: "Slack, Asana, Notion, Loom, Zapier, ChatGPT… each with its own price and password.",
         },
       ];
 
   return (
     <section
       id="problem"
-      className="section relative isolate overflow-hidden scroll-mt-24"
+      className="section relative isolate overflow-hidden bg-white scroll-mt-24"
     >
       <Container>
-        <div className="mb-[var(--space-12)] max-w-3xl">
+        <div className="mb-[var(--space-16)] max-w-3xl">
           <span className="eyebrow-pill mb-[var(--space-4)] inline-flex">
             <span className="dot" aria-hidden />
             <span>{isEs ? "El problema" : "The problem"}</span>
           </span>
-          <h2 className="font-display text-[clamp(36px,5vw,64px)] leading-[1.05] tracking-[-0.04em] text-[var(--fg)]">
+          <h2 className="font-display text-[clamp(40px,6vw,84px)] leading-[1.02] tracking-[-0.05em] text-[var(--fg)] [text-wrap:balance]">
             {isEs ? (
               <>
                 El trabajo está <span className="text-gradient">roto</span>.
@@ -101,35 +110,71 @@ export function WorkIsBroken({ locale }: WorkIsBrokenProps) {
           </p>
         </div>
 
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {pains.map((pain) => {
+        <ul className="grid gap-[var(--space-10)] sm:grid-cols-2 lg:grid-cols-4">
+          {pains.map((pain, i) => {
             const Icon = pain.icon;
+            const tint = TINTS[i % TINTS.length];
             return (
-              <li
+              <RevealOnScroll
                 key={pain.title}
-                className="relative flex flex-col gap-4 rounded-[var(--radius-xl)] border border-[var(--border)] bg-[var(--bg)] p-6 transition-all hover:-translate-y-0.5 hover:border-[var(--primary)]/40 hover:shadow-[var(--shadow-md)]"
+                direction="up"
+                distance={18}
+                delay={i * 0.06}
+                duration={0.6}
+                className="group relative flex flex-col items-start gap-[var(--space-4)]"
               >
-                <span
-                  aria-hidden
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] text-[var(--danger)]"
-                >
-                  <Icon className="h-5 w-5" />
-                </span>
+                {/* Floating icon orb with gradient halo */}
+                <div className="relative">
+                  <span
+                    aria-hidden
+                    className="absolute -inset-3 -z-10 rounded-full opacity-60 blur-2xl"
+                    style={{
+                      background: `radial-gradient(circle, ${tint}80, transparent 60%)`,
+                    }}
+                  />
+                  <span
+                    aria-hidden
+                    className="block animate-breathe"
+                    style={{
+                      animationDelay: `${i * -1.4}s`,
+                    }}
+                  >
+                    <span
+                      className="grid h-16 w-16 place-items-center bg-white text-[var(--fg)] transition-transform duration-[var(--duration-base)] group-hover:scale-110"
+                      style={{ borderRadius: RADII[i] }}
+                    >
+                      <Icon
+                        className="h-6 w-6"
+                        strokeWidth={1.7}
+                        style={{ color: tint }}
+                      />
+                    </span>
+                  </span>
+                </div>
+
                 <div className="flex items-baseline gap-1.5">
-                  <span className="font-display text-[clamp(32px,3.5vw,44px)] leading-[0.95] tracking-[-0.04em] text-[var(--fg)]">
+                  <span
+                    className="font-display text-[clamp(48px,5vw,72px)] leading-[0.9] tracking-[-0.05em]"
+                    style={{
+                      background: `linear-gradient(135deg, ${tint}, var(--c-violet))`,
+                      WebkitBackgroundClip: "text",
+                      backgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >
                     {pain.stat}
                   </span>
-                  <span className="text-[14px] text-[var(--fg-muted)]">
+                  <span className="text-[13px] font-medium text-[var(--fg-muted)]">
                     {pain.unit}
                   </span>
                 </div>
-                <h3 className="font-display text-[18px] leading-tight tracking-tight text-[var(--fg)]">
+                <h3 className="font-display text-[19px] leading-[1.2] tracking-tight text-[var(--fg)]">
                   {pain.title}
                 </h3>
                 <p className="text-[14.5px] leading-relaxed text-[var(--fg-muted)]">
                   {pain.body}
                 </p>
-              </li>
+              </RevealOnScroll>
             );
           })}
         </ul>

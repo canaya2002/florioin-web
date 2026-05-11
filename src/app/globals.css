@@ -115,30 +115,29 @@
   --glow-violet: 0 0 60px rgba(168, 140, 255, 0.20);
   --glow-cyan: 0 0 60px rgba(56, 228, 255, 0.20);
 
-  /* Shadows — blue-grey, very soft, premium */
-  --shadow-sm: 0 1px 2px rgba(90, 120, 180, 0.06),
-    0 1px 1px rgba(90, 120, 180, 0.04);
-  --shadow-md: 0 6px 18px rgba(90, 120, 180, 0.10),
-    0 2px 4px rgba(90, 120, 180, 0.05);
-  --shadow-lg: 0 14px 40px rgba(90, 120, 180, 0.12),
-    0 4px 10px rgba(90, 120, 180, 0.06);
-  --shadow-xl: 0 24px 80px rgba(90, 120, 180, 0.14),
-    0 6px 18px rgba(90, 120, 180, 0.08);
-  --shadow-glass: 0 24px 80px rgba(90, 120, 180, 0.10),
-    inset 0 1px 0 rgba(255, 255, 255, 0.55);
-  --shadow-glow: 0 0 60px rgba(168, 140, 255, 0.32);
-  --shadow-button: 0 12px 28px rgba(168, 140, 255, 0.32),
-    0 4px 10px rgba(255, 141, 218, 0.20),
-    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  /* Shadows are intentionally disabled site-wide. The tokens are kept
+     so existing class references resolve to no-ops; visual lift now
+     comes from gradient halos (colored light), not grey drop shadows. */
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-glass: none;
+  --shadow-glow: 0 0 60px rgba(168, 140, 255, 0.28);
+  --shadow-button: none;
 
-  /* Radii — generous, soft. Five canonical levels per spec. */
-  --radius-sm: 8px; /* badges, chips */
-  --radius-md: 16px; /* inputs, buttons */
-  --radius-lg: 24px; /* cards */
-  --radius-xl: 32px; /* prominent cards, modals */
-  --radius-2xl: 44px; /* hero containers, major surfaces */
-  /* Legacy alias kept so older class refs keep working — equals 2xl. */
-  --radius-3xl: 44px;
+  /* Radii — generous, soft. Pushed up for the "no squares" rule:
+     every tile reads pebble/lozenge, never a card with right-angle corners. */
+  --radius-sm: 12px; /* badges, chips */
+  --radius-md: 22px; /* inputs, buttons */
+  --radius-lg: 36px; /* cards */
+  --radius-xl: 48px; /* prominent cards, modals */
+  --radius-2xl: 64px; /* hero containers, major surfaces */
+  --radius-3xl: 96px; /* organic glass pebbles */
+  --radius-pill: 9999px; /* pills, lozenges */
+  --radius-blob-a: 64% 36% 58% 42% / 48% 60% 40% 52%;
+  --radius-blob-b: 42% 58% 36% 64% / 60% 42% 58% 40%;
+  --radius-blob-c: 58% 42% 64% 36% / 42% 60% 40% 58%;
 
   /* ── Motion language: 3 easings × 4 durations ──────────────────
      - out-expo  → reveals / enter
@@ -265,16 +264,13 @@
     transparent 75%
   );
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 6px 18px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.55);
-  --shadow-xl: 0 24px 80px rgba(0, 0, 0, 0.65);
-  --shadow-glass: 0 24px 80px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --shadow-glow: 0 0 60px rgba(168, 140, 255, 0.45);
-  --shadow-button: 0 12px 28px rgba(168, 140, 255, 0.45),
-    0 4px 10px rgba(255, 141, 218, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-glass: none;
+  --shadow-glow: 0 0 60px rgba(168, 140, 255, 0.38);
+  --shadow-button: none;
 }
 
 /* ─────────────────────────────────────────────────────────
@@ -331,7 +327,10 @@
 *,
 *::before,
 *::after {
-  border-color: var(--border);
+  /* Default border color kept extremely soft so the rare intentional
+     border doesn't read as a tile edge — every other surface should
+     define itself with shadow + radius, never a stroke. */
+  border-color: transparent;
 }
 
 html,
@@ -411,55 +410,56 @@ body {
   color: transparent;
 }
 
-/* Glass surface utility — translucent pane with blur and inset highlight.
-   Use sparingly; many simultaneous blur layers are expensive. */
+/* Glass surface utility — translucent pane with blur only, no shadow. */
 .glass {
   background: var(--glass);
   -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
   backdrop-filter: blur(var(--blur-glass)) saturate(140%);
-  border: 1px solid var(--border-glass);
-  box-shadow: var(--shadow-glass);
 }
 .glass-soft {
   background: var(--glass-soft);
   -webkit-backdrop-filter: blur(var(--blur-glass-soft)) saturate(130%);
   backdrop-filter: blur(var(--blur-glass-soft)) saturate(130%);
-  border: 1px solid var(--border-glass);
 }
 .glass-strong {
   background: var(--glass-strong);
   -webkit-backdrop-filter: blur(var(--blur-glass-strong)) saturate(150%);
   backdrop-filter: blur(var(--blur-glass-strong)) saturate(150%);
-  border: 1px solid var(--border-glass);
-  box-shadow: var(--shadow-glass);
 }
 
-/* Glass card primitive (.gcard) — the kit's canonical elevated panel.
-   Translucent white, 32px radius, soft border, inset top highlight. Use
-   for bento tiles, pricing card, how-it-works steps, manifesto pull-quote. */
+/* Glass card primitive (.gcard). No shadows — visual lift comes from
+   gradient halos rendered separately. Just a flat white pebble. */
 .gcard {
   position: relative;
   border-radius: var(--radius-xl);
-  border: 1px solid var(--border-glass);
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
-  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
-  box-shadow: var(--shadow-glass);
+  background: #ffffff;
   overflow: hidden;
 }
-.gcard::before {
-  content: "";
-  position: absolute;
-  inset-inline: 18px;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.85),
-    transparent
-  );
-  pointer-events: none;
+
+/* Pebble — flat white surface, organic radius, no shadow, no border.
+   Visual lift comes from ambient gradient halos placed behind the
+   pebble in the markup, never from a drop shadow. */
+.pebble {
+  position: relative;
+  border-radius: var(--radius-xl);
+  background: #ffffff;
+  isolation: isolate;
+  overflow: hidden;
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+.pebble:hover {
+  transform: translateY(-4px);
+}
+.pebble--asym-a { border-radius: 56px 88px 64px 80px / 64px 56px 80px 64px; }
+.pebble--asym-b { border-radius: 88px 56px 80px 64px / 56px 80px 64px 88px; }
+.pebble--asym-c { border-radius: 72px 64px 96px 56px / 80px 72px 56px 96px; }
+.pebble--pill   { border-radius: var(--radius-pill); }
+
+/* Lozenge — wider pebble, used for stat rows / capability rows. No shadow. */
+.lozenge {
+  position: relative;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
 }
 
 /* Eyebrow pill — small glass badge with a gradient dot. Used above hero
@@ -470,11 +470,7 @@ body {
   gap: 8px;
   padding: 7px 13px;
   border-radius: 9999px;
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
-  backdrop-filter: blur(var(--blur-glass)) saturate(140%);
-  border: 1px solid var(--border-glass);
-  box-shadow: var(--shadow-sm);
+  background: #ffffff;
   font-size: 12.5px;
   font-weight: 500;
   color: var(--fg-secondary);
@@ -495,18 +491,14 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  border: 1px solid var(--border-glass);
   background: var(--glass);
   -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(140%);
   backdrop-filter: blur(var(--blur-glass)) saturate(140%);
   color: var(--fg);
   cursor: pointer;
-  transition:
-    box-shadow var(--duration-fast) var(--ease-in-out),
-    transform var(--duration-fast) var(--ease-in-out);
+  transition: transform var(--duration-fast) var(--ease-in-out);
 }
 .icon-btn:hover {
-  box-shadow: var(--shadow-md);
   transform: translateY(-1px);
 }
 

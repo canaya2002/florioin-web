@@ -70,7 +70,6 @@ export function Footer({ locale, dict }: FooterProps) {
         { href: `${lp}/customers`, label: dict.nav.customers },
         { href: `${lp}/blog`, label: dict.nav.blog },
         { href: `${lp}/changelog`, label: dict.nav.changelog },
-        { href: `${lp}/contact`, label: dict.nav.contact },
       ],
     },
     {
